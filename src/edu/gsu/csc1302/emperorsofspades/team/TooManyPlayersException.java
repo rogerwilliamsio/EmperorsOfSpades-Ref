@@ -10,6 +10,11 @@ import edu.gsu.csc1302.emperorsofspades.SpadesException;
 public class TooManyPlayersException extends SpadesException {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 902056601818158253L;
+	
+	/**
      * Error message to display when team size exceed the maximum allowed players.
      */
     private static final String TOO_MANY_PLAYERS_ERROR

@@ -7,6 +7,11 @@ package edu.gsu.csc1302.emperorsofspades;
  */
 public class SpadesException extends RuntimeException {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 24995588419165014L;
+
+	/**
      * Class constructor.
      * @param errorMessage the error message to return.
      */
