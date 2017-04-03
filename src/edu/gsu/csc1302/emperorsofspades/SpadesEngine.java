@@ -6,4 +6,5 @@ package edu.gsu.csc1302.emperorsofspades;
  * @author Roger Williams
  */
 public class SpadesEngine {
+  private final nameRemove;
 }
