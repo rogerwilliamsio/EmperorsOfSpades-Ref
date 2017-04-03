@@ -1,7 +1,7 @@
-package cs1302.gsu.edu.emperorsofspades;
-import cs1302.gsu.edu.emperorsofspades.instructorsolutions.Card;
-import cs1302.gsu.edu.emperorsofspades.instructorsolutions.Deck;
-import cs1302.gsu.edu.emperorsofspades.instructorsolutions.InsufficientCardsException;
+package edu.gsu.csc1302.emperorsofspades;
+import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
+import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Deck;
+import edu.gsu.csc1302.emperorsofspades.instructorsolutions.InsufficientCardsException;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package cs1302.gsu.edu.emperorsofspades.instructorsolutions;
+package edu.gsu.csc1302.emperorsofspades.instructorsolutions;
 
 import java.util.List;
 

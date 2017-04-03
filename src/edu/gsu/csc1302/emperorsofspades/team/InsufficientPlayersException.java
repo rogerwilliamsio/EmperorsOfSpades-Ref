@@ -1,0 +1,32 @@
+package edu.gsu.csc1302.emperorsofspades.team;
+
+import edu.gsu.csc1302.emperorsofspades.SpadesException;
+
+/**
+ * Thrown when there is not enough players on a team.
+ *
+ * @author Roger Williams
+ */
+public class InsufficientPlayersException extends SpadesException {
+
+    /**
+     * Error message to display when team size exceed the maximum allowed players.
+     */
+    private static final String INSUFFICIENT_PLAYER_ERROR_MESSAGE
+            = "This team needs at least "+ Team.getMaximumTeammates() + " players.";
+
+    /**
+     * Class constructor.
+     * @param error the error message to display.
+     */
+    public InsufficientPlayersException(final String error) {
+        super(error);
+    }
+
+    /**
+     * Class constructor with without custom message.
+     */
+    public InsufficientPlayersException() {
+        super(INSUFFICIENT_PLAYER_ERROR_MESSAGE);
+    }
+}

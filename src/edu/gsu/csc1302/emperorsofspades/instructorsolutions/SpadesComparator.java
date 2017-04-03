@@ -1,8 +1,8 @@
-package cs1302.gsu.edu.emperorsofspades.instructorsolutions;
+package edu.gsu.csc1302.emperorsofspades.instructorsolutions;
 
 import java.util.Comparator;
 
-import cs1302.gsu.edu.emperorsofspades.instructorsolutions.Card.Suit;
+import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card.Suit;
 
 /**
  * A card comparator that compares cards as if they were played in a hand of
