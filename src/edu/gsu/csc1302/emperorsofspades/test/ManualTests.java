@@ -21,7 +21,7 @@ public class ManualTests {
 
         HashSet<Player> teammates = new HashSet<Player>();
         teammates.add(roger);
-//        teammates.add(sam);
+//      teammates.add(sam);
 
         Team teamBlue = new Team("Team Blue", teammates);
         teamBlue.addPlayer(kirk);
