@@ -31,18 +31,10 @@ public class WildcardPlayer extends AIPlayer {
         return this.getCards().remove(randCardIndex);
     }
 
-    /**
-     *
-     * @param index play the card at the given index.
-     * @return
-     */
     @Override
-    public Card playCard(int index) {
-        return null;
-    }
+    public double placeBid() {
+        double intRandom = new Random().nextDouble();
 
-    @Override
-    public int placeBid() {
-        return 0;
+        return intRandom;
     }
 }

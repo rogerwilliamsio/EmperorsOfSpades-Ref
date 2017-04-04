@@ -14,7 +14,7 @@ public class ConsolePlayer extends Player {
      *
      * @param name the name of the player
      */
-    public ConsolePlayer(String name) {
+    public ConsolePlayer(final String name) {
         super(name);
     }
 
@@ -24,7 +24,7 @@ public class ConsolePlayer extends Player {
     }
 
     @Override
-    public int placeBid() {
+    public double placeBid() {
         return 0;
     }
 }

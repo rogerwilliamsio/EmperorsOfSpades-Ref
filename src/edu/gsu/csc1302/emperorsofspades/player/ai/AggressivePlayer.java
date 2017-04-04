@@ -40,12 +40,7 @@ public class AggressivePlayer extends AIPlayer {
     }
 
     @Override
-    public Card playCard(int index) {
-        return null;
-    }
-
-    @Override
-    public int placeBid() {
+    public double placeBid() {
         return 0;
     }
 
