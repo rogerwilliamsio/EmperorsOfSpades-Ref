@@ -5,18 +5,18 @@ package edu.gsu.csc1302.emperorsofspades.player.ai;
  *
  * @author Roger Williams
  */
-public class SophisticatedPlayer extends AIPlayer{
+public class SophisticatedPlayer {
     /**
      * Class constructor.
      *
      * @param name the name of the player
      */
-    public SophisticatedPlayer(String name) {
-        super(name, PersonalityType.SOPHISTICATED);
-    }
-
-    @Override
-    public PersonalityType getPersonalityType() {
-        return null;
-    }
+//    public SophisticatedPlayer(String name) {
+//        super(name, PersonalityType.SOPHISTICATED);
+//    }
+//
+//    @Override
+//    public PersonalityType getPersonalityType() {
+//        return null;
+//    }
 }
