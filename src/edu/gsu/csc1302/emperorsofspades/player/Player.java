@@ -51,17 +51,21 @@ public abstract class Player {
 
     /**
      * Functionality for the player to play a card in a given hand.
-     * Logic is differed to the concrete player implementations.
      * @param index play the card at the given index.
      * @return a card.
      */
-    public abstract Card playCard(int index);
+    public Card playCard(final int index) {
+        return this.cards.remove(index);
+    }
 
     /**
      * Returns the player's deck of cards.
      * @return deck of cards.s
      */
     protected CardDeck getCards() {
+        if (this.cards == null) {
+            throw new IllegalPlayerStateException("Player has no cards in hand.");
+        }
         return this.cards;
     }
 
