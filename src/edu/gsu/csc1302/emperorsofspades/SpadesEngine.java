@@ -115,13 +115,13 @@ public class SpadesEngine {
 			 }
 		 }
 		 int win = hand.indexOf(leadCard);
-		 if ((win == 0) || (win == 2)){
-			 winner = table.get("dealer").getTeam();
-		 } 
-		 else{
-			 winner =  table.get("ldealer").getTeam();
-		 }
-		return winner;
+//		 if ((win == 0) || (win == 2)){
+//			 winner = table.get("dealer").getTeam();
+//		 } 
+//		 else{
+//			 winner =  table.get("ldealer").getTeam();
+//		 }
+		return null;
 	 }
 	 public void handWinner() {
 		 
