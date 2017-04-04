@@ -74,7 +74,7 @@ public abstract class Player {
      * Logic is differed to the concrete player implementations.
      * @return a bid [4, 10].
      */
-    public abstract double placeBid();
+    public abstract int placeBid();
 
     /**
      * Return the number of cards in the user's deck of cards.

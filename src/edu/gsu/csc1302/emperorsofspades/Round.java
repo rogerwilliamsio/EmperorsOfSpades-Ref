@@ -1,8 +1,11 @@
 package edu.gsu.csc1302.emperorsofspades;
 
 public class Round {
-	private int round = 0;
+	private int round;
 	Round(){
-		round = round + 1;
+		round = 1;
+	}
+	public void playHand() {
+		
 	}
 }

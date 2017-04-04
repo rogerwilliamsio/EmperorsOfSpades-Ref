@@ -12,10 +12,9 @@ public class SophisticatedPlayer  extends AIPlayer {
      * Class constructor.
      *
      * @param name            the name of the player
-     * @param personalityType of the AI player
      */
-    public SophisticatedPlayer(final String name, final PersonalityType personalityType) {
-        super(name, personalityType);
+    public SophisticatedPlayer(final String name) {
+        super(name, PersonalityType.SOPHISTICATED);
     }
 
     @Override

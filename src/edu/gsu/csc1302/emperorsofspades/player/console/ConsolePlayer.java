@@ -24,7 +24,7 @@ public class ConsolePlayer extends Player {
     }
 
     @Override
-    public double placeBid() {
+    public int placeBid() {
         return 0;
     }
 }

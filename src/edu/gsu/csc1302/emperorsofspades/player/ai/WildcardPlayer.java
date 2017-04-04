@@ -14,10 +14,9 @@ public class WildcardPlayer extends AIPlayer {
      * Class constructor.
      *
      * @param name            the name of the player
-     * @param personalityType of the AI player
      */
-    public WildcardPlayer(final String name, final PersonalityType personalityType) {
-        super(name, personalityType);
+    public WildcardPlayer(final String name) {
+        super(name, PersonalityType.WILDCARD);
     }
 
     /**
@@ -32,9 +31,7 @@ public class WildcardPlayer extends AIPlayer {
     }
 
     @Override
-    public double placeBid() {
-        double intRandom = new Random().nextDouble();
-
-        return intRandom;
+    public int placeBid() {
+        return ((new Random().nextInt((10 - 4) + 1)) + 4);
     }
 }
