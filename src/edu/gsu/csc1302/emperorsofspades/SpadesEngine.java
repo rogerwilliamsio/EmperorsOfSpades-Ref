@@ -3,9 +3,7 @@ package edu.gsu.csc1302.emperorsofspades;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import edu.gsu.csc1302.coll1.Card;
-import edu.gsu.csc1302.coll1.instr.ArrayListDeck;
-import edu.gsu.csc1302.coll1.instr.InstrSpadesComparator;
+import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.player.Player;
 import edu.gsu.csc1302.emperorsofspades.team.Team;
 
@@ -17,9 +15,9 @@ import edu.gsu.csc1302.emperorsofspades.team.Team;
 public class SpadesEngine {
 	
 	 private ArrayList<Player> players;
-	 private ArrayListDeck gameDeck;
+	 private CardDeck gameDeck;
 	 private HashMap<String , Player> table;
-	 private ArrayListDeck hand;
+	 private CardDeck hand; 
 	 private boolean round;
 	 private int roundNumber;
 	 
@@ -28,7 +26,7 @@ public class SpadesEngine {
 	  * @param players
 	  * @param gameDeck
 	  */
-	 public SpadesEngine( ArrayList<Player> players,  ArrayListDeck gameDeck){
+	 public SpadesEngine( ArrayList<Player> players,  CardDeck gameDeck){
 		 this.setPlayers(players);
 		 this.gameDeck = gameDeck;
 		 table.put("dealer", players.get(0));
@@ -45,14 +43,14 @@ public class SpadesEngine {
 		 }
 		 else {
 			 while (gameDeck.size() != 0) {
-				Card c1 = gameDeck.drawFromTop();
-				table.get("dealer").getHand().add(c1);
 				Card c2 = gameDeck.drawFromTop();
 				table.get("lDealer").getHand().add(c2);
 				Card c3 = gameDeck.drawFromTop();
 				table.get("llDealer").getHand().add(c3);
 				Card c4 = gameDeck.drawFromTop();
 				table.get("rDealer").getHand().add(c4);
+				Card c1 = gameDeck.drawFromTop();
+				table.get("dealer").getHand().add(c1);
 			 }
 		 }
 	 }
@@ -81,15 +79,15 @@ public class SpadesEngine {
 			 round = false;
 		 } 
 		 else {
-			 Card c1 = table.get("dealer").getHand().drawFromTop();
-			 hand.add(c1);
-			 Card c2 = table.get("lDealer").getHand().drawFromTop();
+			 Card c2 = table.get("lDealer").playCard();
 			 hand.add(c2);
-			 Card c3 = table.get("llDealer").getHand().drawFromTop();
+			 Card c3 = table.get("llDealer").playCard();
 			 hand.add(c3);
-			 Card c4 = table.get("rDealer").getHand().drawFromTop();
+			 Card c4 = table.get("rDealer").playCard();
 			 hand.add(c4);
-			 InstrSpadesComparator comp = new  InstrSpadesComparator(c1.getSuit());
+			 Card c1 = table.get("dealer").palyCard();
+			 hand.add(c1);
+			 SpadesComparator comp = new  SpadesComparator(c1.getSuit());
 			 int n1 = comp.compare(c1, c2);
 			 int n2 = comp.compare(c1, c3);
 			 int n3 = comp.compare(c1, c4);
@@ -137,13 +135,13 @@ public class SpadesEngine {
 	/**
 	 * @return the hand
 	 */
-	public ArrayListDeck getHand() {
+	public CardDeck getHand() {
 		return hand;
 	}
 	/**
 	 * @param hand the hand to set
 	 */
-	public void setHand(ArrayListDeck hand) {
+	public void setHand(CardDeck hand) {
 		this.hand = hand;
 	}
 	/**
