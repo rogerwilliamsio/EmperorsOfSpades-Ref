@@ -26,7 +26,7 @@ public class Team {
     /**
      * Set of players on the team.
      */
-    private final HashSet<Player> teammates;
+    private final HashSet<Player> teammates = new HashSet<>();
 
     /**
      * Class constructor. A team cannot be created without at least 1 player.
@@ -48,7 +48,7 @@ public class Team {
         }
 
         this.teamName = teamName;
-        this.teammates = team;
+        this.teammates.addAll(team);
     }
 
     /**

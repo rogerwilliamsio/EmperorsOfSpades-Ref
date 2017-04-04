@@ -7,18 +7,18 @@ import edu.gsu.csc1302.emperorsofspades.player.Player;
  *
  * @author Roger Williams
  */
-public class WildcardPlayer extends AIPlayer{
+public class WildcardPlayer {
     /**
      * Class constructor.
      *
      * @param name the name of the player
      */
-    public WildcardPlayer(final String name) {
-        super(name, PersonalityType.WILDCARD);
-    }
-
-    @Override
-    public PersonalityType getPersonalityType() {
-        return null;
-    }
+//    public WildcardPlayer(final String name) {
+//        super(name, PersonalityType.WILDCARD);
+//    }
+//
+//    @Override
+//    public PersonalityType getPersonalityType() {
+//        return null;
+//    }
 }
