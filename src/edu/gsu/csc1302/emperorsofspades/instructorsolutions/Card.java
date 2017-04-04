@@ -216,5 +216,4 @@ public final class Card {
 		}
 		return true;
 	}
-
 }

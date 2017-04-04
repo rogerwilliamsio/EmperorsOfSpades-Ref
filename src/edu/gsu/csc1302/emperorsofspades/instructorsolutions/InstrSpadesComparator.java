@@ -88,5 +88,4 @@ public class InstrSpadesComparator extends SpadesComparator {
 
 		return 0;
 	}
-
 }

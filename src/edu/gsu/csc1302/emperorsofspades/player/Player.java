@@ -1,5 +1,9 @@
 package edu.gsu.csc1302.emperorsofspades.player;
 
+import edu.gsu.csc1302.emperorsofspades.CardDeck;
+import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
+import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Deck;
+
 /**
  * Simulates a generic player in the game.
  * @author Roger Williams
@@ -9,6 +13,11 @@ public abstract class Player {
      * The player's name.
      */
     private final String name;
+
+    /**
+     * The player's cards.
+     */
+    private final CardDeck cards = null;
 
     /**
      * Class constructor.
@@ -24,6 +33,55 @@ public abstract class Player {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Adds a card to the given player's deck.
+     * @param card the card to add.
+     */
+    public void addToCardDeck(final Card card) {
+        this.cards.addToTop(card);
+    }
+
+    /**
+     * Functionality for the player to play a card in a given hand.
+     * Logic is differed to the concrete player implementations.
+     * @return a card.
+     */
+    public abstract Card playCard();
+
+    /**
+     * Functionality for the player to play a card in a given hand.
+     * Logic is differed to the concrete player implementations.
+     * @param index play the card at the given index.
+     * @return a card.
+     */
+    public abstract Card playCard(int index);
+
+    /**
+     * Returns the player's deck of cards.
+     * @return deck of cards.s
+     */
+    protected CardDeck getCards() {
+        return this.cards;
+    }
+
+    /**
+     * Allows a user to place a bid in a given hand.
+     * Logic is differed to the concrete player implementations.
+     * @return a bid [4, 10].
+     */
+    public abstract int placeBid();
+
+    /**
+     * Return the number of cards in the user's deck of cards.
+     * @return # of cards
+     */
+    public int numOfCardsInDeck() {
+        if (this.cards == null) {
+            return 0;
+        }
+        return this.cards.size();
     }
 
     /**
