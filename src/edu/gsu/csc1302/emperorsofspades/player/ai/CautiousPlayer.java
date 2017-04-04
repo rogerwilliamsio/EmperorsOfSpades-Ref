@@ -10,19 +10,12 @@ import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 public class CautiousPlayer extends AIPlayer {
 
     /**
-     * Personality type of the AI player.
-     */
-    private final PersonalityType personalityType = PersonalityType.AGGRESSIVE;
-
-
-    /**
      * Class constructor.
      *
      * @param name            the name of the player
-     * @param personalityType of the AI player
      */
-    public CautiousPlayer(final String name, final PersonalityType personalityType) {
-        super(name, personalityType);
+    public CautiousPlayer(final String name) {
+        super(name, PersonalityType.CAUTIOUS);
     }
 
     @Override

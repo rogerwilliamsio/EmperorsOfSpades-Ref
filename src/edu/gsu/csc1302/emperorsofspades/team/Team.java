@@ -96,7 +96,7 @@ public class Team {
      *
      * @return
      */
-    public int placeTeamBid() {
+    public double placeTeamBid() {
         return this.teammates.get(1).placeBid();
     }
 
