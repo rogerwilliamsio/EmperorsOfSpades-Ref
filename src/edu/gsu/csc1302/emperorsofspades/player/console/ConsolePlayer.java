@@ -1,5 +1,6 @@
 package edu.gsu.csc1302.emperorsofspades.player.console;
 
+import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.player.Player;
 
 /**
@@ -15,5 +16,15 @@ public class ConsolePlayer extends Player {
      */
     public ConsolePlayer(String name) {
         super(name);
+    }
+
+    @Override
+    public Card playCard() {
+        return null;
+    }
+
+    @Override
+    public int placeBid() {
+        return 0;
     }
 }

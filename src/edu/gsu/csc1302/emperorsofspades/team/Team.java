@@ -2,9 +2,9 @@ package edu.gsu.csc1302.emperorsofspades.team;
 
 import edu.gsu.csc1302.emperorsofspades.player.Player;
 
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,7 +26,12 @@ public class Team {
     /**
      * Set of players on the team.
      */
-    private final HashSet<Player> teammates = new HashSet<>();
+    private final LinkedList<Player> teammates = new LinkedList<Player>();
+
+    /**
+     * Total points accumulated throughout the rounds.
+     */
+    private int teamPoints = 0;
 
     /**
      * Class constructor. A team cannot be created without at least 1 player.
@@ -35,7 +40,7 @@ public class Team {
      * @throws TooManyPlayersException when number of players exceed the max.
      * @throws InsufficientPlayersException if the set of players is null.
      */
-    public Team(final String teamName, final HashSet<Player> team)
+    public Team(final String teamName, final Set<Player> team)
             throws TooManyPlayersException, InsufficientPlayersException {
 
         if (team == null) {
@@ -46,7 +51,6 @@ public class Team {
         if (team.size() > 2) {
             throw new TooManyPlayersException();
         }
-
         this.teamName = teamName;
         this.teammates.addAll(team);
     }
@@ -64,6 +68,11 @@ public class Team {
                     + "added to team because team size is "
                     + "already at the maximum allowed.");
         }
+
+        // Add the player to the list if not already on the team.
+        if (this.teammates.indexOf(player) > -1) {
+            throw new IllegalTeamStateException("This player is already on the team.");
+        }
         return this.teammates.add(player);
     }
 
@@ -76,11 +85,19 @@ public class Team {
     }
 
     /**
-     * Returns the set of players.
+     * Returns the list of players.
      * @return
      */
-    public Set<Player> getTeammates() {
-        return Collections.unmodifiableSet(this.teammates);
+    public List<Player> getTeammates() {
+        return Collections.unmodifiableList(this.teammates);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int placeTeamBid() {
+        return this.teammates.get(1).placeBid();
     }
 
     /**

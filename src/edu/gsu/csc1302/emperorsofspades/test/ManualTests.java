@@ -21,15 +21,16 @@ public class ManualTests {
 
         HashSet<Player> teammates = new HashSet<Player>();
         teammates.add(roger);
-        teammates.add(sam);
+//        teammates.add(sam);
 
-        Team teamBlue = new Team("team Blue", teammates);
+        Team teamBlue = new Team("Team Blue", teammates);
+        teamBlue.addPlayer(kirk);
+        System.out.println(teamBlue.getTeammates());
 
-//        teamBlue.addPlayer(kirk);
+        System.out.println(teamBlue.getNumberOfPlayers());
 
-        teammates.add(kirk);
         for (Player player : teamBlue.getTeammates()) {
-            System.out.println(((AIPlayer) player).saySomething());
+            System.out.println(((AIPlayer) player).playCard());
         }
     }
 }
