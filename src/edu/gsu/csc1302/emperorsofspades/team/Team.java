@@ -3,7 +3,11 @@ package edu.gsu.csc1302.emperorsofspades.team;
 import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
 import edu.gsu.csc1302.emperorsofspades.player.Player;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * Simulates a set of player in a game of Spades.
@@ -62,7 +66,11 @@ public class Team {
             throw new TooManyPlayersException();
         }
         this.teamName = teamName;
-        this.teammates.addAll(team);
+
+        for (Player player : team) {
+            this.teammates.add(player);
+            player.addToTeam(this);
+        }
     }
 
     /**
@@ -83,6 +91,7 @@ public class Team {
         if (this.teammates.indexOf(player) > -1) {
             throw new IllegalTeamStateException("This player is already on the team.");
         }
+        player.addToTeam(this);
         return this.teammates.add(player);
     }
 
@@ -206,6 +215,6 @@ public class Team {
      * @return team name
      */
     public String toString() {
-        return String.format("Team %s", this.getTeamName());
+        return String.format("[Team] %s", this.getTeamName());
     }
 }

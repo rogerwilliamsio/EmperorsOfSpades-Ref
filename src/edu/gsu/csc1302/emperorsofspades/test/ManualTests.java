@@ -29,16 +29,16 @@ public class ManualTests {
         teammates.add(roger);
 //      teammates.add(sam);
 
-        Team teamBlue = new Team("Team Blue", teammates);
+        Team teamBlue = new Team("Blue", teammates);
+        System.out.println("Roger's Team: " + roger.getTeam());
+
         teamBlue.addPlayer(kirk);
-        System.out.println(teamBlue.getTeammates());
-        sam.addToCardDeck(new Card(Card.Suit.HEART, Card.Rank.TWO));
+        System.out.println("Kirk's Team: " + kirk.getTeam());
+
         System.out.println("BIDS:");
-        System.out.println(sam.placeBid() + " END BIDDING");
+        System.out.println(sam.placeBid() + "\nEND BIDDING");
+
         System.out.println(teamBlue.getNumberOfPlayers());
 
-        for (Player player : teamBlue.getTeammates()) {
-            System.out.println(((AIPlayer) player).playCard(Card.Suit.CLUB));
-        }
     }
 }
