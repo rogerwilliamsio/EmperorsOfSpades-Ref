@@ -15,8 +15,16 @@ import java.util.Set;
  * @author Roger Williams
  */
 public class Team {
-
-    /**
+	
+	/**
+     * number of the team bid.
+     */
+	private int teamBid;
+	/**
+	 * blind bet checker
+	 */
+	private boolean blindBet;
+	/**
      * Name of the team.
      */
     private final String teamName;
@@ -50,7 +58,7 @@ public class Team {
     /**
      * Class constructor. A team cannot be created without at least 1 player.
      * @param teamName name of team.
-     * @param team set of teammates.
+     * @param team set of team mates.
      * @throws TooManyPlayersException when number of players exceed the max.
      * @throws InsufficientPlayersException if the set of players is null.
      */
@@ -117,7 +125,8 @@ public class Team {
      */
 
     public double placeTeamBid() {
-        return this.teammates.get(1).placeBid();
+    	this.teamBid = this.teammates.get(1).placeBid();
+    	return this.teamBid;
     }
 
     /**
@@ -175,8 +184,8 @@ public class Team {
      * Adds a certain number of tricks to the total number of team tricks.
      * @param tricks to add.
      */
-    public void addTrick(final int tricks) {
-        this.totalTricks += tricks;
+    public void addTrick() {
+        this.totalTricks++;
     }
 
     /**
@@ -191,10 +200,23 @@ public class Team {
      * @TODO: functionality of sets/success needs to be approved.
      * Updates the team's success score.
      */
-    public void setSuccess() {
-        this.numOfSuccess++;
+    public void setSuccess( int bidNum) {
+    	int points = 10;
+        this.numOfSuccess = this.numOfSuccess + bidNum*points;
+        this.numOfSets = 0;
     }
 
+    /**
+     * 
+     */
+    public void setSets() {
+    	
+    	int points = 10;
+        this.numOfSuccess = this.numOfSuccess - teamBid*points;
+        this.numOfSets++;
+        
+    }
+    
     /**
      * Returns the number of sets the team has.
      * @return sets
@@ -202,13 +224,12 @@ public class Team {
     public int getSets() {
         return this.numOfSets;
     }
-
     /**
      * Updates the number of sets a team has
      */
-    public void updateSets() {
-        this.numOfSets++;
-    }
+//    public void updateSets() {
+//        this.numOfSets++;
+//    }
 
     /**
      * Print-friendly output
@@ -217,4 +238,31 @@ public class Team {
     public String toString() {
         return String.format("[Team] %s", this.getTeamName());
     }
+    /**
+   	 * @return the teamBid
+   	 */
+   	public int getTeamBid() {
+   		return teamBid;
+   	}
+
+   	/**
+   	 * @param teamBid the teamBid to set
+   	 */
+   	public void setTeamBid(int teamBid) {
+   		this.teamBid = teamBid;
+   	}
+
+	/**
+	 * @return the blindBet
+	 */
+	public boolean isBlindBet() {
+		return blindBet;
+	}
+
+	/**
+	 * @param blindBet the blindBet to set
+	 */
+	public void setBlindBet(boolean blindBet) {
+		this.blindBet = blindBet;
+	}
 }
