@@ -104,8 +104,8 @@ public class SpadesEngine {
 	 }
 	 private void playRound() {
 
-//		 int b1 = table.get("Dealer").placeABet();
-//		 int b2 = table.get("lDealer").placeABet();
+//		 int b1 = table.get("Dealer").placeBid();
+//		 int b2 = table.get("lDealer").placeBid();
 
 		 for (int i = 0; i <= 13; i++) {
 	        	playHand();
