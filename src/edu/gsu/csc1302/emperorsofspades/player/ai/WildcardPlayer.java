@@ -1,6 +1,7 @@
 package edu.gsu.csc1302.emperorsofspades.player.ai;
 
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
+import edu.gsu.csc1302.emperorsofspades.player.IllegalPlayerStateException;
 
 import java.util.Random;
 
@@ -25,14 +26,19 @@ public class WildcardPlayer extends AIPlayer {
      * @return a card
      */
     @Override
-    public Card playCard() {
+    public Card playCard(final Card.Suit leadSuit) {
+        if (this.numOfCardsInDeck() == 0) {
+            throw new IllegalPlayerStateException("Player cannot play a "
+                    + "card because player's deck is empty.");
+        }
         final int randCardIndex = new Random().nextInt(this.numOfCardsInDeck());
         return this.getCards().remove(randCardIndex);
+
     }
 
     /**
      * @TODO: Remove hard-coded values
-     * Wildcard players places random bids [4, 10]
+     * Wildcard players places random bids [4, 10].
      * @return a random bid.
      */
     @Override

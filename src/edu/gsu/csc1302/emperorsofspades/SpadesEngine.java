@@ -1,12 +1,11 @@
 package edu.gsu.csc1302.emperorsofspades;
 
+import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
+import edu.gsu.csc1302.emperorsofspades.player.Player;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
-import edu.gsu.csc1302.emperorsofspades.player.Player;
-import edu.gsu.csc1302.emperorsofspades.team.Team;
 
 /**
  * The game engine.
@@ -14,6 +13,10 @@ import edu.gsu.csc1302.emperorsofspades.team.Team;
  * @author Roger Williams
  */
 public class SpadesEngine {
+
+	private static final int MINIMUM_TEAM_BID = 4;
+
+	private static final int MAXIMUM_TEAM_BID = 10;
 	
 	 private ArrayList<Player> players = new ArrayList<>();
 	 private CardDeck gameDeck = new CardDeck();
@@ -166,13 +169,13 @@ public class SpadesEngine {
 		 
 		 CardDeck hand = new CardDeck();
 		 
-		 Card c2 = table.get("lDealer").playCard();
+		 Card c2 = table.get("lDealer").playCard(leadSuit);
 		 hand.add(c2);
-		 Card c3 = table.get("llDealer").playCard();
+		 Card c3 = table.get("llDealer").playCard(leadSuit);
 		 hand.add(c3);
-		 Card c4 = table.get("rDealer").playCard();
+		 Card c4 = table.get("rDealer").playCard(leadSuit);
 		 hand.add(c4);
-		 Card c1 = table.get("dealer").playCard();
+		 Card c1 = table.get("dealer").playCard(leadSuit);
 		 hand.add(c1);
 		 
 		 leadSuit = c2.getSuit();
@@ -272,4 +275,20 @@ public class SpadesEngine {
 	public void setLeadSuit(Card.Suit leadSuit) {
 		this.leadSuit = leadSuit;
 	}
+
+    /**
+     * Returns the minimum allowed team bid.
+     * @return
+     */
+    public static int getMinimumTeamBid() {
+        return MINIMUM_TEAM_BID;
+    }
+
+    /**
+     * Returns the maximum allowed team bid.
+     * @return
+     */
+    public static int getMaximumTeamBid() {
+        return MAXIMUM_TEAM_BID;
+    }
 }

@@ -4,7 +4,7 @@ import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.player.Player;
 
 /**
- * description
+ * Simulates a console player.
  *
  * @author Roger Williams
  */
@@ -19,12 +19,21 @@ public class ConsolePlayer extends Player {
     }
 
     @Override
-    public Card playCard() {
+    public Card playCard(Card.Suit leadSuit) {
         return null;
     }
 
     @Override
     public int placeBid() {
+        return 0;
+    }
+
+
+    public Card playCard() {
+        return null;
+    }
+
+    public int placeBid(final Card.Suit leadSuit) {
         return 0;
     }
 }

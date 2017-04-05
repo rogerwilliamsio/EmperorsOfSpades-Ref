@@ -1,6 +1,8 @@
 package edu.gsu.csc1302.emperorsofspades.player.ai;
 
+import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
+import edu.gsu.csc1302.emperorsofspades.player.Player;
 
 /**
  * Simulates an aggressive AI player.
@@ -8,17 +10,6 @@ import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
  * @author Roger Williams
  */
 public class AggressivePlayer extends AIPlayer {
-
-    /**
-     * Sayings. Used to give the player a personality while playing the game.
-     */
-//    private static final String[] AGGRESSIVE_PLAYER_SAYINGS = {
-//            "I'm  feeling risky!!!",
-//            "Let's go high!",
-//            "Maybe I should take it easy......NOT!",
-//            "HIGH trumps low, let's GO!!",
-//            "I'm going HIGH, because I CAN!"
-//    };
 
     /**
      * Class constructor.
@@ -29,13 +20,32 @@ public class AggressivePlayer extends AIPlayer {
         super(name, PersonalityType.AGGRESSIVE);
     }
 
+    /**
+     * Plays a card, given a lead suit.
+     * @param leadSuit the lead suit of the current hand.
+     * @return card
+     */
     @Override
-    public Card playCard() {
+    public Card playCard(final Card.Suit leadSuit) {
         return null;
     }
 
+    /**
+     * PLaces a bid for the aggressive player.
+     * @return card
+     */
     @Override
     public int placeBid() {
-        return 0;
+        double bidProbability = Player.generateBidProbability(this.getCards());
+
+        //Raises the bid by 25%
+        final int bid = (int) (Math.round((bidProbability * 1.25)));
+
+        if (bid >= SpadesEngine.getMaximumTeamBid()) {
+            return SpadesEngine.getMaximumTeamBid();
+        } else if (bid < SpadesEngine.getMinimumTeamBid()){
+            return SpadesEngine.getMinimumTeamBid();
+        }
+        return bid;
     }
 }

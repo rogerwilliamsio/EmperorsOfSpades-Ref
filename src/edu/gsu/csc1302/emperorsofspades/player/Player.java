@@ -1,6 +1,7 @@
 package edu.gsu.csc1302.emperorsofspades.player;
 
 import edu.gsu.csc1302.emperorsofspades.CardDeck;
+import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 
 /**
@@ -16,7 +17,7 @@ public abstract class Player {
     /**
      * The player's cards.
      */
-    private final CardDeck cards = null;
+    private final CardDeck cards = new CardDeck();
 
     /**
      * Class constructor.
@@ -43,11 +44,13 @@ public abstract class Player {
     }
 
     /**
+     * @TODO: Tell Mahatem to set the lead suit to NULL of the beginning of each hand.
      * Functionality for the player to play a card in a given hand.
      * Logic is differed to the concrete player implementations.
+     * @param leadSuit the lead suit of the current hand.
      * @return a card.
      */
-    public abstract Card playCard();
+    public abstract Card playCard(Card.Suit leadSuit);
 
     /**
      * Functionality for the player to play a card in a given hand.
@@ -85,6 +88,36 @@ public abstract class Player {
             return 0;
         }
         return this.cards.size();
+    }
+
+    /**
+     * @TODO Finish the implementation.
+     * Given a deck of cards, a bid probability is generated
+     * based on  the cards in the deck.
+     * @param cards the card deck
+     * @return bid probability
+     */
+    public static double generateBidProbability(final CardDeck cards) {
+        double bidProbability = 0.0;
+        for (Card card : cards) {
+            // Possibility of winning a hand if the card is the Big Joker
+            if (card.getSuit().equals(Card.Suit.HEART)
+                    && card.getRank().equals(Card.Rank.TWO)) {
+                bidProbability++;
+                // Possibility of winning a hand if the card is the Little Joker
+            } else if (card.getSuit().equals(Card.Suit.CLUB)
+                    && card.getRank().equals(Card.Rank.TWO)) {
+                bidProbability++;
+                // Possibility of winning a hand if the card is the Big Joker
+            } else if (card.getSuit().equals(Card.Suit.DIAMOND)
+                    && card.getRank().equals(Card.Rank.TWO)) {
+                bidProbability += 0.95;
+            } else if (card.getSuit().equals(Card.Suit.SPADE)
+                    && card.getRank().equals(Card.Rank.TWO)) {
+                bidProbability += 0.75;
+            }
+        }
+        return (bidProbability / 13) * 10;
     }
 
     /**
