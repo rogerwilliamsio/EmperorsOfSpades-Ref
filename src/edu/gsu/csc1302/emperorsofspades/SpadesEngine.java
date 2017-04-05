@@ -19,6 +19,7 @@ public class SpadesEngine {
 	 private CardDeck gameDeck = new CardDeck();
 	 private Map<String , Player> table = new HashMap<>();
 	 private CardDeck hand = new CardDeck();
+	 private Card.Suit leadSuit = null;
 	 private int roundNumber;
 	 private boolean gameEnd = false;
 	 
@@ -175,7 +176,8 @@ public class SpadesEngine {
 		 Card c1 = table.get("dealer").playCard();
 		 hand.add(c1);
 		 
-		 SpadesComparator comp = new  SpadesComparator(c1.getSuit());
+		 leadSuit = c2.getSuit();
+		 SpadesComparator comp = new  SpadesComparator(leadSuit);
 		 
 		 int n1 = comp.compare(c1, c2);
 		 int n2 = comp.compare(c1, c3);
@@ -258,5 +260,17 @@ public class SpadesEngine {
 	 */
 	public void setGameEnd(boolean gameEnd) {
 		this.gameEnd = gameEnd;
+	}
+	/**
+	 * @return the leadSuit
+	 */
+	public Card.Suit getLeadSuit() {
+		return leadSuit;
+	}
+	/**
+	 * @param leadSuit the leadSuit to set
+	 */
+	public void setLeadSuit(Card.Suit leadSuit) {
+		this.leadSuit = leadSuit;
 	}
 }
