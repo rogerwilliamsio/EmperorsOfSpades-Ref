@@ -38,8 +38,8 @@ public class SophisticatedPlayer  extends AIPlayer {
         double bidProbability = Player.generateBidProbability(this.getCards());
         final int bid = (int) Math.round(bidProbability);
 
-        if (bid >= SpadesEngine.getMaximumTeamBid()) {
-            return SpadesEngine.getMaximumTeamBid();
+        if (bid >= SpadesEngine.MAXIMUM_TEAM_BID) {
+            return SpadesEngine.MAXIMUM_TEAM_BID;
         } else {
             return bid;
         }

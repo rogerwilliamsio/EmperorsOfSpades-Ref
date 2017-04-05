@@ -13,12 +13,32 @@ import java.util.Map;
  * @author Roger Williams
  */
 public class SpadesEngine {
+    /**
+     * The minimum required team bid.
+     */
+	public static final int MINIMUM_TEAM_BID = 4;
 
-	private static final int MINIMUM_TEAM_BID = 4;
+    /**
+     * The maximum required team bid.
+     */
+	public static final int MAXIMUM_TEAM_BID = 10;
 
-	private static final int MAXIMUM_TEAM_BID = 10;
-	
-	 private ArrayList<Player> players = new ArrayList<>();
+    /**
+     * The minimum required blind bid.
+     */
+	public static final int MINIMUM_BLIND_BID = 6;
+
+    /**
+     * The maximum required blind bid.
+     */
+    public static final int MAXIMUM_BLIND_BID = 10;
+
+    /**
+     * The maximum number of  teammates allowed on a team.
+     */
+    public static final int MAXIMUM_TEAMMATES = 2;
+
+    private ArrayList<Player> players = new ArrayList<>();
 	 private CardDeck gameDeck = new CardDeck();
 	 private Map<String , Player> table = new HashMap<>();
 	 private CardDeck hand = new CardDeck();
@@ -45,7 +65,7 @@ public class SpadesEngine {
 	 }
 	 public void dealCard() {
 		 if(gameDeck.size() != 52) {
-			 System.out.println("insuficinet number of cards in the deck");
+			 System.out.println("insufficient number of cards in the deck");
 		 }
 		 else {
 			 
@@ -84,8 +104,8 @@ public class SpadesEngine {
 	 }
 	 private void playRound() {
 		 
-//		 int b1 = table.get("lDealer").placeABet();
-//		 int b2 = table.get("Dealer").placeABet();
+//		 int b1 = table.get("lDealer").placeBid();
+//		 int b2 = table.get("Dealer").placeBid();
 
 		 for (int i = 0; i <= 13; i++) {
 	        	playHand();
@@ -112,7 +132,7 @@ public class SpadesEngine {
 		
 	}
 	private void checkWinner() {
-		
+
 //		 int s1 = table.get("ldealer").getTeam().getSets();
 //		 int s2 = table.get("dealer").getTeam().getSets();
 //		 
@@ -275,20 +295,4 @@ public class SpadesEngine {
 	public void setLeadSuit(Card.Suit leadSuit) {
 		this.leadSuit = leadSuit;
 	}
-
-    /**
-     * Returns the minimum allowed team bid.
-     * @return
-     */
-    public static int getMinimumTeamBid() {
-        return MINIMUM_TEAM_BID;
-    }
-
-    /**
-     * Returns the maximum allowed team bid.
-     * @return
-     */
-    public static int getMaximumTeamBid() {
-        return MAXIMUM_TEAM_BID;
-    }
 }

@@ -1,11 +1,9 @@
 package edu.gsu.csc1302.emperorsofspades.team;
 
+import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
 import edu.gsu.csc1302.emperorsofspades.player.Player;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Simulates a set of player in a game of Spades.
@@ -13,10 +11,6 @@ import java.util.Set;
  * @author Roger Williams
  */
 public class Team {
-    /**
-     * The maximum number of  teammates allowed on a team.
-     */
-    private static final int MAXIMUM_TEAMMATES = 2;
 
     /**
      * Name of the team.
@@ -31,7 +25,23 @@ public class Team {
     /**
      * Total points accumulated throughout the rounds.
      */
-    private int teamPoints = 0;
+    private int teamScore = 0;
+
+    /**
+     * Returns the total number of trick this team
+     * has accumulated.
+     */
+    private int totalTricks = 0;
+
+    /**
+     * Number of successes.
+     */
+    private int numOfSuccess = 0;
+
+    /**
+     * Number of sets.
+     */
+    private int numOfSets = 0;
 
     /**
      * Class constructor. A team cannot be created without at least 1 player.
@@ -81,7 +91,7 @@ public class Team {
      * @return max teammates.
      */
     public static int getMaximumTeammates() {
-        return MAXIMUM_TEAMMATES;
+        return SpadesEngine.MAXIMUM_TEAMMATES;
     }
 
     /**
@@ -93,11 +103,21 @@ public class Team {
     }
 
     /**
-     *
-     * @return
+     * @TODO: Remove hard-coded team-member index.
+     * @return team bid
      */
+
     public double placeTeamBid() {
         return this.teammates.get(1).placeBid();
+    }
+
+    /**
+     * Returns a blind team bid [6, 10], randomly generated.
+     * @return a team bid
+     */
+    public int setBlindBet() {
+        final int bidBound = (SpadesEngine.MAXIMUM_BLIND_BID - SpadesEngine.MINIMUM_BLIND_BID) + 1;
+        return new Random().nextInt(bidBound) + SpadesEngine.MINIMUM_BLIND_BID;
     }
 
     /**
@@ -106,5 +126,86 @@ public class Team {
      */
     public int getNumberOfPlayers() {
         return this.teammates.size();
+    }
+
+    /**
+     * Returns the team name
+     * @return
+     */
+    public String getTeamName() {
+        return teamName;
+    }
+
+    /**
+     * Returns the score of the team.
+     * Score is accumulated across rounds.
+     * @return
+     */
+    public int getScore() {
+        return this.teamScore;
+    }
+
+    /**
+     * @TODO: Tell Mahetem to be careful when updating scores and tricks and such, use +=/-=
+     * Update the team's score.
+     * @param teamScore the update score
+     */
+    public void setScore(final int teamScore) {
+        this.teamScore = teamScore;
+    }
+
+    /**
+     * Returns the number of tricks the team has.
+     * @return
+     */
+    public int getTricks() {
+        return totalTricks;
+    }
+
+    /**
+     * Adds a certain number of tricks to the total number of team tricks.
+     * @param tricks to add.
+     */
+    public void addTrick(final int tricks) {
+        this.totalTricks += tricks;
+    }
+
+    /**
+     * Returns the success score of the team.
+     * @return success score
+     */
+    public int successScore() {
+        return this.numOfSuccess;
+    }
+
+    /**
+     * @TODO: functionality of sets/success needs to be approved.
+     * Updates the team's success score.
+     */
+    public void setSuccess() {
+        this.numOfSuccess++;
+    }
+
+    /**
+     * Returns the number of sets the team has.
+     * @return sets
+     */
+    public int getSets() {
+        return this.numOfSets;
+    }
+
+    /**
+     * Updates the number of sets a team has
+     */
+    public void updateSets() {
+        this.numOfSets++;
+    }
+
+    /**
+     * Print-friendly output
+     * @return team name
+     */
+    public String toString() {
+        return String.format("Team %s", this.getTeamName());
     }
 }

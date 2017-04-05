@@ -41,10 +41,10 @@ public class AggressivePlayer extends AIPlayer {
         //Raises the bid by 25%
         final int bid = (int) (Math.round((bidProbability * 1.25)));
 
-        if (bid >= SpadesEngine.getMaximumTeamBid()) {
-            return SpadesEngine.getMaximumTeamBid();
-        } else if (bid < SpadesEngine.getMinimumTeamBid()){
-            return SpadesEngine.getMinimumTeamBid();
+        if (bid >= SpadesEngine.MAXIMUM_TEAM_BID) {
+            return SpadesEngine.MAXIMUM_TEAM_BID;
+        } else if (bid < SpadesEngine.MINIMUM_TEAM_BID){
+            return SpadesEngine.MINIMUM_TEAM_BID;
         }
         return bid;
     }

@@ -41,10 +41,10 @@ public class CautiousPlayer extends AIPlayer {
         //Lower the bid by 20%
         final int bid = (int) (Math.floor((bidProbability * 0.8)));
 
-        if (bid >= SpadesEngine.getMaximumTeamBid()) {
-            return SpadesEngine.getMaximumTeamBid();
-        } else if (bid < SpadesEngine.getMinimumTeamBid()){
-            return SpadesEngine.getMinimumTeamBid();
+        if (bid >= SpadesEngine.MAXIMUM_TEAM_BID) {
+            return SpadesEngine.MAXIMUM_TEAM_BID;
+        } else if (bid < SpadesEngine.MINIMUM_TEAM_BID){
+            return SpadesEngine.MINIMUM_TEAM_BID;
         }
         return bid;
     }

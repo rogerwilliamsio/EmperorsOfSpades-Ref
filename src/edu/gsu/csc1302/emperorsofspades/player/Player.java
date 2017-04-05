@@ -1,8 +1,8 @@
 package edu.gsu.csc1302.emperorsofspades.player;
 
 import edu.gsu.csc1302.emperorsofspades.CardDeck;
-import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
+import edu.gsu.csc1302.emperorsofspades.team.Team;
 
 /**
  * Simulates a generic player in the game.
@@ -18,6 +18,12 @@ public abstract class Player {
      * The player's cards.
      */
     private final CardDeck cards = new CardDeck();
+
+    /**
+     * THe team that the player is on.
+     */
+    private Team team = null;
+
 
     /**
      * Class constructor.
@@ -88,6 +94,23 @@ public abstract class Player {
             return 0;
         }
         return this.cards.size();
+    }
+
+    /**
+     * Returns the team that the player is on.
+     * @return team
+     */
+    public Team getTeam() {
+        return team;
+    }
+
+    /**
+     * Add the player to a given team.
+     * @param team the team to add the player to.
+     */
+
+    public void addToTeam(final Team team) {
+        this.team = team;
     }
 
     /**
