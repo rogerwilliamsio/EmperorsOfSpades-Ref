@@ -26,7 +26,7 @@ public class SpadesEngine {
 	  * @param players
 	  * @param gameDeck
 	  */
-	 public SpadesEngine( ArrayList<Player> players,  CardDeck gameDeck){
+	 public SpadesEngine(ArrayList<Player> players,  CardDeck gameDeck){
 		 this.setPlayers(players);
 		 this.gameDeck = gameDeck;
 		 table.put("dealer", players.get(0));
