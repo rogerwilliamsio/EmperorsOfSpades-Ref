@@ -81,8 +81,8 @@ public class SpadesEngine {
 	 }
 	 private void playRound() {
 		 
-//		 int b1 = table.get("lDealer").placeABet();
-//		 int b2 = table.get("Dealer").placeABet();
+//		 int b1 = table.get("Dealer").placeABet();
+//		 int b2 = table.get("lDealer").placeABet();
 
 		 for (int i = 0; i <= 13; i++) {
 	        	playHand();
@@ -90,19 +90,27 @@ public class SpadesEngine {
 		 
 //		 int b11 = table.get("dealer").getTeam().getTricks();
 //
-//		 int b22 = table.get("ldealer").getTeam().getTricks();
-//
-//		 if (b1 <= b11 + 3) {
+//		 int b22 = table.get("lDealer").getTeam().getTricks();
+//		 
+//		 if ((b1 >= 10) && (b11 == 13)) {
+//			 System.out.println("team: "+  table.get("dealer").getTeam() +" has won.(Boston)"); 
+//			 setGameEnd(true);
+//		 }
+//		 if ((b2 >= 10) && (b22 == 13)) {
+//			 System.out.println("team: "+  table.get("lDealer").getTeam() +" has won.(Boston)"); 
+//			 setGameEnd(true);
+//		 }
+//		 if ((b1 <= b11) && (b1 >= b11 - 3)) {
 //			 table.get("dealer").getTeam().successScore();
 //		 } 
 //		 else {
 //			 table.get("dealer").getTeam().setScore();
 //		 }
-//		 if (b2 <= b22 + 3) {
-//			 table.get("ldealer").getTeam().successScore();
+//		 if ((b2 <= b22) && (b2 >= b22 - 3)) {
+//			 table.get("lDealer").getTeam().successScore();
 //		 } 
 //		 else {
-//			 table.get("ldealer").getTeam().setScore();
+//			 table.get("lDealer").getTeam().setScore();
 //		 } 
 //		 
 		 checkWinner();
@@ -110,39 +118,39 @@ public class SpadesEngine {
 	}
 	private void checkWinner() {
 		
-//		 int s1 = table.get("ldealer").getTeam().getSets();
-//		 int s2 = table.get("dealer").getTeam().getSets();
+//		 int s1 = table.get("dealer").getTeam().getSets();
+//		 int s2 = table.get("lDealer").getTeam().getSets();
 //		 
 //		 if (s1 == 0){
 //			 if (s2 == 2){
-//				System.out.println("team: "+  table.get("ldealer").getTeam() +" has won."); 
+//				System.out.println("team: "+  table.get("dealer").getTeam() +" has won."); 
 //				setGameEnd(true);
 //			 }
 //		 }
 //		 if (s2 == 0){
 //			 if (s1 == 2){
-//				System.out.println("team: "+  table.get("dealer").getTeam() +" has won."); 
+//				System.out.println("team: "+  table.get("lDealer").getTeam() +" has won."); 
 //				setGameEnd(true);
 //			 }
 //		 }
 //		 
-//		 int s11 = table.get("ldealer").getTeam().getScore();
-//		 int s22 = table.get("dealer").getTeam().getScore();
+//		 int s11 = table.get("dealer").getTeam().getScore();
+//		 int s22 = table.get("lDealer").getTeam().getScore();
 //		 
 //		 if (s11 >= s22 + 100) {
-//			 table.get("dealer").getTeam().setBlindBet();
+//			 table.get("lDealer").getTeam().setBlindBet();
 //		 }
 //		 if (s22 >= s11 + 100) {
-//			 table.get("ldealer").getTeam().setBlindBet();
+//			 table.get("dealer").getTeam().setBlindBet();
 //		 }
 //		 
 //		 if ((s11 >= 500) || (s22 >= 500)){
 //			 if (s11 > s22){
-//				 System.out.println("team: "+  table.get("ldealer").getTeam() +" has won."); 
+//				 System.out.println("team: "+  table.get("dealer").getTeam() +" has won."); 
 //				 setGameEnd(true);
 //			 }
 //			 else {
-//				 System.out.println("team: "+  table.get("dealer").getTeam() +" has won."); 
+//				 System.out.println("team: "+  table.get("lDealer").getTeam() +" has won."); 
 //				 setGameEnd(true);
 //			 }
 //		 }
@@ -150,6 +158,7 @@ public class SpadesEngine {
 	}
 	
 	private void switchPlayers() {
+		
 		 int n1 =players.indexOf(table.get("dealer"));
 		 int n2 =players.indexOf(table.get("lDealer"));
 		 int n3 =players.indexOf(table.get("llDealer"));
