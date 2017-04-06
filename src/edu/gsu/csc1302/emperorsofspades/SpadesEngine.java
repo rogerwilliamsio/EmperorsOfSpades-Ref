@@ -278,16 +278,16 @@ public class SpadesEngine {
 		 int s22 = table.get("lDealer").getTeam().getScore();
 		 
 		 if (s11 >= s22 + 100) {
-			 table.get("lDealer").getTeam().setBlindBet(true);
+			 table.get("lDealer").getTeam().setBlindBid(true);
 		 }
 		 else{
-			 table.get("lDealer").getTeam().setBlindBet(false);
+			 table.get("lDealer").getTeam().setBlindBid(false);
 		 }
 		 if (s22 >= s11 + 100) {
-			 table.get("dealer").getTeam().setBlindBet(true);
+			 table.get("dealer").getTeam().setBlindBid(true);
 		 }
 		 else{
-			 table.get("dealer").getTeam().setBlindBet(false);
+			 table.get("dealer").getTeam().setBlindBid(false);
 		 }
 		 
 		 if ((s11 >= 500) || (s22 >= 500)){

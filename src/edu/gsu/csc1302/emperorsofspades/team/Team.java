@@ -23,7 +23,7 @@ public class Team {
 	/**
 	 * blind bet checker
 	 */
-	private boolean blindBet;
+	private boolean blindBid;
 	/**
      * Name of the team.
      */
@@ -255,14 +255,14 @@ public class Team {
 	/**
 	 * @return the blindBet
 	 */
-	public boolean isBlindBet() {
-		return blindBet;
+	public boolean isBlindBid() {
+		return blindBid;
 	}
 
 	/**
 	 * @param blindBet the blindBet to set
 	 */
-	public void setBlindBet(boolean blindBet) {
-		this.blindBet = blindBet;
+	public void setBlindBid(boolean blindBet) {
+		this.blindBid = blindBet;
 	}
 }
