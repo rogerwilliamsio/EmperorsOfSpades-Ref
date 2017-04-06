@@ -41,6 +41,11 @@ public class SpadesEngine {
      */
     public static final int MAXIMUM_TEAMMATES = 2;
 
+	/**
+	 * Whether or not player's are allowed to renege.
+	 */
+    public static final boolean REGENE_ALLOWED = false;
+
      private ArrayList<Player> players = new ArrayList<>();
 	 private CardDeck gameDeck = new CardDeck();
 	 private Map<String , Player> table = new HashMap<>();
