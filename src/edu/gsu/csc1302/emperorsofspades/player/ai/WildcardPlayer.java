@@ -1,7 +1,9 @@
 package edu.gsu.csc1302.emperorsofspades.player.ai;
 
+import edu.gsu.csc1302.emperorsofspades.CardDeck;
 import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
+import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card.Suit;
 import edu.gsu.csc1302.emperorsofspades.player.IllegalPlayerStateException;
 
 import java.util.ArrayList;
@@ -49,13 +51,10 @@ public class WildcardPlayer extends AIPlayer {
             }
         }
 
-
-
-
-
         return this.getCards().remove(2);
 
     }
+
 
     /**
      * @TODO: Remove hard-coded values
@@ -66,5 +65,24 @@ public class WildcardPlayer extends AIPlayer {
     public int placeBid() {
         final int randomBid = (new Random().nextInt((10 - 4) + 1)) + 4;
         return randomBid;
+    }
+
+	@Override
+	public Card playCard(Suit leadSuit, Card leadCard, CardDeck hand) {
+		if (this.numOfCardsInDeck() == 0) {
+            throw new IllegalPlayerStateException("Player cannot play a "
+                    + "card because player's deck is empty.");
+        }
+        final int randCardIndex = new Random().nextInt(this.numOfCardsInDeck());
+        return this.getCards().remove(randCardIndex);
+	}
+	 /**
+     * this method is used to blindBid.
+     * @return the blind bid of the team.
+     */
+    public int placeBlindBid() {
+    	Random rand = new Random();
+    	int blindBid = (rand.nextInt(10)+ 6);
+		return blindBid;
     }
 }

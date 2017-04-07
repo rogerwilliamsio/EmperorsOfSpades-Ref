@@ -15,8 +15,7 @@ import java.util.Scanner;
 
 
 /**
- * description
- *
+ * this is the main method that runs the game.
  * @author Mahetem Moges
  */
 public class test {
@@ -30,6 +29,7 @@ public class test {
     			deck.add(c);
     		}
     	}
+    	//System.out.println(deck.size());
     	Scanner console = new Scanner(System.in);
     	String playing = "y";
     	
@@ -42,6 +42,11 @@ public class test {
     	}
     	System.out.println("Game over close program.");
     }
+    /**
+     * this method simulates the game by using the classes created.
+     * @param console used for user input.
+     * @param deck the deck for the game.
+     */
 	private static void runGame(Scanner console, CardDeck deck) {
 		
 		System.out.println("Do you want to play with the game?");

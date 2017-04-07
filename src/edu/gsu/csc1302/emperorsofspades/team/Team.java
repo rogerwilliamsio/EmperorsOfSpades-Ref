@@ -24,8 +24,7 @@ public class Team {
 	/**
 	 * blind bet checker
 	 */
-	private boolean blindBet;
-
+	private boolean blindBid;
 	/**
      * Name of the team.
      */
@@ -81,6 +80,11 @@ public class Team {
             this.teammates.add(player);
             player.addToTeam(this);
         }
+        
+    }
+    
+    public Team() {
+    	teamName = "name";
     }
 
     /**
@@ -200,7 +204,7 @@ public class Team {
     /**
      * @TODO: functionality of sets/success needs to be approved.
      * Updates the team's success score.
-     * @bidNum bid num
+     * @param bidNum the bid num
      */
     public void setSuccess(final int bidNum) {
     	int points = 10;
@@ -212,7 +216,6 @@ public class Team {
      * 
      */
     public void setSets() {
-    	
     	int points = 10;
         this.numOfSuccess = this.numOfSuccess - (teamBid * points);
         this.numOfSets++;
@@ -245,15 +248,15 @@ public class Team {
 	/**
 	 * @return the blindBet
 	 */
-	public boolean isBlindBet() {
-		return blindBet;
+	public boolean isBlindBid() {
+		return blindBid;
 	}
 
 	/**
 	 * @param blindBet the blindBet to set
 	 */
 	public void setBlindBet(final boolean blindBet) {
-		this.blindBet = blindBet;
+		this.blindBid = blindBet;
 	}
 
     /**

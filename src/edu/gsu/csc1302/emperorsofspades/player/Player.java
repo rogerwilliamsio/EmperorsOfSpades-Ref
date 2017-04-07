@@ -2,6 +2,7 @@ package edu.gsu.csc1302.emperorsofspades.player;
 
 import edu.gsu.csc1302.emperorsofspades.CardDeck;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
+import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card.Suit;
 import edu.gsu.csc1302.emperorsofspades.team.Team;
 
 /**
@@ -23,7 +24,6 @@ public abstract class Player {
      * THe team that the player is on.
      */
     private Team team = null;
-
 
     /**
      * Class constructor.
@@ -50,13 +50,20 @@ public abstract class Player {
     }
 
     /**
-     * @TODO: Tell Mahatem to set the lead suit to NULL of the beginning of each hand.
-     * Functionality for the player to play a card in a given hand.
-     * Logic is differed to the concrete player implementations.
-     * @param leadSuit the lead suit of the current hand.
-     * @return a card.
+     * Given the lead suit, lead card and the current hand
+     * player will play a card.
+     * @param leadSuit the lead suit of the current hand
+     * @param leadCard the lead card of the current hand
+     * @param hand the list of cards already played in this hand
+     * @return a card
      */
-    public abstract Card playCard(Card.Suit leadSuit);
+    public abstract Card playCard(Suit leadSuit, Card leadCard, CardDeck hand);
+
+    /**
+     * Places a blind bid.
+     * @return bid
+     */
+    public abstract int placeBlindBid();
 
     /**
      * Functionality for the player to play a card in a given hand.
