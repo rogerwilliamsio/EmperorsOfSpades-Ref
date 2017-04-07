@@ -1,5 +1,6 @@
 package edu.gsu.csc1302.emperorsofspades.player;
 
+import edu.gsu.csc1302.emperorsofspades.player.Player;
 import edu.gsu.csc1302.emperorsofspades.player.ai.WildcardPlayer;
 import org.junit.jupiter.api.Test;
 
