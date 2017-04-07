@@ -20,10 +20,12 @@ public class Team {
      * number of the team bid.
      */
 	private int teamBid;
+
 	/**
 	 * blind bet checker
 	 */
 	private boolean blindBet;
+
 	/**
      * Name of the team.
      */
@@ -182,7 +184,6 @@ public class Team {
 
     /**
      * Adds a certain number of tricks to the total number of team tricks.
-     * @param tricks to add.
      */
     public void addTrick() {
         this.totalTricks++;
@@ -199,10 +200,11 @@ public class Team {
     /**
      * @TODO: functionality of sets/success needs to be approved.
      * Updates the team's success score.
+     * @bidNum bid num
      */
-    public void setSuccess( int bidNum) {
+    public void setSuccess(final int bidNum) {
     	int points = 10;
-        this.numOfSuccess = this.numOfSuccess + bidNum*points;
+        this.numOfSuccess = this.numOfSuccess + (bidNum * points);
         this.numOfSets = 0;
     }
 
@@ -212,7 +214,7 @@ public class Team {
     public void setSets() {
     	
     	int points = 10;
-        this.numOfSuccess = this.numOfSuccess - teamBid*points;
+        this.numOfSuccess = this.numOfSuccess - (teamBid * points);
         this.numOfSets++;
         
     }
@@ -224,20 +226,8 @@ public class Team {
     public int getSets() {
         return this.numOfSets;
     }
-    /**
-     * Updates the number of sets a team has
-     */
-//    public void updateSets() {
-//        this.numOfSets++;
-//    }
 
-    /**
-     * Print-friendly output
-     * @return team name
-     */
-    public String toString() {
-        return String.format("[Team] %s", this.getTeamName());
-    }
+
     /**
    	 * @return the teamBid
    	 */
@@ -248,7 +238,7 @@ public class Team {
    	/**
    	 * @param teamBid the teamBid to set
    	 */
-   	public void setTeamBid(int teamBid) {
+   	public void setTeamBid(final int teamBid) {
    		this.teamBid = teamBid;
    	}
 
@@ -262,7 +252,15 @@ public class Team {
 	/**
 	 * @param blindBet the blindBet to set
 	 */
-	public void setBlindBet(boolean blindBet) {
+	public void setBlindBet(final boolean blindBet) {
 		this.blindBet = blindBet;
 	}
+
+    /**
+     * Print-friendly output
+     * @return team name
+     */
+    public String toString() {
+        return String.format("[Team] %s", this.getTeamName());
+    }
 }

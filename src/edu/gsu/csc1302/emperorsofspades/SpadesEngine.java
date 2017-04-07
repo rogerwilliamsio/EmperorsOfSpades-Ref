@@ -44,7 +44,7 @@ public class SpadesEngine {
 	/**
 	 * Whether or not player's are allowed to renege.
 	 */
-    public static final boolean REGENE_ALLOWED = false;
+    public static final boolean RENEGE_ALLOWED = false;
 
      private ArrayList<Player> players = new ArrayList<>();
 	 private CardDeck gameDeck = new CardDeck();

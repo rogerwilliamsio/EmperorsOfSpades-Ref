@@ -1,8 +1,10 @@
 package edu.gsu.csc1302.emperorsofspades.player.ai;
 
+import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.player.IllegalPlayerStateException;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -31,8 +33,27 @@ public class WildcardPlayer extends AIPlayer {
             throw new IllegalPlayerStateException("Player cannot play a "
                     + "card because player's deck is empty.");
         }
-        final int randCardIndex = new Random().nextInt(this.numOfCardsInDeck());
-        return this.getCards().remove(randCardIndex);
+
+        final int randCardIndex;
+        //Are the players allowed to renege? Then just return a random card.
+        if (SpadesEngine.RENEGE_ALLOWED) {
+            randCardIndex = new Random().nextInt(this.numOfCardsInDeck());
+        }
+
+        ArrayList<Card> cardsInSuit = new ArrayList<Card>();
+
+        //Find all the cards that are in-suit
+        for (Card card : this.getCards()) {
+            if (card.getSuit().equals(leadSuit)) {
+                cardsInSuit.add(card);
+            }
+        }
+
+
+
+
+
+        return this.getCards().remove(2);
 
     }
 

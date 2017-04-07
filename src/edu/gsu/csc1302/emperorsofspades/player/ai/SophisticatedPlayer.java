@@ -20,6 +20,7 @@ public class SophisticatedPlayer  extends AIPlayer {
     }
 
     /**
+     * @TODO: Spades trumps
      * PLays a card.
      * @param leadSuit the lead suit of the current hand.
      * @return card
