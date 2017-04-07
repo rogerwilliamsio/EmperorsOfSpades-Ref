@@ -79,6 +79,11 @@ public class Team {
             this.teammates.add(player);
             player.addToTeam(this);
         }
+        
+    }
+    
+    public Team() {
+    	teamName = "name";
     }
 
     /**

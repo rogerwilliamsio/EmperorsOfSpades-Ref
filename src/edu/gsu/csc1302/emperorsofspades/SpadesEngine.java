@@ -76,23 +76,7 @@ public class SpadesEngine {
 	 * it tracks if there is a winner or not.
 	 */
 	private boolean gameEnd = false;
-	/**
-	 * this set will be used to create team one.
-	 */
-	Set<Player> first = new HashSet<>();
-	/**
-	 * this set will be used to create team two.
-	 */
-    Set<Player> second = new HashSet<>();
-    /**
-     * this is team one.
-     */
-    Team one = new Team("one", first);
-    /**
-     * this is team two.
-     */
-    Team two = new Team("two", second);
-	 
+	
 	 /**
 	 * constructor for the Spades Engine class.
 	 * @param players the list of players
@@ -109,10 +93,23 @@ public class SpadesEngine {
 		 setHand(null);
 		 roundNumber = 0;
 		 
+		 Set<Player> first = new HashSet<>();
+		 
+		 Set<Player> second = new HashSet<>();
+		 
 		 first.add(players.get(0));
 	     first.add(players.get(1));
 	     second.add(players.get(2));
-	     second.add(players.get(3));
+	     second.add(players.get(3));;
+	     
+	     Team one = new Team("one", first);
+		 
+		 Team two = new Team("two", second);
+		 
+		 players.get(0).addToTeam(one);
+	     players.get(1).addToTeam(one);
+	     players.get(2).addToTeam(two);
+	     players.get(3).addToTeam(two);
 	     
 	 }
 	 /**
@@ -207,7 +204,7 @@ public class SpadesEngine {
 		 } 
 		 else
 		 {
-			 bidOfTeam1 = table.get("lDealer").placeBid();
+			 bidOfTeam2 = table.get("lDealer").placeBid();
 		 }
 		 
 
@@ -298,13 +295,14 @@ public class SpadesEngine {
 		 hand.add(fourthCard);
 		 
 		 int thirdComp = comp.compare(leadCard, thirdCard);
-		 if (secondComp > 0) {
+		 if (thirdComp > 0) {
 			  leadCard = fourthCard;
 		 }
 		 
 		 int win = hand.indexOf(leadCard);
 		 
 		 if ((win == 0) || (win == 2)) {
+			 System.out.println(table.get("dealer").getTeam());
 			 table.get("dealer").getTeam().addTrick();
 		 } 
 		 else {

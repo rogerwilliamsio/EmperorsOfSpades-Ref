@@ -2,6 +2,7 @@ package edu.gsu.csc1302.emperorsofspades.player;
 
 import edu.gsu.csc1302.emperorsofspades.CardDeck;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
+import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card.Suit;
 import edu.gsu.csc1302.emperorsofspades.team.Team;
 
 /**
@@ -22,8 +23,7 @@ public abstract class Player {
     /**
      * THe team that the player is on.
      */
-    private Team team = null;
-
+    private Team team = new Team();
 
     /**
      * Class constructor.
@@ -49,14 +49,14 @@ public abstract class Player {
         this.cards.addToTop(card);
     }
 
-    /**
-     * @TODO: Tell Mahatem to set the lead suit to NULL of the beginning of each hand.
-     * Functionality for the player to play a card in a given hand.
-     * Logic is differed to the concrete player implementations.
-     * @param leadSuit the lead suit of the current hand.
-     * @return a card.
-     */
-    public abstract Card playCard(Card.Suit leadSuit);
+//    /**
+//     * @TODO: Tell Mahatem to set the lead suit to NULL of the beginning of each hand.
+//     * Functionality for the player to play a card in a given hand.
+//     * Logic is differed to the concrete player implementations.
+//     * @param leadSuit the lead suit of the current hand.
+//     * @return a card.
+//     */
+//    public abstract Card playCard(Card.Suit leadSuit);
 
     /**
      * Functionality for the player to play a card in a given hand.
@@ -150,4 +150,13 @@ public abstract class Player {
     public String toString() {
         return "[Player] Name: " + this.getName();
     }
+
+	public abstract Card playCard(Suit leadSuit, Card leadCard, CardDeck hand);
+
+	public abstract int placeBlindBid();
+
+	public Card playCard(Suit leadSuit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
