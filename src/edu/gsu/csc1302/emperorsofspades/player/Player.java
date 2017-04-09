@@ -157,4 +157,9 @@ public abstract class Player {
     public String toString() {
         return "[Player] Name: " + this.getName();
     }
+    /**
+     * @param leadSuit
+     * @return
+     */
+	public abstract Card playCard(Suit leadSuit);
 }

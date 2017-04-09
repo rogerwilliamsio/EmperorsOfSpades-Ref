@@ -24,7 +24,7 @@ public class Team {
 	/**
 	 * blind bet checker
 	 */
-	private boolean blindBid;
+	private boolean isBlindBid;
 	/**
      * Name of the team.
      */
@@ -139,7 +139,7 @@ public class Team {
      * Returns a blind team bid [6, 10], randomly generated.
      * @return a team bid
      */
-    public int setBlindBet() {
+    public int setBlindBid() {
         final int bidBound = (SpadesEngine.MAXIMUM_BLIND_BID - SpadesEngine.MINIMUM_BLIND_BID) + 1;
         return new Random().nextInt(bidBound) + SpadesEngine.MINIMUM_BLIND_BID;
     }
@@ -248,15 +248,15 @@ public class Team {
 	/**
 	 * @return the blindBet
 	 */
-	public boolean isBlindBid() {
-		return blindBid;
+	public boolean getIsBlindBid() {
+		return isBlindBid;
 	}
 
 	/**
 	 * @param blindBet the blindBet to set
 	 */
-	public void setBlindBet(final boolean blindBet) {
-		this.blindBid = blindBet;
+	public void setIsBlindBid(final boolean blindBet) {
+		this.isBlindBid = blindBet;
 	}
 
     /**

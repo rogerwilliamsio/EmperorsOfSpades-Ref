@@ -75,9 +75,14 @@ public class CautiousPlayer extends AIPlayer {
      * this method is used to blindBid.
      * @return the blind bid of the team.
      */
-    public int placeBlindBid(){
-    	Random rand = new Random();
-    	int blindBid = (rand.nextInt(10)+ 6);
-		return blindBid;
+	/**
+     * Returns a blind team bid [6, 10], randomly generated.
+     * @return a team bid
+     */
+    public int setBlindBid() {
+        final int bidBound = (SpadesEngine.MAXIMUM_BLIND_BID
+        		- SpadesEngine.MINIMUM_BLIND_BID) + 1;
+        return new Random().nextInt(bidBound)
+        		+ SpadesEngine.MINIMUM_BLIND_BID;
     }
 }

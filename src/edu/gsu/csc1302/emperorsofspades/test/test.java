@@ -18,13 +18,21 @@ import java.util.Scanner;
  * this is the main method that runs the game.
  * @author Mahetem Moges
  */
-public class test {
-    public static void main(String[] args) {
-    	
-    	
+public final class Test {
+	/**
+	 * this makes the class have private constructor.
+	 */
+	private Test() {
+	}
+	/**
+	 * the main method of the class.
+	 * @param args parameters of the method.
+	 */
+    public static void main(final String[] args) {
+
     	CardDeck deck = new CardDeck();
     	for (Card.Suit suit: Card.Suit.values()) {
-    		for (Card.Rank rank: Card.Rank.values()){
+    		for (Card.Rank rank: Card.Rank.values()) {
     			Card c = new Card(suit, rank);
     			deck.add(c);
     		}
@@ -32,12 +40,11 @@ public class test {
     	//System.out.println(deck.size());
     	Scanner console = new Scanner(System.in);
     	String playing = "y";
-    	
+
     	while (playing.equals("y")) {
     		runGame(console, deck);
     		System.out.println("Do you want to play again?");
     		playing = console.next();
-    		playing = playing.substring(0,1);
     		playing = playing.toLowerCase();
     	}
     	System.out.println("Game over close program.");
@@ -47,8 +54,8 @@ public class test {
      * @param console used for user input.
      * @param deck the deck for the game.
      */
-	private static void runGame(Scanner console, CardDeck deck) {
-		
+	private static void runGame(final Scanner console, final CardDeck deck) {
+
 		System.out.println("Do you want to play with the game?");
     	System.out.println("Enter y for yes and n for no.");
     	String ans = console.nextLine();
@@ -65,7 +72,7 @@ public class test {
     	else {
             cat = new CautiousPlayer("cat");
     	}
-    	
+
         AIPlayer agr = new AggressivePlayer("agr");
         AIPlayer sop = new SophisticatedPlayer("sop");
         AIPlayer wil = new WildcardPlayer("wil");
@@ -74,8 +81,7 @@ public class test {
         players.add(wil);
         players.add(sop);
         players.add(cat);
-      
-        
+
         SpadesEngine game = new SpadesEngine(players, deck);
         game.startRound();
         boolean ending = game.isGameEnd();

@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * The game engine.
  *
- * @author Roger Williams
+ * @author Mahetem Moges
  */
 public class SpadesEngine {
     /**
@@ -195,14 +195,14 @@ public class SpadesEngine {
 		 int bidOfTeam1;
 		 int bidOfTeam2;
 
-		 if (table.get("dealer").getTeam().isBlindBid()) {
+		 if (table.get("dealer").getTeam().getIsBlindBid()) {
 			 bidOfTeam1 = table.get("dealer").placeBlindBid();
 		 }
 		 else
 		 {
 			 bidOfTeam1 = table.get("dealer").placeBid();
 		 }
-		 if (table.get("lDealer").getTeam().isBlindBid()) {
+		 if (table.get("lDealer").getTeam().getIsBlindBid()) {
 			 bidOfTeam2 = table.get("lDealer").placeBlindBid();
 		 }
 		 else
@@ -341,16 +341,16 @@ public class SpadesEngine {
 		 int s22 = table.get("lDealer").getTeam().getScore();
 
 		 if (s11 >= s22 + 100) {
-			 table.get("lDealer").getTeam().setBlindBid(true);
+			 table.get("lDealer").getTeam().setIsBlindBid(true);
 		 }
 		 else {
-			 table.get("lDealer").getTeam().setBlindBid(false);
+			 table.get("lDealer").getTeam().setIsBlindBid(false);
 		 }
 		 if (s22 >= s11 + 100) {
-			 table.get("dealer").getTeam().setBlindBid(true);
+			 table.get("dealer").getTeam().setIsBlindBid(true);
 		 }
 		 else {
-			 table.get("dealer").getTeam().setBlindBid(false);
+			 table.get("dealer").getTeam().setIsBlindBid(false);
 		 }
 
 		 if ((s11 >= 500) || (s22 >= 500)) {

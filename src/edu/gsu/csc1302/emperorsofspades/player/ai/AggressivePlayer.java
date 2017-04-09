@@ -33,7 +33,7 @@ public class AggressivePlayer extends AIPlayer {
 
 		 SpadesComparator comp = new  SpadesComparator(leadSuit);
 		 CardDeck myDeck = (CardDeck) getCards().clone();
-		 
+
 		 Card myLeadCard = new Card(null,null);
 		 for (int j =0; j < myDeck.size(); j++) {
 			Card myComp = myDeck.drawFromTop();
@@ -69,10 +69,11 @@ public class AggressivePlayer extends AIPlayer {
      * this method is used to blindBid.
      * @return the blind bid of the team.
      */
-    public int placeBlindBid() {
-    	Random rand = new Random();
-    	int blindBid = (rand.nextInt(10)+ 6);
-		return blindBid;
+    public int setBlindBid() {
+        final int bidBound = (SpadesEngine.MAXIMUM_BLIND_BID
+        		- SpadesEngine.MINIMUM_BLIND_BID) + 1;
+        return new Random().nextInt(bidBound)
+        		+ SpadesEngine.MINIMUM_BLIND_BID;
     }
 
 //	@Override
