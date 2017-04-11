@@ -1,6 +1,5 @@
 package edu.gsu.csc1302.emperorsofspades.test;
 
-import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.player.Player;
 import edu.gsu.csc1302.emperorsofspades.team.Team;
 import edu.gsu.csc1302.emperorsofspades.player.ai.AIPlayer;
@@ -9,18 +8,23 @@ import edu.gsu.csc1302.emperorsofspades.player.ai.SophisticatedPlayer;
 import edu.gsu.csc1302.emperorsofspades.player.ai.WildcardPlayer;
 
 import java.util.HashSet;
-import java.util.Random;
-import java.util.Scanner;
 
 /**
- * description
- *
+ * this is the test class for the players.
  * @author Roger Williams
  */
-public class ManualTests {
+public final class ManualTests {
+	/**
+	 * this makes the class have a private constructor.
+	 */
+	private ManualTests() {
+	}
+	/**
+	 * the main method of the class.
+	 * @param args the arguments used.
+	 */
+    public static void main(final String[] args) {
 
-    public static void main(String[] args) {
-    	
         AIPlayer roger = new AggressivePlayer("agr");
         AIPlayer sam = new SophisticatedPlayer("sop");
         AIPlayer kirk = new WildcardPlayer("Kirk");

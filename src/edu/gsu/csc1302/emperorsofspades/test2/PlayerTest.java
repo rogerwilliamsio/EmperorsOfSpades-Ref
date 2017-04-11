@@ -1,4 +1,4 @@
-//package edu.gsu.csc1302.emperorsofspades.player;
+package edu.gsu.csc1302.emperorsofspades.test2;
 //
 //import edu.gsu.csc1302.emperorsofspades.player.Player;
 //import edu.gsu.csc1302.emperorsofspades.player.ai.WildcardPlayer;

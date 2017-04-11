@@ -82,7 +82,8 @@ public class CardDeck extends ArrayList<Card> implements Deck {
         if (isEmpty() || count > (size() - 1)) {
             throw new InsufficientCardsException();
         }
-        final CardDeck subDeck = new CardDeck(this.subList(size() - count, size()));
+        final CardDeck subDeck = new CardDeck(
+        		this.subList(size() - count, size()));
         removeAll(subDeck);
         return subDeck;
     }

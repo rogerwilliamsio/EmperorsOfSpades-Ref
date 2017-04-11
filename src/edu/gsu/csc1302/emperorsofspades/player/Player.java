@@ -80,7 +80,8 @@ public abstract class Player {
      */
     protected CardDeck getCards() {
         if (this.cards == null) {
-            throw new IllegalPlayerStateException("Player has no cards in hand.");
+            throw new IllegalPlayerStateException(
+            		"Player has no cards in hand.");
         }
         return this.cards;
     }
@@ -121,6 +122,7 @@ public abstract class Player {
     }
 
     /**
+     * this generates a probability for setting a bid.
      * @TODO Finish the implementation.
      * Given a deck of cards, a bid probability is generated
      * based on  the cards in the deck.
@@ -152,14 +154,15 @@ public abstract class Player {
 
     /**
      * Print-friendly string.
-     * @return
+     * @return String of the player.
      */
     public String toString() {
         return "[Player] Name: " + this.getName();
     }
     /**
-     * @param leadSuit
-     * @return
+     * this is the returns a Card from the players hand.
+     * @param leadSuit the lead suit of the hand.
+     * @return Card to play.
      */
 	public abstract Card playCard(Suit leadSuit);
 }

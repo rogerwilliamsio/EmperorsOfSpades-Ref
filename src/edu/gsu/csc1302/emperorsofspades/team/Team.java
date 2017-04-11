@@ -6,7 +6,6 @@ import edu.gsu.csc1302.emperorsofspades.player.Player;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 /**
@@ -15,14 +14,12 @@ import java.util.Set;
  * @author Roger Williams
  */
 public class Team {
-	
 	/**
      * number of the team bid.
      */
 	private int teamBid;
-
 	/**
-	 * blind bet checker
+	 * blind bet checker.
 	 */
 	private boolean isBlindBid;
 	/**
@@ -80,13 +77,7 @@ public class Team {
             this.teammates.add(player);
             player.addToTeam(this);
         }
-        
     }
-    
-    public Team() {
-    	teamName = "name";
-    }
-
     /**
      * Adds a player to the team.
      * @param player the player to add
@@ -103,7 +94,8 @@ public class Team {
 
         // Add the player to the list if not already on the team.
         if (this.teammates.indexOf(player) > -1) {
-            throw new IllegalTeamStateException("This player is already on the team.");
+            throw new IllegalTeamStateException(
+            		"This player is already on the team.");
         }
         player.addToTeam(this);
         return this.teammates.add(player);
@@ -111,7 +103,7 @@ public class Team {
 
     /**
      * Returns the maximum number of players on a team.
-     * @return max teammates.
+     * @return max team mates.
      */
     public static int getMaximumTeammates() {
         return SpadesEngine.MAXIMUM_TEAMMATES;
@@ -119,29 +111,20 @@ public class Team {
 
     /**
      * Returns the list of players.
-     * @return
+     * @return team mates the plauers in the team.
      */
     public List<Player> getTeammates() {
         return Collections.unmodifiableList(this.teammates);
     }
 
     /**
-     * @TODO: Remove hard-coded team-member index.
+     * this method places the teams bid.
      * @return team bid
      */
 
     public double placeTeamBid() {
     	this.teamBid = this.teammates.get(1).placeBid();
     	return this.teamBid;
-    }
-
-    /**
-     * Returns a blind team bid [6, 10], randomly generated.
-     * @return a team bid
-     */
-    public int setBlindBid() {
-        final int bidBound = (SpadesEngine.MAXIMUM_BLIND_BID - SpadesEngine.MINIMUM_BLIND_BID) + 1;
-        return new Random().nextInt(bidBound) + SpadesEngine.MINIMUM_BLIND_BID;
     }
 
     /**
@@ -153,8 +136,8 @@ public class Team {
     }
 
     /**
-     * Returns the team name
-     * @return
+     * Returns the team name.
+     * @return teamName the teams name
      */
     public String getTeamName() {
         return teamName;
@@ -163,14 +146,14 @@ public class Team {
     /**
      * Returns the score of the team.
      * Score is accumulated across rounds.
-     * @return
+     * @return teamScore integer the teams score.
      */
     public int getScore() {
         return this.teamScore;
     }
 
     /**
-     * @TODO: Tell Mahetem to be careful when updating scores and tricks and such, use +=/-=
+     * this sets the teams score with a given score.
      * Update the team's score.
      * @param teamScore the update score
      */
@@ -180,7 +163,7 @@ public class Team {
 
     /**
      * Returns the number of tricks the team has.
-     * @return
+     * @return integer the total tricks won.
      */
     public int getTricks() {
         return totalTricks;
@@ -202,9 +185,9 @@ public class Team {
     }
 
     /**
-     * @TODO: functionality of sets/success needs to be approved.
+     * this sets the points to the team who succeeded.
      * Updates the team's success score.
-     * @param bidNum the bid num
+     * @param bidNum the bid number
      */
     public void setSuccess(final int bidNum) {
     	int points = 10;
@@ -213,15 +196,13 @@ public class Team {
     }
 
     /**
-     * 
+     * this deducts point on the team.
      */
     public void setSets() {
     	int points = 10;
         this.numOfSuccess = this.numOfSuccess - (teamBid * points);
         this.numOfSets++;
-        
     }
-    
     /**
      * Returns the number of sets the team has.
      * @return sets
@@ -230,8 +211,8 @@ public class Team {
         return this.numOfSets;
     }
 
-
     /**
+     * this gets the team's bid.
    	 * @return the teamBid
    	 */
    	public int getTeamBid() {
@@ -239,6 +220,7 @@ public class Team {
    	}
 
    	/**
+   	 * this sets the team bid with input number.
    	 * @param teamBid the teamBid to set
    	 */
    	public void setTeamBid(final int teamBid) {
@@ -246,6 +228,7 @@ public class Team {
    	}
 
 	/**
+	 * gets if the team has to blind bid or not.
 	 * @return the blindBet
 	 */
 	public boolean getIsBlindBid() {
@@ -253,6 +236,7 @@ public class Team {
 	}
 
 	/**
+	 * this sets the blind bid of a team.
 	 * @param blindBet the blindBet to set
 	 */
 	public void setIsBlindBid(final boolean blindBet) {
@@ -260,7 +244,7 @@ public class Team {
 	}
 
     /**
-     * Print-friendly output
+     * Print-friendly output.
      * @return team name
      */
     public String toString() {
