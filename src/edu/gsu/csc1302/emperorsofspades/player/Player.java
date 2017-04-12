@@ -22,14 +22,17 @@ public abstract class Player {
     /**
      * The team that the player is on.
      */
-    private String teamName = null;
+    private String teamName;
 
     /**
      * Class constructor.
      * @param name the name of the player
      */
     public Player(final String name) {
+
         this.name = name;
+        teamName = "vv";
+
     }
 
     /**
@@ -156,6 +159,6 @@ public abstract class Player {
      * @return String of the player.
      */
     public String toString() {
-        return "[Player] Name: " + this.getName();
+        return "[Player] Name: " + getName();
     }
 }

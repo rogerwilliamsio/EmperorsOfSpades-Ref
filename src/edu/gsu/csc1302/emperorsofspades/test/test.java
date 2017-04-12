@@ -79,12 +79,14 @@ public final class Test {
         ArrayList<Player> players = new ArrayList<>();
         players.add(agr);
         players.add(wil);
-        players.add(sop);
         players.add(cat);
+        players.add(sop);
 
         SpadesEngine game = new SpadesEngine(players, deck);
+
         game.startRound();
-        boolean ending = game.isGameEnd();
+    	boolean ending = game.isGameEnd();
+
         while (!ending) {
         	game.startNewRound();
         	ending = game.isGameEnd();

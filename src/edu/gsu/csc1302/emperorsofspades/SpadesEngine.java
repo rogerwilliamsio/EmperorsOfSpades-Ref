@@ -3,12 +3,9 @@ package edu.gsu.csc1302.emperorsofspades;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.player.Player;
 import edu.gsu.csc1302.emperorsofspades.team.Team;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * The game engine.
@@ -180,13 +177,13 @@ public class SpadesEngine {
 	        	playHand();
 	     }
 
-		 int b11 = teams.get(teamName1).getTricks();
+		 int teamTrick1 = teams.get(teamName1).getTricks();
 
-		 int b22 = teams.get(teamName2).getTricks();
+		 int teamTrick2 = teams.get(teamName2).getTricks();
 
-		 teams.get(teamName1).setSuccess(b11);
+		 teams.get(teamName1).setSuccess(teamTrick1);
 
-		 teams.get(teamName2).setSuccess(b22);
+		 teams.get(teamName2).setSuccess(teamTrick2);
 
 		 checkWinner();
 
@@ -199,7 +196,7 @@ public class SpadesEngine {
 
 		 int bidOfTeam1;
 		 int bidOfTeam2;
-		 
+
 		 Team team1 = getTeam(table.get("dealer"));
 
 		 Team team2 = getTeam(table.get("1dealer"));
@@ -243,18 +240,7 @@ public class SpadesEngine {
 		 checkWinner();
 
 	}
-	 /**
-	  * returns the team of the player.
-	  * @param player the player
-	  * @return team the team of the player
-	  */
 
-	public Team getTeam(final Player player) {
-
-		String name = player.getTeamName();
-		return teams.get(name);
-
-	}
 	/**
 	 * this method is used to change the dealer after each round.
 	 */
@@ -332,49 +318,53 @@ public class SpadesEngine {
 	 * it is called after each round.
 	 */
 	private void checkWinner() {
-		 int s1 = table.get("dealer").getTeam().getSets();
-		 int s2 = table.get("lDealer").getTeam().getSets();
+		 int numOfSets1 = teams.get(teamName1).getNumOfSets();
+		 int numOfSets2 = teams.get(teamName2).getNumOfSets();
 
-		 if (s1 == 0) {
-			 if (s2 == 2) {
+		 if (numOfSets1 == 0) {
+			 if (numOfSets2 == 2) {
 				System.out.println("team: "
-			  + table.get("dealer").getTeam() + " has won.");
+			  + teams.get(teamName1).toString() + " has won.");
+				System.out.println("team: "
+						  + teams.get(teamName2).toString() + " got two sets in a row.");
 				setGameEnd(true);
 			 }
 		 }
-		 if (s2 == 0) {
-			 if (s1 == 2) {
-				System.out.println("team: " + table.get("lDealer").getTeam()
-						+ " has won.");
-				setGameEnd(true);
-			 }
-		 }
-
-		 int s11 = table.get("dealer").getTeam().getScore();
-		 int s22 = table.get("lDealer").getTeam().getScore();
-
-		 if (s11 >= s22 + 100) {
-			 table.get("lDealer").getTeam().setIsBlindBid(true);
-		 }
-		 else {
-			 table.get("lDealer").getTeam().setIsBlindBid(false);
-		 }
-		 if (s22 >= s11 + 100) {
-			 table.get("dealer").getTeam().setIsBlindBid(true);
-		 }
-		 else {
-			 table.get("dealer").getTeam().setIsBlindBid(false);
-		 }
-
-		 if ((s11 >= 500) || (s22 >= 500)) {
-			 if (s11 > s22) {
+		 if (numOfSets2 == 0) {
+			 if (numOfSets1 == 2) {
 				 System.out.println("team: "
-			 + table.get("dealer").getTeam() + " has won.");
+					  + teams.get(teamName2).toString() + " has won.");
+						System.out.println("team: "
+							+ teams.get(teamName1).toString() + " got two sets in a row.");
+				setGameEnd(true);
+			 }
+		 }
+
+		 int teamScore1 = teams.get(teamName1).getScore();
+		 int teamScore2 = teams.get(teamName2).getScore();
+
+		 if (teamScore1 >= teamScore2 + 100) {
+			 teams.get(teamName1).setIsBlindBid(true);
+		 }
+		 else {
+			 teams.get(teamName1).setIsBlindBid(false);
+		 }
+		 if (teamScore2 >= teamScore1 + 100) {
+			 teams.get(teamName2).setIsBlindBid(true);
+		 }
+		 else {
+			 teams.get(teamName2).setIsBlindBid(false);
+		 }
+
+		 if ((teamScore1 >= 500) || (teamScore2 >= 500)) {
+			 if (teamScore1 > teamScore2) {
+				 System.out.println("team: "
+			 + teams.get(teamName1).toString() + " has won.");
 				 setGameEnd(true);
 			 }
 			 else {
 				 System.out.println("team: "
-			 + table.get("lDealer").getTeam() + " has won.");
+			 + teams.get(teamName2).toString() + " has won.");
 				 setGameEnd(true);
 			 }
 		 }
@@ -436,5 +426,21 @@ public class SpadesEngine {
 	 */
 	public void setLeadSuit(final Card.Suit leadSuit) {
 		this.leadSuit = leadSuit;
+	}
+
+	 /**
+	  * returns the team of the player.
+	  * @param player the player
+	  * @return team the team of the player
+	  */
+	public Team getTeam(final Player player) {
+
+//		System.out.println(player.toString());
+//		System.out.println(player.getTeamName());
+//		System.out.println(player.getTeamName());
+//		System.out.println(player.toString());
+		String name = player.getTeamName();
+		return teams.get(name);
+
 	}
 }

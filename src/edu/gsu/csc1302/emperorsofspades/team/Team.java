@@ -84,7 +84,7 @@ public class Team {
             throw new IllegalTeamStateException(
             		"This player is already on the team.");
         }
-        player.setTeamName(teamName);
+        player.setTeamName(this.teamName);
         return this.teammates.add(player);
     }
 
@@ -186,7 +186,7 @@ public class Team {
      * Returns the number of sets the team has.
      * @return sets
      */
-    public int getNumOfSSets() {
+    public int getNumOfSets() {
         return numOfSets;
     }
     /**
@@ -197,13 +197,13 @@ public class Team {
    		return teamBid;
    	}
 
-//   	/**
-//   	 * this sets the team bid with input number.
-//   	 * @param teamBid the teamBid to set
-//   	 */
-//   	public void setTeamBid(final int teamBid) {
-//   		this.teamBid = teamBid;
-//   	}
+   	/**
+   	 * this sets the team bid with input number.
+   	 * @param teamBid the teamBid to set
+   	 */
+   	public void setTeamBid(final int teamBid) {
+   		this.teamBid = teamBid;
+   	}
 
 	/**
 	 * gets if the team has to blind bid or not.
