@@ -62,13 +62,13 @@ public class ConsolePlayer extends Player {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	/**
-	 * this plays card from the hand of the console player.
-	 * @return card form the hand of the console player.
-	 */
-	@Override
-	public Card playCard(final Suit leadSuit) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	/**
+//	 * this plays card from the hand of the console player.
+//	 * @return card form the hand of the console player.
+//	 */
+//	@Override
+//	public Card playCard(final Suit leadSuit) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 }

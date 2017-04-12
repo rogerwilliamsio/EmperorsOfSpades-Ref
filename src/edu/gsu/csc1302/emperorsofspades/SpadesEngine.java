@@ -56,6 +56,11 @@ public class SpadesEngine {
 	private CardDeck gameDeck = new CardDeck();
 	/**
 	 * this is the map of the table.
+	 * it tracks the teams.
+	 */
+	private final Map<String, Team> teams = new HashMap<>();
+	/**
+	 * this is the map of the table.
 	 * it tracks who is the dealer and who
 	 * is sitting next to the dealer and so on.
 	 */
@@ -69,6 +74,14 @@ public class SpadesEngine {
 	 * this is the lead suit of the hand.
 	 */
 	private Card.Suit leadSuit = null;
+	/**
+	 * name of the first team.
+	 */
+	private final String teamName1;
+	/**
+	 * name of the second team.
+	 */
+	private final String teamName2;
 	/**
 	 * this the the number of rounds played.
 	 */
@@ -95,47 +108,15 @@ public class SpadesEngine {
 		 table.put("rDealer", players.get(3));
 		 setHand(null);
 		 roundNumber = 0;
+		 teamName1 = "one";
+		 teamName2 = "two";
+	     Team one = new Team(teamName1,  players.get(0));
+	     one.addPlayer(players.get(2));
+		 Team two = new Team(teamName2,  players.get(1));
+		 two.addPlayer(players.get(3));
+		 teams.put(teamName1, one);
+		 teams.put(teamName2, two);
 
-		 Set<Player> first = new HashSet<>();
-
-		 Set<Player> second = new HashSet<>();
-
-		 first.add(players.get(0));
-	     first.add(players.get(1));
-	     second.add(players.get(2));
-	     second.add(players.get(3));
-
-	     Team one = new Team("one", first);
-
-		 Team two = new Team("two", second);
-
-		 players.get(0).addToTeam(one);
-	     players.get(1).addToTeam(one);
-	     players.get(2).addToTeam(two);
-	     players.get(3).addToTeam(two);
-
-	 }
-	 /**
-	  * this method deals/gives card to the players.
-	  */
-	 public void dealCard() {
-		 if (gameDeck.size() != 52) {
-			 System.out.println("insufficient number of cards in the deck");
-		 }
-		 else {
-
-			 while (gameDeck.size() != 0) {
-				Card c2 = gameDeck.drawFromTop();
-				table.get("lDealer").addToCardDeck(c2);
-				Card c3 = gameDeck.drawFromTop();
-				table.get("llDealer").addToCardDeck(c3);
-				Card c4 = gameDeck.drawFromTop();
-				table.get("rDealer").addToCardDeck(c4);
-				Card c1 = gameDeck.drawFromTop();
-				table.get("dealer").addToCardDeck(c1);
-
-			 }
-		 }
 	 }
 	 /**
 	  * this method calls other methods to play the first round.
@@ -163,6 +144,31 @@ public class SpadesEngine {
 		 playRound();
 
 	 }
+	 /**
+	  * this method deals/gives card to the players.
+	  */
+	 public void dealCard() {
+		 if (gameDeck.size() != 52) {
+			 System.out.println("insufficient number of cards in the deck");
+		 }
+		 else {
+
+			 gameDeck.shuffle();
+			 gameDeck.shuffle();
+
+			 while (gameDeck.size() != 0) {
+				Card card1 = gameDeck.drawFromTop();
+				table.get("lDealer").addToCardDeck(card1);
+				Card card2 = gameDeck.drawFromTop();
+				table.get("llDealer").addToCardDeck(card2);
+				Card card3 = gameDeck.drawFromTop();
+				table.get("rDealer").addToCardDeck(card3);
+				Card card4 = gameDeck.drawFromTop();
+				table.get("dealer").addToCardDeck(card4);
+
+			 }
+		 }
+	 }
 	/**
 	 * this is the method is called for the first round.
 	 * the players don't have to bid to play this round.
@@ -174,14 +180,13 @@ public class SpadesEngine {
 	        	playHand();
 	     }
 
-		 int b11 = table.get("dealer").getTeam().getTricks();
+		 int b11 = teams.get(teamName1).getTricks();
 
-		 int b22 = table.get("lDealer").getTeam().getTricks();
+		 int b22 = teams.get(teamName2).getTricks();
 
-		 table.get("dealer").getTeam().setSuccess(b11);
+		 teams.get(teamName1).setSuccess(b11);
 
-		 table.get("lDealer").getTeam().setSuccess(b22);
-
+		 teams.get(teamName2).setSuccess(b22);
 
 		 checkWinner();
 
@@ -194,55 +199,60 @@ public class SpadesEngine {
 
 		 int bidOfTeam1;
 		 int bidOfTeam2;
+		 
+		 Team team1 = getTeam(table.get("dealer"));
 
-		 if (table.get("dealer").getTeam().getIsBlindBid()) {
-			 bidOfTeam1 = table.get("dealer").placeBlindBid();
-		 }
-		 else
-		 {
-			 bidOfTeam1 = table.get("dealer").placeBid();
-		 }
-		 if (table.get("lDealer").getTeam().getIsBlindBid()) {
-			 bidOfTeam2 = table.get("lDealer").placeBlindBid();
-		 }
-		 else
-		 {
-			 bidOfTeam2 = table.get("lDealer").placeBid();
-		 }
+		 Team team2 = getTeam(table.get("1dealer"));
+
+		 bidOfTeam1 = team1.placeTeamBid(table.get("dealer"));
+
+		 bidOfTeam2 = team2.placeTeamBid(table.get("ldealer"));
 
 
 		 for (int i = 0; i < 13; i++) {
 	        	playHand();
 	     }
 
-		 int team1Tricks = table.get("dealer").getTeam().getTricks();
+		 int team1Tricks = team1.getTricks();
 
-		 int team2Tricks = table.get("lDealer").getTeam().getTricks();
+		 int team2Tricks = team2.getTricks();
 
 		 if ((bidOfTeam1 >= 10) && (team1Tricks == 13)) {
 			 System.out.println("team: "
-		 +  table.get("dealer").getTeam() + " has won.(Boston)");
+		 +  team1.toString() + " has won.(Boston)");
 			 setGameEnd(true);
 		 }
 		 if ((bidOfTeam2 >= 10) && (team2Tricks == 13)) {
 			 System.out.println("team: "
-		 +  table.get("lDealer").getTeam() + " has won.(Boston)");
+		 +  team2.toString() + " has won.(Boston)");
 			 setGameEnd(true);
 		 }
 		 if ((bidOfTeam1 <= team1Tricks) && (bidOfTeam1 >= team1Tricks - 3)) {
-			 table.get("dealer").getTeam().setSuccess(bidOfTeam1);
+			 team1.setSuccess(bidOfTeam1);
 		 }
 		 else {
-			 table.get("dealer").getTeam().setSets();
+			 team1.setSets();
 		 }
 		 if ((bidOfTeam2 <= team2Tricks) && (bidOfTeam2 >= team2Tricks - 3)) {
-			 table.get("lDealer").getTeam().setSuccess(bidOfTeam2);
+			 team2.setSuccess(bidOfTeam2);
 		 }
 		 else {
-			 table.get("lDealer").getTeam().setSets();
+			 team2.setSets();
 		 }
 
 		 checkWinner();
+
+	}
+	 /**
+	  * returns the team of the player.
+	  * @param player the player
+	  * @return team the team of the player
+	  */
+
+	public Team getTeam(final Player player) {
+
+		String name = player.getTeamName();
+		return teams.get(name);
 
 	}
 	/**
@@ -268,9 +278,13 @@ public class SpadesEngine {
 	 */
 	public void playHand() {
 
-		 CardDeck newHand = new CardDeck();
+//		 CardDeck newHand = new CardDeck();
+//
+//		 this.hand = newHand;
 
-		 this.hand = newHand;
+		 Team team1 = getTeam(table.get("dealer"));
+
+		 Team team2 = getTeam(table.get("1dealer"));
 
 		 Card leadCard = new Card(null, null);
 
@@ -306,11 +320,10 @@ public class SpadesEngine {
 		 int win = hand.indexOf(leadCard);
 
 		 if ((win == 0) || (win == 2)) {
-			 System.out.println(table.get("dealer").getTeam());
-			 table.get("dealer").getTeam().addTrick();
+			 team1.addTrick();
 		 }
 		 else {
-			 table.get("ldealer").getTeam().addTrick();
+			 team2.addTrick();
 		 }
 
 	}

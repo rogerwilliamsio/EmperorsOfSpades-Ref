@@ -3,7 +3,6 @@ package edu.gsu.csc1302.emperorsofspades.player.ai;
 import java.util.Random;
 
 import edu.gsu.csc1302.emperorsofspades.CardDeck;
-import edu.gsu.csc1302.emperorsofspades.SpadesComparator;
 import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card.Suit;
@@ -11,7 +10,6 @@ import edu.gsu.csc1302.emperorsofspades.player.Player;
 
 /**
  * Simulates an aggressive AI player.
- *
  * @author Roger Williams
  */
 public class AggressivePlayer extends AIPlayer {
@@ -23,7 +21,6 @@ public class AggressivePlayer extends AIPlayer {
     public AggressivePlayer(final String name) {
         super(name, PersonalityType.AGGRESSIVE);
     }
-
     /**
      * Plays a card, given a lead suit.
      * @param leadSuit the lead suit of the current hand.
@@ -34,20 +31,17 @@ public class AggressivePlayer extends AIPlayer {
     @Override
     public Card playCard(final Card.Suit leadSuit,
     		final Card leadCard, final CardDeck hand) {
+    	 if (leadSuit == null) {
 
-		 SpadesComparator comp = new  SpadesComparator(leadSuit);
-		 CardDeck myDeck = (CardDeck) getCards().clone();
+    		 getCards().sort(Suit.SPADE);
+    		 Card myLeadCard = getCards().get(0);
+    		 getCards().remove(myLeadCard);
+    		 return myLeadCard;
 
-		 Card myLeadCard = new Card(null, null);
-		 for (int j = 0; j < myDeck.size(); j++) {
-			Card myComp = myDeck.drawFromTop();
-			myDeck.addToTop(myComp);
-			int result = comp.compare(myComp, leadCard);
-			if (result < 0) {
-				myLeadCard = myComp;
-				break;
-			}
-		 }
+    	 }
+		 getCards().sort(leadSuit);
+		 Card myLeadCard = getCards().get(0);
+		 getCards().remove(myLeadCard);
 		 return myLeadCard;
     }
 
@@ -69,33 +63,24 @@ public class AggressivePlayer extends AIPlayer {
         }
         return bid;
     }
-    /**
-     * this method is used to blindBid.
-     * @return the blind bid of the team.
-     */
-    public int setBlindBid() {
-        final int bidBound = (SpadesEngine.MAXIMUM_BLIND_BID
-        		- SpadesEngine.MINIMUM_BLIND_BID) + 1;
-        return new Random().nextInt(bidBound)
-        		+ SpadesEngine.MINIMUM_BLIND_BID;
-    }
+//    /**
+//     * this method is used to blindBid.
+//     * @return the blind bid of the team.
+//     */
+//    public int setBlindBid() {
+//        Random rand = new Random();
+//		int n = rand.nextInt(4) + 6;
+//		return n;
+//    }
     /**
      * returns integer for blind bidding.
      * @return integer for blind bidding.
      */
 	@Override
 	public int placeBlindBid() {
-		Random rand = new Random();
-		int n = rand.nextInt(4) + 6;
-		return n;
-	}
-	/**
-     * plays card from the hand of the player.
-     * @return card from the hand of the player.
-     */
-	@Override
-	public Card playCard(final Suit leadSuit) {
-		// TODO Auto-generated method stub
-		return null;
+		final int bidBound = (SpadesEngine.MAXIMUM_BLIND_BID
+        		- SpadesEngine.MINIMUM_BLIND_BID) + 1;
+        return new Random().nextInt(bidBound)
+        		+ SpadesEngine.MINIMUM_BLIND_BID;
 	}
 }

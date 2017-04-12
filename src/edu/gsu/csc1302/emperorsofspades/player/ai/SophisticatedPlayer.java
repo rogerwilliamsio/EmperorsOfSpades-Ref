@@ -23,17 +23,6 @@ public class SophisticatedPlayer  extends AIPlayer {
     public SophisticatedPlayer(final String name) {
         super(name, PersonalityType.SOPHISTICATED);
     }
-
-    /**
-     * PLays a card.
-     * @param leadSuit the lead suit of the current hand.
-     * @return card
-     */
-    @Override
-    public Card playCard(final Card.Suit leadSuit) {
-        return null;
-    }
-
     /**
      * Returns a bid.
      * @return bid.
@@ -59,40 +48,79 @@ public class SophisticatedPlayer  extends AIPlayer {
 	@Override
 	public Card playCard(final Suit leadSuit, final Card leadCard,
 			final CardDeck hand) {
-		SpadesComparator comp = new  SpadesComparator(leadSuit);
+		if (leadSuit == null) {
+
+	   		 getCards().sort(Suit.HEART);
+	   		 Card myLowCard = getCards().get(getCards().size() - 1);
+	   		 getCards().remove(myLowCard);
+	   		 return myLowCard;
+
+		}
+		 SpadesComparator comp = new  SpadesComparator(leadSuit);
+		 getCards().sort(leadSuit);
 		 CardDeck myDeck = (CardDeck) getCards().clone();
 
 		 Card myLeadCard = new Card(null, null);
-		 for (int j = 0; j < myDeck.size(); j++) {
-			Card myComp = myDeck.drawFromTop();
-			myDeck.addToTop(myComp);
-			int result = comp.compare(myComp, leadCard);
-			if (result < 0) {
-				myLeadCard = myComp;
-				break;
-			}
+		 for (int j = myDeck.size() - 1; j >= 0; j--) {
+				Card myComp = myDeck.get(j);
+				int result = comp.compare(myComp, leadCard);
+				if (result < 0) {
+					myLeadCard = myComp;
+					break;
+				}
 		 }
+		 if (myLeadCard.getSuit() == null) {
+			 CardDeck cardsInSuit = new CardDeck();
+			 //Find all the cards that are in-suit
+		        for (Card card : this.getCards()) {
+		            if (card.getSuit().equals(leadSuit)) {
+		                cardsInSuit.add(card);
+		            }
+		        }
+		        cardsInSuit.sort(leadSuit);
+	            if (cardsInSuit.size() != 0) {
+		            Card myLowCard = cardsInSuit.get(cardsInSuit.size() - 1);
+		            getCards().remove(myLowCard);
+		            return myLowCard;
+	            }
+	            getCards().remove(getCards().get(0));
+	            return getCards().get(0);
+		 }
+		 int index = myDeck.indexOf(myLeadCard);
+
+		 if ((index - 2) >= 0) {
+			 myLeadCard = getCards().get(index - 2);
+		 }
+		 getCards().remove(myLeadCard);
 		 return myLeadCard;
 	}
-	 /**
-     * this method is used to blindBid.
-     * @return the blind bid of the team.
+    /**
+     * returns integer for blind bidding.
+     * @return integer for blind bidding.
      */
-	 public int setBlindBid() {
-	        final int bidBound = (SpadesEngine.MAXIMUM_BLIND_BID
+	@Override
+	public int placeBlindBid() {
+		 final int bidBound = (SpadesEngine.MAXIMUM_BLIND_BID
 	        		- SpadesEngine.MINIMUM_BLIND_BID) + 1;
 	        return new Random().nextInt(bidBound)
 	        		+ SpadesEngine.MINIMUM_BLIND_BID;
-	    }
-
-	  /**
-	     * returns integer for blind bidding.
-	     * @return integer for blind bidding.
-	     */
-		@Override
-		public int placeBlindBid() {
-			Random rand = new Random();
-			int n = rand.nextInt(4) + 6;
-			return n;
-		}
+	}
+//	/**
+//     * plays card from the hand of the player.
+//     * @return card from the hand of the player.
+//     */
+//	@Override
+//	public Card playCard(final Suit leadSuit) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//	/**
+//  * Returns a blind team bid [6, 10], randomly generated.
+//  * @return a team bid
+//  */
+//  public int setBlindBid() {
+// 	Random rand = new Random();
+//		int n = rand.nextInt(4) + 6;
+//		return n;
+// }
 }

@@ -2,9 +2,10 @@ package edu.gsu.csc1302.emperorsofspades;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Deck;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.InsufficientCardsException;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Implementation of Deck class.
@@ -176,20 +177,57 @@ public class CardDeck extends ArrayList<Card> implements Deck {
     }
 
     /**
-     * Feature coming soon.
+     * shuffles the deck.
      */
     @Override
     public void shuffle() {
-        throw new UnsupportedOperationException("Feature coming soon!");
-
+        //throw new UnsupportedOperationException("Feature coming soon!");
+        Random rnd = ThreadLocalRandom.current();
+        for (int i = this.size() - 1; i > 0; i--) {
+          int index = rnd.nextInt(i + 1);
+          Card card = this.get(i);
+          this.add(i, this.get(index));
+          this.remove(i + 1);
+          this.add(index, card);
+          this.remove(index + 1);
+        }
     }
-
     /**
-     * Feature coming soon.
-     * @return unmodifiable deck.
+     * this sorts the deck.
+     * @param leadSuit the suit of the deck.
+     * @return the sorted deck.
      */
-    @Override
-    public Deck createUnmodifiableView() {
-        throw new UnsupportedOperationException("Feature coming soon!");
+    public ArrayList<Card> sort(final Card.Suit leadSuit) {
+    	SpadesComparator comp = new SpadesComparator(leadSuit);
+    	    for (int i = 0; i < this.size() - 1; i++) {
+    	        // find index of smallest remaining value
+    	        int min = i;
+    	        for (int j = i + 1; j < this.size(); j++) {
+    	            if (comp.compare(this.get(min), this.get(j)) > 0) {
+    	                min = j;
+    	            }
+    	        }
+    	        if (min != i) {
+    	        	Card c1 = this.get(i);
+    	        	this.add(i, this.get(min));
+    	        	this.remove(i + 1);
+    	        	this.add(min, c1);
+    	        	this.remove(min + 1);
+    	        }
+    	    }
+		return this;
     }
+
+	/**
+	 * future coming soon.
+	 * @return exception.
+	 */
+	public Deck createUnmodifiableView() {
+		try {
+			throw new Exception("coming soon.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

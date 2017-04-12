@@ -3,7 +3,7 @@
 // * @author Mahetem Moges
 // */
 //public class Round {
-//	private int round;
+//	private integer round;
 //	Round(){
 //		round = 1;
 //	}

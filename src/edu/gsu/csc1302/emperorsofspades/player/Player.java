@@ -3,7 +3,6 @@ package edu.gsu.csc1302.emperorsofspades.player;
 import edu.gsu.csc1302.emperorsofspades.CardDeck;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card.Suit;
-import edu.gsu.csc1302.emperorsofspades.team.Team;
 
 /**
  * Simulates a generic player in the game.
@@ -21,9 +20,9 @@ public abstract class Player {
     private final CardDeck cards = new CardDeck();
 
     /**
-     * THe team that the player is on.
+     * The team that the player is on.
      */
-    private Team team = null;
+    private String teamName = null;
 
     /**
      * Class constructor.
@@ -46,9 +45,8 @@ public abstract class Player {
      * @param card the card to add.
      */
     public void addToCardDeck(final Card card) {
-        this.cards.addToTop(card);
+        cards.addToTop(card);
     }
-
     /**
      * Given the lead suit, lead card and the current hand
      * player will play a card.
@@ -57,19 +55,15 @@ public abstract class Player {
      * @param hand the list of cards already played in this hand
      * @return a card
      */
-    public abstract Card playCard(Suit leadSuit, Card leadCard, CardDeck hand);
 
-    /**
-     * Places a blind bid.
-     * @return bid
-     */
-    public abstract int placeBlindBid();
+    public abstract Card playCard(Suit leadSuit, Card leadCard, CardDeck hand);
 
     /**
      * Functionality for the player to play a card in a given hand.
      * @param index play the card at the given index.
      * @return a card.
      */
+
     public Card playCard(final int index) {
         return this.cards.remove(index);
     }
@@ -83,7 +77,7 @@ public abstract class Player {
             throw new IllegalPlayerStateException(
             		"Player has no cards in hand.");
         }
-        return this.cards;
+        return cards;
     }
 
     /**
@@ -94,6 +88,11 @@ public abstract class Player {
     public abstract int placeBid();
 
     /**
+     * Places a blind bid.
+     * @return bid
+     */
+    public abstract int placeBlindBid();
+    /**
      * Return the number of cards in the user's deck of cards.
      * @return # of cards
      */
@@ -101,24 +100,24 @@ public abstract class Player {
         if (this.cards == null) {
             return 0;
         }
-        return this.cards.size();
+        return cards.size();
     }
 
     /**
      * Returns the team that the player is on.
      * @return team
      */
-    public Team getTeam() {
-        return team;
+    public String getTeamName() {
+        return teamName;
     }
 
     /**
-     * Add the player to a given team.
-     * @param team the team to add the player to.
+     * sets the name of the team.
+     * @param name the name of the team.
      */
 
-    public void addToTeam(final Team team) {
-        this.team = team;
+    public void setTeamName(final String name) {
+        teamName = name;
     }
 
     /**
@@ -159,10 +158,4 @@ public abstract class Player {
     public String toString() {
         return "[Player] Name: " + this.getName();
     }
-    /**
-     * this is the returns a Card from the players hand.
-     * @param leadSuit the lead suit of the hand.
-     * @return Card to play.
-     */
-	public abstract Card playCard(Suit leadSuit);
 }
