@@ -37,7 +37,6 @@ public final class Test {
     			deck.add(c);
     		}
     	}
-
     	Scanner console = new Scanner(System.in);
     	String playing = "y";
 

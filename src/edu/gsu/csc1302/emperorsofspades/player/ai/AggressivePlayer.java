@@ -31,8 +31,8 @@ public class AggressivePlayer extends AIPlayer {
     @Override
     public Card playCard(final Card.Suit leadSuit,
     		final Card leadCard, final CardDeck hand) {
-    	 if (leadCard.getSuit() == null) {
 
+    	 if (leadCard.getSuit() == null) {
     		 getCards().sort(Suit.SPADE);
     		 Card myLeadCard = getCards().get(0);
     		 getCards().remove(myLeadCard);
@@ -58,7 +58,7 @@ public class AggressivePlayer extends AIPlayer {
 
         if (bid >= SpadesEngine.MAXIMUM_TEAM_BID) {
             return SpadesEngine.MAXIMUM_TEAM_BID;
-        } else if (bid < SpadesEngine.MINIMUM_TEAM_BID) {
+        } else if (bid <= SpadesEngine.MINIMUM_TEAM_BID) {
             return SpadesEngine.MINIMUM_TEAM_BID;
         }
         return (bid / 2);

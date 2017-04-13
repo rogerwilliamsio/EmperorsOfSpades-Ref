@@ -59,8 +59,8 @@ public class SophisticatedPlayer  extends AIPlayer {
 	@Override
 	public Card playCard(final Suit leadSuit, final Card leadCard,
 			final CardDeck hand) {
-		if (leadCard.getSuit() == null) {
 
+		if (leadCard.getSuit() == null) {
 	   		 getCards().sort(Suit.HEART);
 	   		 Card myLowCard = getCards().get(getCards().size() - 1);
 	   		 getCards().remove(myLowCard);

@@ -143,7 +143,7 @@ public class SpadesEngine {
 		 roundNumber++;
 		 System.out.println("round number " + roundNumber + ".");
 
-		 dealCard();
+		 dealCards();
 
 		 playFirstRound();
 
@@ -158,7 +158,7 @@ public class SpadesEngine {
 
 		 switchPlayers();
 
-		 dealCard();
+		 dealCards();
 
 		 playRound();
 
@@ -166,7 +166,7 @@ public class SpadesEngine {
 	 /**
 	  * this method deals/gives card to the players.
 	  */
-	 public void dealCard() {
+	 public void dealCards() {
 		 if (gameDeck.size() != 52) {
 			 System.out.println("insufficient number of cards in the deck");
 		 }
@@ -241,14 +241,6 @@ public class SpadesEngine {
 		 bidOfTeam2 = team2.placeTeamBid(table.get("lDealer"),
 				 table.get("rDealer"));
 
-		 if (team2.getIsBlindBid()) {
-			 assert (bidOfTeam2 >= 6) && (bidOfTeam2 <= 10);
-		 }
-		 else {
-			 assert (bidOfTeam2 >= 4) && (bidOfTeam2 <= 10);
-		 }
-
-
 		 for (int i = 0; i < 13; i++) {
 	        	playHand();
 	     }
@@ -314,19 +306,18 @@ public class SpadesEngine {
 		 this.hand = newHand;
 
 		 Team team1 = getTeam(table.get("dealer"));
-
 		 Team team2 = getTeam(table.get("lDealer"));
-
+		System.out.println("team 2: " + team2);
 		 Card leadCard = new Card(null, null);
 		 leadSuit = null;
 
 		 Card firstCard = table.get("lDealer").playCard(leadSuit, leadCard, hand);
 
 		 hand.addToTop(firstCard);
-
 		 leadCard = firstCard;
 		 leadSuit = firstCard.getSuit();
 		 SpadesComparator comp = new  SpadesComparator(leadSuit);
+
 
 		 Card secondCard = table.get("llDealer").playCard(leadSuit, leadCard, hand);
 		 hand.addToTop(secondCard);
@@ -335,6 +326,7 @@ public class SpadesEngine {
 		 if (firstComp > 0) {
 			  leadCard = secondCard;
 		 }
+
 
 		 Card thirdCard = table.get("rDealer").playCard(leadSuit, leadCard, hand);
 		 hand.addToTop(thirdCard);
@@ -496,9 +488,7 @@ public class SpadesEngine {
 	  * @return team the team of the player
 	  */
 	public Team getTeam(final Player player) {
-
 		String name = player.getTeamName();
 		return teams.get(name);
-
 	}
 }
