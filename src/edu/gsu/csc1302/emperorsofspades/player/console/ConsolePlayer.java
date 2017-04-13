@@ -1,5 +1,7 @@
 package edu.gsu.csc1302.emperorsofspades.player.console;
 
+import java.util.Scanner;
+
 import edu.gsu.csc1302.emperorsofspades.CardDeck;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card.Suit;
@@ -10,6 +12,7 @@ import edu.gsu.csc1302.emperorsofspades.player.Player;
  *
  * @author Roger Williams
  */
+
 public class ConsolePlayer extends Player {
     /**
      * Class constructor.
@@ -24,22 +27,15 @@ public class ConsolePlayer extends Player {
      */
     @Override
     public int placeBid() {
-        return 0;
-    }
-    /**
-     * returns a card from the hand of the console player.
-     * @return card from the hand of the console player
-     */
-    public Card playCard() {
-        return null;
-    }
-    /**
-     * returns a card from the hand of the console player.
-     * @param leadSuit the lead suit of the hand.
-     * @return card form the hand of the console player.
-     */
-    public int placeBid(final Card.Suit leadSuit) {
-        return 0;
+    	@SuppressWarnings("resource")
+		Scanner console = new Scanner(System.in);
+    	System.out.println("cards on your hand (" + getCards().size()
+				+ " cards)\n"
+		+ getCards().toString());
+    	System.out.println("place your bid");
+    	System.out.println("get a number b/n 4 and 10 and half and round it.");
+    	int bid = console.nextInt();
+        return bid;
     }
     /**
      * this plays a card from the hand of the console player.
@@ -51,24 +47,75 @@ public class ConsolePlayer extends Player {
 	@Override
 	public Card playCard(final Suit leadSuit, final Card leadCard,
 			final CardDeck hand) {
-		// TODO Auto-generated method stub
-		return null;
+		@SuppressWarnings("resource")
+		Scanner console = new Scanner(System.in);
+		System.out.println("paly a card form your hand");
+		Card myCard = new Card(null, null);
+
+		if (leadCard.getSuit() == null) {
+			System.out.println("you are the first player");
+			System.out.println("cards on your hand (" + getCards().size()
+					+ " cards)\n"
+			+ getCards().toString());
+			System.out.println("Enter the card location (index [starts from 0])");
+			int cardIndex = console.nextInt();
+			while (cardIndex > getCards().size() - 1) {
+				System.out.println("index out of bound (it should be no more"
+			+ "than\n the number of cards you have less by one.)");
+				System.out.println("Enter the card location (index [starts from 0])");
+				cardIndex = console.nextInt();
+			}
+			myCard = getCards().remove(cardIndex);
+			return myCard;
+		}
+
+		else {
+			System.out.println("cards on the table\n" + hand.toString());
+			System.out.println("the lead card\n" + leadCard.toString());
+			System.out.println("cards on your hand (" + getCards().size()
+					+ " cards)\n"
+			+ getCards().toString());
+			System.out.println("Enter the card location (index [starts from 0])");
+			int cardIndex = console.nextInt();
+			while (cardIndex > getCards().size() - 1) {
+				System.out.println("index out of bound (it should be no more"
+			+ " than\n the number of cards you have less by one.)");
+				System.out.println("Enter the card location (index [starts from 0])");
+				cardIndex = console.nextInt();
+			}
+			myCard = getCards().remove(cardIndex);
+			return myCard;
+		}
+
 	}
 	/**
-	 * this asks the console player to blid bid.
+	 * this asks the console player to blind bid.
 	 */
 	@Override
 	public int placeBlindBid() {
-		// TODO Auto-generated method stub
-		return 0;
+		@SuppressWarnings("resource")
+		Scanner console = new Scanner(System.in);
+    	System.out.println("place your blind bid");
+    	System.out.println("get a number 6 and 10.");
+    	int bid = console.nextInt();
+        return bid;
 	}
-//	/**
-//	 * this plays card from the hand of the console player.
-//	 * @return card form the hand of the console player.
-//	 */
-//	@Override
-//	public Card playCard(final Suit leadSuit) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+//	 /**
+//     * returns a card from the hand of the console player.
+//     * @param leadSuit the lead suit of the hand.
+//     * @return card form the hand of the console player.
+//     */
+//    public int placeBid(final Card.Suit leadSuit) {
+//        return 0;
+//    }
+	/**
+	 * this places a bid for the console player.
+	 * @param player the other player in the team.
+	 */
+	@Override
+	public int placeBid(final Player player) {
+		int bid = placeBid();
+		int otherBid = player.placeBid();
+		return bid + otherBid;
+	}
 }

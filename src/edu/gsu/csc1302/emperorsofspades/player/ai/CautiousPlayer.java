@@ -51,7 +51,18 @@ public class CautiousPlayer extends AIPlayer {
         } else if (bid < SpadesEngine.MINIMUM_TEAM_BID) {
             return SpadesEngine.MINIMUM_TEAM_BID;
         }
-        return bid;
+        return (bid / 2);
+    }
+    /**
+     * Places a bid for the aggressive player.
+     * @param player the player in the same team.
+     * @return bid the number of bid.
+     */
+    @Override
+    public int placeBid(final Player player) {
+    	int bid = placeBid();
+        int otherBid = player.placeBid();
+        return (otherBid + bid - 2);
     }
     /**
      * Plays a card, given a lead suit.
@@ -63,7 +74,7 @@ public class CautiousPlayer extends AIPlayer {
 	@Override
 	public Card playCard(final Suit leadSuit, final Card leadCard,
 			final CardDeck hand) {
-		if (leadSuit == null) {
+		if (leadCard.getSuit() == null) {
 
    		 getCards().sort(Suit.DIAMOND);
    		 Card myLowCard = getCards().get(getCards().size() - 1);
@@ -98,8 +109,9 @@ public class CautiousPlayer extends AIPlayer {
 		            getCards().remove(myLowCard);
 		            return myLowCard;
 	            }
-	            getCards().remove(getCards().get(0));
-	            return getCards().get(0);
+	            Card anyCard = getCards().get(0);
+	            getCards().remove(anyCard);
+	            return anyCard;
 		 }
 		 getCards().remove(myLeadCard);
 		 return myLeadCard;
@@ -115,15 +127,6 @@ public class CautiousPlayer extends AIPlayer {
 	        return new Random().nextInt(bidBound)
 	        		+ SpadesEngine.MINIMUM_BLIND_BID;
 	}
-//	/**
-//     * plays card from the hand of the player.
-//     * @return card from the hand of the player.
-//     */
-//	@Override
-//	public Card playCard(final Suit leadSuit) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 //	/**
 //  * Returns a blind team bid [6, 10], randomly generated.
 //  * @return a team bid

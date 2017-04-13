@@ -106,14 +106,17 @@ public class Team {
     /**
      * this method places the teams bid.
      * @param player the player who makes the team bid.
+     * @param player1 the player in the same team.
      * @return team bid
      */
 
-    public int placeTeamBid(final Player player) {
+    public int placeTeamBid(final Player player, final Player player1) {
     	if (isBlindBid) {
     		teamBid = player.placeBlindBid();
+    		assert (teamBid >= 6) && (teamBid <= 10);
     	} else {
-    		teamBid = player.placeBid();
+    		teamBid = player.placeBid(player1);
+    		assert (teamBid >= 4) && (teamBid <= 10);
     	}
     	return teamBid;
     }

@@ -31,7 +31,7 @@ public class AggressivePlayer extends AIPlayer {
     @Override
     public Card playCard(final Card.Suit leadSuit,
     		final Card leadCard, final CardDeck hand) {
-    	 if (leadSuit == null) {
+    	 if (leadCard.getSuit() == null) {
 
     		 getCards().sort(Suit.SPADE);
     		 Card myLeadCard = getCards().get(0);
@@ -61,17 +61,19 @@ public class AggressivePlayer extends AIPlayer {
         } else if (bid < SpadesEngine.MINIMUM_TEAM_BID) {
             return SpadesEngine.MINIMUM_TEAM_BID;
         }
-        return bid;
+        return (bid / 2);
     }
-//    /**
-//     * this method is used to blindBid.
-//     * @return the blind bid of the team.
-//     */
-//    public int setBlindBid() {
-//        Random rand = new Random();
-//		int n = rand.nextInt(4) + 6;
-//		return n;
-//    }
+    /**
+     * Places a bid for the aggressive player.
+     * @param player the player in the same team.
+     * @return bid the number of bid.
+     */
+    @Override
+    public int placeBid(final Player player) {
+    	int bid = placeBid();
+        int otherBid = player.placeBid();
+        return (otherBid + bid);
+    }
     /**
      * returns integer for blind bidding.
      * @return integer for blind bidding.

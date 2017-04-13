@@ -161,4 +161,10 @@ public abstract class Player {
     public String toString() {
         return "[Player] Name: " + getName();
     }
+    /**
+     * places the bid of a player.
+     * @param player player biding.
+     * @return integer the bid.
+     */
+	public abstract int placeBid(Player player);
 }
