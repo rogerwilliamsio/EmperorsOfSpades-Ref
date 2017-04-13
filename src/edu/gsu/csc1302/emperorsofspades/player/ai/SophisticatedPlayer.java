@@ -35,8 +35,19 @@ public class SophisticatedPlayer  extends AIPlayer {
         if (bid >= SpadesEngine.MAXIMUM_TEAM_BID) {
             return SpadesEngine.MAXIMUM_TEAM_BID;
         } else {
-            return bid;
+            return (bid / 2);
         }
+    }
+    /**
+     * Places a bid for the aggressive player.
+     * @param player the player in the same team.
+     * @return bid the number of bid.
+     */
+    @Override
+    public int placeBid(final Player player) {
+    	int bid = placeBid();
+        int otherBid = player.placeBid();
+        return (otherBid + bid - 1);
     }
     /**
      * Plays a card, given a lead suit.
@@ -49,8 +60,7 @@ public class SophisticatedPlayer  extends AIPlayer {
 	public Card playCard(final Suit leadSuit, final Card leadCard,
 			final CardDeck hand) {
 
-		if (leadSuit == null) {
-
+		if (leadCard.getSuit() == null) {
 	   		 getCards().sort(Suit.HEART);
 	   		 Card myLowCard = getCards().get(getCards().size() - 1);
 	   		 getCards().remove(myLowCard);
@@ -84,8 +94,9 @@ public class SophisticatedPlayer  extends AIPlayer {
 		            getCards().remove(myLowCard);
 		            return myLowCard;
 	            }
-	            getCards().remove(getCards().get(0));
-	            return getCards().get(0);
+	            Card anyCard = getCards().get(0);
+	            getCards().remove(anyCard);
+	            return anyCard;
 		 }
 		 int index = myDeck.indexOf(myLeadCard);
 
@@ -106,15 +117,6 @@ public class SophisticatedPlayer  extends AIPlayer {
 	        return new Random().nextInt(bidBound)
 	        		+ SpadesEngine.MINIMUM_BLIND_BID;
 	}
-//	/**
-//     * plays card from the hand of the player.
-//     * @return card from the hand of the player.
-//     */
-//	@Override
-//	public Card playCard(final Suit leadSuit) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 //	/**
 //  * Returns a blind team bid [6, 10], randomly generated.
 //  * @return a team bid

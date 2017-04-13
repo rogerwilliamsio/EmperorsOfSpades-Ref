@@ -37,14 +37,14 @@ public class Test {
     			deck.add(c);
     		}
     	}
-    	System.out.println(deck.size());
     	Scanner console = new Scanner(System.in);
     	String playing = "y";
 
     	while (playing.equals("y")) {
     		runGame(console, deck);
     		System.out.println("Do you want to play again?");
-    		playing = console.next();
+    		playing = console.nextLine();
+    		playing = playing.substring(0, 1);
     		playing = playing.toLowerCase();
     	}
     	System.out.println("Game over close program.");
@@ -67,23 +67,25 @@ public class Test {
     		System.out.println("Enter your name.");
     		name = console.next();
     		cat = new ConsolePlayer(name);
-            System.out.println("You are on team two.");
     	}
     	else {
             cat = new CautiousPlayer("cat");
     	}
-
         AIPlayer agr = new AggressivePlayer("agr");
         AIPlayer sop = new SophisticatedPlayer("sop");
         AIPlayer wil = new WildcardPlayer("wil");
         ArrayList<Player> players = new ArrayList<>();
+
         players.add(agr);
         players.add(wil);
         players.add(cat);
         players.add(sop);
 
         SpadesEngine game = new SpadesEngine(players, deck);
-
+        if (ans.equals("y")) {
+        	String teamName = cat.getTeamName();
+            System.out.println("you are on team: " + teamName + ".");
+    	}
         game.startRound();
     	boolean ending = game.isGameEnd();
 

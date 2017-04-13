@@ -4,6 +4,7 @@ import edu.gsu.csc1302.emperorsofspades.CardDeck;
 import edu.gsu.csc1302.emperorsofspades.SpadesComparator;
 import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
+import edu.gsu.csc1302.emperorsofspades.player.Player;
 
 import java.util.Random;
 
@@ -31,7 +32,18 @@ public class WildcardPlayer extends AIPlayer {
     @Override
     public int placeBid() {
         final int randomBid = (new Random().nextInt((10 - 4) + 1)) + 4;
-        return randomBid;
+        return randomBid / 2;
+    }
+    /**
+     * Places a bid for the aggressive player.
+     * @param player the player in the same team.
+     * @return bid the number of bid.
+     */
+    @Override
+    public int placeBid(final Player player) {
+    	int bid = placeBid();
+        int otherBid = player.placeBid();
+        return (otherBid + bid);
     }
     /**
      * Plays a card, given a lead suit.
@@ -42,8 +54,8 @@ public class WildcardPlayer extends AIPlayer {
      */
     public Card playCard(final Card.Suit leadSuit,
     		final Card leadCard, final CardDeck hand) {
-		if (leadSuit == null) {
 
+    	if (leadCard.getSuit() == null) {
 	   		 Card myCard = getCards().get(getCards().size() - 1);
 	   		 getCards().remove(myCard);
 	   		 return myCard;
@@ -74,14 +86,14 @@ public class WildcardPlayer extends AIPlayer {
 		        cardsInSuit.sort(leadSuit);
 	            if (cardsInSuit.size() != 0) {
 	            	Random rand = new Random();
-		            int randomNumber2 = rand.nextInt(getCards().size());
-		            cardsInSuit.remove(getCards().get(randomNumber2));
+		            int randomNumber2 = rand.nextInt(cardsInSuit.size());
 		            return cardsInSuit.get(randomNumber2);
 	            }
 	            Random rand = new Random();
 	            int randomNumber1 = rand.nextInt(getCards().size());
-	            getCards().remove(getCards().get(randomNumber1));
-	            return getCards().get(randomNumber1);
+	            Card anyCard = getCards().get(randomNumber1);
+	            getCards().remove(anyCard);
+	            return anyCard;
 		 }
 		 Random rand = new Random();
 		 int randomNumber = rand.nextInt(2);
@@ -104,15 +116,6 @@ public class WildcardPlayer extends AIPlayer {
 		 return new Random().nextInt(bidBound)
 		       + SpadesEngine.MINIMUM_BLIND_BID;
 	}
-//		/**
-//	     * plays card from the hand of the player.
-//	     * @return card from the hand of the player.
-//	     */
-//		@Override
-//		public Card playCard(final Suit leadSuit) {
-//			// TODO Auto-generated method stub
-//			return null;
-//		}
 //		/**
 	//  * Returns a blind team bid [6, 10], randomly generated.
 	//  * @return a team bid
