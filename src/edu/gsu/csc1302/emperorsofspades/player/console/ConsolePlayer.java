@@ -1,5 +1,6 @@
 package edu.gsu.csc1302.emperorsofspades.player.console;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import edu.gsu.csc1302.emperorsofspades.CardDeck;
@@ -30,8 +31,19 @@ public class ConsolePlayer extends Player {
     	@SuppressWarnings("resource")
 		Scanner console = new Scanner(System.in);
     	System.out.println("cards on your hand (" + getCards().size()
-				+ " cards)\n"
-		+ getCards().toString());
+				+ " cards)");
+
+		if (getCards().size() > 8) {
+
+			CardDeck clone = (CardDeck) getCards().clone();
+			System.out.println(clone.drawFromTop(8).toString());
+			System.out.println(clone.toString());
+
+		}
+		else {
+			System.out.println(getCards().toString());
+		}
+
     	System.out.println("place your bid");
     	System.out.println("get a number b/n 4 and 10 and half and round it.");
     	int bid = console.nextInt();
@@ -47,45 +59,30 @@ public class ConsolePlayer extends Player {
 	@Override
 	public Card playCard(final Suit leadSuit, final Card leadCard,
 			final CardDeck hand) {
-		@SuppressWarnings("resource")
-		Scanner console = new Scanner(System.in);
+
 		System.out.println("paly a card form your hand");
+
 		Card myCard = new Card(null, null);
 
 		if (leadCard.getSuit() == null) {
+
 			System.out.println("you are the first player");
-			System.out.println("cards on your hand (" + getCards().size()
-					+ " cards)\n"
-			+ getCards().toString());
-			System.out.println("Enter the card location (index [starts from 0])");
-			int cardIndex = console.nextInt();
-			while (cardIndex > getCards().size() - 1) {
-				System.out.println("index out of bound (it should be no more"
-			+ "than\n the number of cards you have less by one.)");
-				System.out.println("Enter the card location (index [starts from 0])");
-				cardIndex = console.nextInt();
-			}
-			myCard = getCards().remove(cardIndex);
-			return myCard;
+
+			getCards().sort(Suit.HEART);
+
+			myCard = getCard();
+
 		}
 
 		else {
+
+			getCards().sort(leadSuit);
 			System.out.println("cards on the table\n" + hand.toString());
 			System.out.println("the lead card\n" + leadCard.toString());
-			System.out.println("cards on your hand (" + getCards().size()
-					+ " cards)\n"
-			+ getCards().toString());
-			System.out.println("Enter the card location (index [starts from 0])");
-			int cardIndex = console.nextInt();
-			while (cardIndex > getCards().size() - 1) {
-				System.out.println("index out of bound (it should be no more"
-			+ " than\n the number of cards you have less by one.)");
-				System.out.println("Enter the card location (index [starts from 0])");
-				cardIndex = console.nextInt();
-			}
-			myCard = getCards().remove(cardIndex);
-			return myCard;
+			myCard = getCard();
+
 		}
+		return myCard;
 
 	}
 	/**
@@ -117,5 +114,65 @@ public class ConsolePlayer extends Player {
 		int bid = placeBid();
 		int otherBid = player.placeBid();
 		return bid + otherBid;
+	}
+	/**
+	 * return the card the player plays.
+	 * @return card the player will play
+	 */
+	private Card getCard() {
+
+		Card myCard = new Card(null, null);
+
+		int cardIndex = -2;
+		do {
+			cardIndex = getIndexOfCard();
+			if (cardIndex != -2) {
+				if ((cardIndex > getCards().size() - 1) || (cardIndex < 0)) {
+					System.out.println("it should be no more"
+							+ " than\n the number of cards you have\n"
+							+ " and no less than 1.)");
+					cardIndex = -2;
+				}
+			}
+		} while (cardIndex == -2);
+
+		myCard = getCards().remove(cardIndex);
+		return myCard;
+
+	}
+	/**
+	 * returns the index of the card.
+	 * @return index of the card.
+	 */
+	private int getIndexOfCard() {
+		@SuppressWarnings("resource")
+		Scanner console = new Scanner(System.in);
+
+		System.out.println("cards on your hand (" + getCards().size()
+				+ " cards)");
+		if (getCards().size() > 8) {
+
+			CardDeck clone = (CardDeck) getCards().clone();
+			System.out.println(clone.drawFromTop(8).toString());
+			System.out.println(clone.toString());
+
+		}
+		else {
+			System.out.println(getCards().toString());
+		}
+
+		int cardIndex = -1;
+		System.out.println("Enter the location (number) "
+				+ "of the card you want to play.)");
+		try {
+			cardIndex = console.nextInt();
+
+		} catch (InputMismatchException e) {
+			System.out.println("You can only enter a number.");
+			cardIndex = -1;
+		}
+		cardIndex--;
+		return cardIndex;
+
 	}
 }

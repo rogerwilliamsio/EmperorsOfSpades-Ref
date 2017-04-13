@@ -228,8 +228,25 @@ public class SpadesEngine {
 		 bidOfTeam1 = team1.placeTeamBid(table.get("dealer"),
 				 table.get("llDealer"));
 
+
+		 if (team1.getIsBlindBid()) {
+			 assert (bidOfTeam1 >= MINIMUM_BLIND_BID)
+			 && (bidOfTeam1 <= MAXIMUM_BLIND_BID);
+		 }
+		 else {
+			 assert (bidOfTeam1 >= MINIMUM_TEAM_BID)
+			 && (bidOfTeam1 <= MAXIMUM_TEAM_BID);
+		 }
+
 		 bidOfTeam2 = team2.placeTeamBid(table.get("lDealer"),
 				 table.get("rDealer"));
+
+		 if (team2.getIsBlindBid()) {
+			 assert (bidOfTeam2 >= 6) && (bidOfTeam2 <= 10);
+		 }
+		 else {
+			 assert (bidOfTeam2 >= 4) && (bidOfTeam2 <= 10);
+		 }
 
 
 		 for (int i = 0; i < 13; i++) {
@@ -343,7 +360,15 @@ public class SpadesEngine {
 		 else {
 			 team2.addTrick();
 		 }
-
+		 System.out.println("team            tricks              "
+		 		+ " score       tricks");
+		 System.out.println(team1.getTeamName() + "        "
+		 		+ "       " + team1.getTricks() + " "
+		 				+ "                 " + team1.getScore() + "           "
+		 		+ team1.getTeamBid());
+		 System.out.println(team2.getTeamName() + "               "
+		 		+ team2.getTricks() + "                  " + team2.getScore() + "   "
+		 				+ "        " + team1.getTeamBid());
 	}
 	/**
 	 * this method is called to check who won the game.

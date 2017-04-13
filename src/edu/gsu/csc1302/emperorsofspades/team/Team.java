@@ -113,11 +113,22 @@ public class Team {
     public int placeTeamBid(final Player player, final Player player1) {
     	if (isBlindBid) {
     		teamBid = player.placeBlindBid();
-    		assert (teamBid >= 6) && (teamBid <= 10);
+    		while (teamBid <= SpadesEngine.MINIMUM_BLIND_BID) {
+    			teamBid++;
+    		}
+    		while (teamBid >= SpadesEngine.MAXIMUM_BLIND_BID) {
+    			teamBid--;
+    		}
     	} else {
     		teamBid = player.placeBid(player1);
-    		assert (teamBid >= 4) && (teamBid <= 10);
+    		while (teamBid <= SpadesEngine.MINIMUM_BLIND_BID) {
+    			teamBid++;
+    		}
+    		while (teamBid >= SpadesEngine.MAXIMUM_BLIND_BID) {
+    			teamBid--;
+    		}
     	}
+
     	return teamBid;
     }
     /**
@@ -170,9 +181,9 @@ public class Team {
      */
     public void setSuccess(final int bidNum) {
     	if (isBlindBid) {
-    		teamScore = teamScore + 20 * teamBid;
+    		teamScore = teamScore + 20 * bidNum;
     	} else {
-    		teamScore = teamScore + 10 * teamBid;
+    		teamScore = teamScore + 10 * bidNum;
     	}
         this.numOfSets = 0;
         totalTricks = 0;
