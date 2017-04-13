@@ -18,7 +18,7 @@ import java.util.Scanner;
  * this is the main method that runs the game.
  * @author Mahetem Moges
  */
-public final class Test {
+public class Test {
 	/**
 	 * this makes the class have private constructor.
 	 */
@@ -37,7 +37,7 @@ public final class Test {
     			deck.add(c);
     		}
     	}
-    	//System.out.println(deck.size());
+    	System.out.println(deck.size());
     	Scanner console = new Scanner(System.in);
     	String playing = "y";
 

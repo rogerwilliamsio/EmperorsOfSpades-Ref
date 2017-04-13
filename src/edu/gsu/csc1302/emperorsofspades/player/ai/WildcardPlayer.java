@@ -42,7 +42,7 @@ public class WildcardPlayer extends AIPlayer {
      */
     public Card playCard(final Card.Suit leadSuit,
     		final Card leadCard, final CardDeck hand) {
-    	if (leadSuit == null) {
+		if (leadSuit == null) {
 
 	   		 Card myCard = getCards().get(getCards().size() - 1);
 	   		 getCards().remove(myCard);

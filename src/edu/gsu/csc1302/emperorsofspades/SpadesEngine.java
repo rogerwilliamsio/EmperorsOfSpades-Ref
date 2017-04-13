@@ -2,6 +2,7 @@ package edu.gsu.csc1302.emperorsofspades;
 
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.player.Player;
+import edu.gsu.csc1302.emperorsofspades.player.ai.CautiousPlayer;
 import edu.gsu.csc1302.emperorsofspades.team.Team;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,18 +53,18 @@ public class SpadesEngine {
      */
 	private CardDeck gameDeck = new CardDeck();
 	/**
-	 * this is the map of the table.
+	 * this is the map of the gameTable.
 	 * it tracks the teams.
 	 */
 	private final Map<String, Team> teams = new HashMap<>();
 	/**
-	 * this is the map of the table.
+	 * this is the map of the gameTable.
 	 * it tracks who is the dealer and who
 	 * is sitting next to the dealer and so on.
 	 */
-	private Map<String, Player> table = new HashMap<>();
+	private Map<String, Player> gameTable = new HashMap<>();
 	/**
-	 * this is the cards on the table.
+	 * this is the cards on the gameTable.
 	 * the cards that are played.
 	 */
 	private CardDeck hand = new CardDeck();
@@ -99,10 +100,10 @@ public class SpadesEngine {
 
 		 this.setPlayers(players);
 		 this.gameDeck = gameDeck;
-		 table.put("dealer", players.get(0));
-		 table.put("lDealer", players.get(1));
-		 table.put("llDealer", players.get(2));
-		 table.put("rDealer", players.get(3));
+		 gameTable.put("dealer", players.get(0));
+		 gameTable.put("lDealer", players.get(1));
+		 gameTable.put("llDealer", players.get(2));
+		 gameTable.put("rDealer", players.get(3));
 		 setHand(null);
 		 roundNumber = 0;
 		 teamName1 = "one";
@@ -122,7 +123,7 @@ public class SpadesEngine {
 
 		 roundNumber = roundNumber + 1;
 
-		 dealCard();
+		 dealCards();
 
 		 playFirstRound();
 
@@ -136,7 +137,7 @@ public class SpadesEngine {
 
 		 switchPlayers();
 
-		 dealCard();
+		 dealCards();
 
 		 playRound();
 
@@ -144,7 +145,7 @@ public class SpadesEngine {
 	 /**
 	  * this method deals/gives card to the players.
 	  */
-	 public void dealCard() {
+	 public void dealCards() {
 		 if (gameDeck.size() != 52) {
 			 System.out.println("insufficient number of cards in the deck");
 		 }
@@ -155,13 +156,13 @@ public class SpadesEngine {
 
 			 while (gameDeck.size() != 0) {
 				Card card1 = gameDeck.drawFromTop();
-				table.get("lDealer").addToCardDeck(card1);
+				gameTable.get("lDealer").addToCardDeck(card1);
 				Card card2 = gameDeck.drawFromTop();
-				table.get("llDealer").addToCardDeck(card2);
+				gameTable.get("llDealer").addToCardDeck(card2);
 				Card card3 = gameDeck.drawFromTop();
-				table.get("rDealer").addToCardDeck(card3);
+				gameTable.get("rDealer").addToCardDeck(card3);
 				Card card4 = gameDeck.drawFromTop();
-				table.get("dealer").addToCardDeck(card4);
+				gameTable.get("dealer").addToCardDeck(card4);
 
 			 }
 		 }
@@ -197,13 +198,13 @@ public class SpadesEngine {
 		 int bidOfTeam1;
 		 int bidOfTeam2;
 
-		 Team team1 = getTeam(table.get("dealer"));
+		 Team team1 = getTeam(gameTable.get("dealer"));
 
-		 Team team2 = getTeam(table.get("1dealer"));
+		 Team team2 = getTeam(gameTable.get("1dealer"));
 
-		 bidOfTeam1 = team1.placeTeamBid(table.get("dealer"));
+		 bidOfTeam1 = team1.placeTeamBid(gameTable.get("dealer"));
 
-		 bidOfTeam2 = team2.placeTeamBid(table.get("ldealer"));
+		 bidOfTeam2 = team2.placeTeamBid(gameTable.get("ldealer"));
 
 
 		 for (int i = 0; i < 13; i++) {
@@ -246,15 +247,15 @@ public class SpadesEngine {
 	 */
 	private void switchPlayers() {
 
-		 int indexOfDealer = players.indexOf(table.get("dealer"));
-		 int indexOfLeftPlayer = players.indexOf(table.get("lDealer"));
-		 int indexOfNextPlayer = players.indexOf(table.get("llDealer"));
-		 int indexOfLastPlayer = players.indexOf(table.get("rDealer"));
+		 int indexOfDealer = players.indexOf(gameTable.get("dealer"));
+		 int indexOfLeftPlayer = players.indexOf(gameTable.get("lDealer"));
+		 int indexOfNextPlayer = players.indexOf(gameTable.get("llDealer"));
+		 int indexOfLastPlayer = players.indexOf(gameTable.get("rDealer"));
 
-		 table.put("dealer", players.get(indexOfLeftPlayer));
-		 table.put("lDealer", players.get(indexOfNextPlayer));
-		 table.put("llDealer", players.get(indexOfLastPlayer));
-		 table.put("rDealer", players.get(indexOfDealer));
+		 gameTable.put("dealer", players.get(indexOfLeftPlayer));
+		 gameTable.put("lDealer", players.get(indexOfNextPlayer));
+		 gameTable.put("llDealer", players.get(indexOfLastPlayer));
+		 gameTable.put("rDealer", players.get(indexOfDealer));
 
 	}
 	/**
@@ -264,38 +265,40 @@ public class SpadesEngine {
 	 */
 	public void playHand() {
 
-//		 CardDeck newHand = new CardDeck();
-//
-//		 this.hand = newHand;
+		 CardDeck newHand = new CardDeck();
 
-		 Team team1 = getTeam(table.get("dealer"));
+		 this.hand = newHand;
 
-		 Team team2 = getTeam(table.get("1dealer"));
+		 Team team1 = getTeam(gameTable.get("dealer"));
 
+		 Team team2 = getTeam(gameTable.get("1dealer"));
+		System.out.println("team 2: " + team2);
 		 Card leadCard = new Card(null, null);
 
-		 Card firstCard = table.get("lDealer").playCard(leadSuit, leadCard, hand);
+		 Card firstCard = gameTable.get("lDealer").playCard(leadSuit, leadCard, hand);
+
+		System.out.println(firstCard);
 		 hand.add(firstCard);
 
 		 leadCard = firstCard;
 		 leadSuit = firstCard.getSuit();
 		 SpadesComparator comp = new  SpadesComparator(leadSuit);
 
-		 Card secondCard = table.get("llDealer").playCard(leadSuit, leadCard, hand);
+		 Card secondCard = gameTable.get("llDealer").playCard(leadSuit, leadCard, hand);
 		 hand.add(secondCard);
 		 int firstComp = comp.compare(firstCard, secondCard);
 		 if (firstComp > 0) {
 			  leadCard = secondCard;
 		 }
 
-		 Card thirdCard = table.get("rDealer").playCard(leadSuit, leadCard, hand);
+		 Card thirdCard = gameTable.get("rDealer").playCard(leadSuit, leadCard, hand);
 		 hand.add(thirdCard);
 		 int secondComp = comp.compare(leadCard, thirdCard);
 		 if (secondComp > 0) {
 			  leadCard = thirdCard;
 		 }
 
-		 Card fourthCard = table.get("dealer").playCard(leadSuit, leadCard, hand);
+		 Card fourthCard = gameTable.get("dealer").playCard(leadSuit, leadCard, hand);
 		 hand.add(fourthCard);
 
 		 int thirdComp = comp.compare(leadCard, thirdCard);
@@ -373,7 +376,7 @@ public class SpadesEngine {
 
 	/**
 	 * returns the cards that are thrown by the players.
-	 * @return the hand the cards on the table.
+	 * @return the hand the cards on the gameTable.
 	 */
 	public CardDeck getHand() {
 		return hand;
@@ -435,12 +438,11 @@ public class SpadesEngine {
 	  */
 	public Team getTeam(final Player player) {
 
-//		System.out.println(player.toString());
-//		System.out.println(player.getTeamName());
-//		System.out.println(player.getTeamName());
-//		System.out.println(player.toString());
+		System.out.println(player.toString());
+		System.out.println(player.getTeamName());
+		System.out.println(player.getTeamName());
+		System.out.println(player.toString());
 		String name = player.getTeamName();
 		return teams.get(name);
-
 	}
 }

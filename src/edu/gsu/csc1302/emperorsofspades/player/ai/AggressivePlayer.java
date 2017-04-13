@@ -31,7 +31,8 @@ public class AggressivePlayer extends AIPlayer {
     @Override
     public Card playCard(final Card.Suit leadSuit,
     		final Card leadCard, final CardDeck hand) {
-    	 if (leadSuit == null) {
+
+        if (leadSuit == null) {
 
     		 getCards().sort(Suit.SPADE);
     		 Card myLeadCard = getCards().get(0);

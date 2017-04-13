@@ -48,6 +48,7 @@ public class SophisticatedPlayer  extends AIPlayer {
 	@Override
 	public Card playCard(final Suit leadSuit, final Card leadCard,
 			final CardDeck hand) {
+
 		if (leadSuit == null) {
 
 	   		 getCards().sort(Suit.HEART);

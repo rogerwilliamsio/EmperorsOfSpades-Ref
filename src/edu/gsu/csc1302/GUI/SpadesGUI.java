@@ -1,32 +1,73 @@
 package edu.gsu.csc1302.GUI;
 
-import java.awt.Color;
-import java.awt.Point;
+import oracle.jrockit.jfr.JFR;
 
-import javax.swing.JFrame;
+import java.awt.*;
+
+import javax.swing.*;
+import  javax.swing.ImageIcon;
 
 /**
- * the spades GUI class.
- * @author Mahetem Moges
+ * The entry point for the Emperors of Spades game engine.
+ *
+ * @author Roger Williams
  */
-public final class SpadesGUI {
+public final class SpadesGUI extends JFrame {
 	/**
-	 * this makes the class have private owner.
+	 * The default background color of the UI.
 	 */
-	private SpadesGUI() {
+	private static final Color UI_BACKGROUND_COLOR = new Color(27, 94, 32);
+
+	/**
+	 * OS window toolkit.
+	 */
+	private final Toolkit toolkit = Toolkit.getDefaultToolkit();
+
+	/**
+	 * class constructor.
+	 * @param partialTitle the partial title for the window
+	 */
+	private SpadesGUI(final String partialTitle) {
+		super("Emperors of Spades - " + partialTitle);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setSize(800, 500);
+		this.setResizable(false);
+		this.setLocationRelativeTo(null);
+
+		//Sets up the main content panel for this window.
+		this.setupMainPanel();
+
+		this.setVisible(true);
+
+	}
+
+	private void setupMainPanel() {
+		JPanel mainPanel = new JPanel();
+
+		mainPanel.setBackground(SpadesGUI.UI_BACKGROUND_COLOR);
+
+		//The text
+//		JLabel testLable = new JLabel("Emperors of Spades");
+//		mainPanel.add(testLable);
+
+		//THe logo panel
+		JLabel logoLabel = new JLabel(new ImageIcon(this.getClass().getResource("/edu/gsu/csc1302/GUI/resources/images/logo-large-1.png")));
+
+		mainPanel.add(logoLabel);
+
+		JButton startBtn = new JButton("Start Game!");
+		mainPanel.add(startBtn);
+
+
+
+		//Add this panel to the frame
+		this.add(mainPanel);
 	}
 	/**
-	 * this is the main method of the class.
+	 * Initializes the application.
 	 * @param args the arguments used.
 	 */
 	public static void main(final String[] args) {
-		JFrame fram = new JFrame();
-		fram.setBackground(Color.LIGHT_GRAY);
-		fram.setForeground(Color.BLUE);
-		fram.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fram.setLocation(new Point(10, 50));
-		fram.setSize(3000, 1200);
-		fram.setTitle("My First Frame");
-		fram.setVisible(true);
+		new SpadesGUI("Welcome!");
 	}
 }
