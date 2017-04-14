@@ -53,15 +53,15 @@ public class AggressivePlayer extends AIPlayer {
     public int placeBid() {
         double bidProbability = Player.generateBidProbability(this.getCards());
 
-        //Raises the bid by 25%
-        final int bid = (int) (Math.round((bidProbability * 1.25)));
+        //Raises the bid by 10%
+        final int bid = (int) (Math.round((bidProbability * 1.10)));
 
         if (bid >= SpadesEngine.MAXIMUM_TEAM_BID) {
             return SpadesEngine.MAXIMUM_TEAM_BID;
         } else if (bid <= SpadesEngine.MINIMUM_TEAM_BID) {
             return SpadesEngine.MINIMUM_TEAM_BID;
         }
-        return (bid / 2);
+        return bid;
     }
     /**
      * Places a bid for the aggressive player.
@@ -70,9 +70,7 @@ public class AggressivePlayer extends AIPlayer {
      */
     @Override
     public int placeBid(final Player player) {
-    	int bid = placeBid();
-        int otherBid = player.placeBid();
-        return (otherBid + bid);
+    	return placeBid();
     }
     /**
      * returns integer for blind bidding.

@@ -31,8 +31,6 @@ public abstract class Player {
     public Player(final String name) {
 
         this.name = name;
-        teamName = "vv";
-
     }
 
     /**
@@ -149,8 +147,17 @@ public abstract class Player {
             } else if (card.getSuit().equals(Card.Suit.SPADE)
                     && card.getRank().equals(Card.Rank.TWO)) {
                 bidProbability += 0.75;
+                //SPADES suit
+            } else if (card.getSuit().equals(Card.Suit.SPADE)) {
+                bidProbability += 0.5;
+            } else if (card.getRank().equals(Card.Rank.ACE) || card.isFaceCard()) {
+                bidProbability += 0.4;
+            } else {
+                bidProbability += 0.10;
             }
         }
+        System.out.println("Cards: " + cards);
+        System.out.println("\nBid Probability: " + bidProbability + "\n\n");
         return (bidProbability / 13) * 10;
     }
 

@@ -145,7 +145,7 @@ public class SpadesEngine {
 
 		 dealCards();
 
-		 playFirstRound();
+//		 playFirstRound();
 
 	 }
 	 /**

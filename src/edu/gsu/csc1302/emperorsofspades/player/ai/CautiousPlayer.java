@@ -43,15 +43,15 @@ public class CautiousPlayer extends AIPlayer {
     public int placeBid() {
         double bidProbability = Player.generateBidProbability(this.getCards());
 
-        //Lower the bid by 20%
-        final int bid = (int) (Math.floor((bidProbability * 0.8)));
+        //Lower the bid by 5%
+        final int bid = (int) (Math.floor((bidProbability * 0.95)));
 
         if (bid >= SpadesEngine.MAXIMUM_TEAM_BID) {
             return SpadesEngine.MAXIMUM_TEAM_BID;
         } else if (bid < SpadesEngine.MINIMUM_TEAM_BID) {
             return SpadesEngine.MINIMUM_TEAM_BID;
         }
-        return (bid / 2);
+        return bid;
     }
     /**
      * Places a bid for the aggressive player.
@@ -60,9 +60,7 @@ public class CautiousPlayer extends AIPlayer {
      */
     @Override
     public int placeBid(final Player player) {
-    	int bid = placeBid();
-        int otherBid = player.placeBid();
-        return (otherBid + bid - 2);
+    	return placeBid();
     }
     /**
      * Plays a card, given a lead suit.

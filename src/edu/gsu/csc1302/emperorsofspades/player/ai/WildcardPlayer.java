@@ -32,18 +32,17 @@ public class WildcardPlayer extends AIPlayer {
     @Override
     public int placeBid() {
         final int randomBid = (new Random().nextInt((10 - 4) + 1)) + 4;
-        return randomBid / 2;
+        return randomBid;
     }
     /**
+	 * @TODO: Remove extra placebid methods
      * Places a bid for the aggressive player.
      * @param player the player in the same team.
      * @return bid the number of bid.
      */
     @Override
     public int placeBid(final Player player) {
-    	int bid = placeBid();
-        int otherBid = player.placeBid();
-        return (otherBid + bid);
+    	return placeBid();
     }
     /**
      * Plays a card, given a lead suit.

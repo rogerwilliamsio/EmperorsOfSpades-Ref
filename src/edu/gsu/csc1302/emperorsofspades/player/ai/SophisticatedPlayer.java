@@ -34,9 +34,11 @@ public class SophisticatedPlayer  extends AIPlayer {
 
         if (bid >= SpadesEngine.MAXIMUM_TEAM_BID) {
             return SpadesEngine.MAXIMUM_TEAM_BID;
-        } else {
-            return (bid / 2);
+        } else if (bid <= SpadesEngine.MINIMUM_TEAM_BID){
+			return SpadesEngine.MINIMUM_TEAM_BID;
         }
+
+        return bid;
     }
     /**
      * Places a bid for the aggressive player.
@@ -45,9 +47,10 @@ public class SophisticatedPlayer  extends AIPlayer {
      */
     @Override
     public int placeBid(final Player player) {
-    	int bid = placeBid();
-        int otherBid = player.placeBid();
-        return (otherBid + bid - 1);
+//    	int bid = placeBid();
+//        int otherBid = player.placeBid();
+//        return (otherBid + bid - 1);
+		return placeBid();
     }
     /**
      * Plays a card, given a lead suit.

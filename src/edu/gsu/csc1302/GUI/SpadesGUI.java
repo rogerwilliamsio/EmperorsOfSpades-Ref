@@ -1,7 +1,5 @@
 package edu.gsu.csc1302.GUI;
 
-import oracle.jrockit.jfr.JFR;
-
 import java.awt.*;
 
 import javax.swing.*;
@@ -42,21 +40,28 @@ public final class SpadesGUI extends JFrame {
 	}
 
 	private void setupMainPanel() {
-		JPanel mainPanel = new JPanel();
+		SpadesPanel mainPanel = new SpadesPanel();
+		GridBagConstraints gridConstraints = new GridBagConstraints();
+		gridConstraints.gridx = gridConstraints.gridy = 0;
+
+		gridConstraints.insets = new Insets(10, 10, 10, 10);
 
 		mainPanel.setBackground(SpadesGUI.UI_BACKGROUND_COLOR);
 
-		//The text
-//		JLabel testLable = new JLabel("Emperors of Spades");
-//		mainPanel.add(testLable);
+//		The text
+		JLabel testLable = new JLabel("Welcome to");
+		mainPanel.add(testLable);
 
-		//THe logo panel
+		//Create logo
 		JLabel logoLabel = new JLabel(new ImageIcon(this.getClass().getResource("/edu/gsu/csc1302/GUI/resources/images/logo-large-1.png")));
+//		Add logo to panel
+		mainPanel.addToNextRow(logoLabel);
 
-		mainPanel.add(logoLabel);
+//		Create the start button
+		SpadesButton startBtn = new SpadesButton("Start The Game!", 1);
 
-		JButton startBtn = new JButton("Start Game!");
-		mainPanel.add(startBtn);
+//		gridConstraints.fill = GridBagConstraints.HORIZONTAL;
+		mainPanel.addToNextRow(startBtn);
 
 
 
