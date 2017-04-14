@@ -34,7 +34,7 @@ public class SophisticatedPlayer  extends AIPlayer {
 
         if (bid >= SpadesEngine.MAXIMUM_TEAM_BID) {
             return SpadesEngine.MAXIMUM_TEAM_BID;
-        } else if (bid <= SpadesEngine.MINIMUM_TEAM_BID){
+        } else if (bid <= SpadesEngine.MINIMUM_TEAM_BID) {
 			return SpadesEngine.MINIMUM_TEAM_BID;
         }
 

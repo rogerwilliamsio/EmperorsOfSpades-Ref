@@ -156,7 +156,7 @@ public class SpadesEngine {
 
 		 dealCards();
 
-//		 playFirstRound();
+		 playFirstRound();
 
 	 }
 	 /**
@@ -257,6 +257,7 @@ public class SpadesEngine {
 				 table.get("rDealer"));
 
 		 for (int i = 0; i < 13; i++) {
+
 	        	System.out.println("hand game: " + (i + 1));
 	        	playHand();
 	     }
@@ -335,7 +336,7 @@ public class SpadesEngine {
 		 Card firstCard = table.get(order.get(1))
 				 .playCard(leadSuit, leadCard, hand);
 
-		 hand.addToTop(firstCard);
+		 hand.addToBottom(firstCard);
 		 leadCard = firstCard;
 		 leadSuit = firstCard.getSuit();
 		 SpadesComparator comp = new  SpadesComparator(leadSuit);
@@ -343,7 +344,7 @@ public class SpadesEngine {
 
 		 Card secondCard = table.get(order.get(2))
 				 .playCard(leadSuit, leadCard, hand);
-		 hand.addToTop(secondCard);
+		 hand.addToBottom(secondCard);
 
 		 int firstComp = comp.compare(firstCard, secondCard);
 		 if (firstComp > 0) {
@@ -353,7 +354,7 @@ public class SpadesEngine {
 
 		 Card thirdCard = table.get(order.get(3))
 				 .playCard(leadSuit, leadCard, hand);
-		 hand.addToTop(thirdCard);
+		 hand.addToBottom(thirdCard);
 
 		 int secondComp = comp.compare(leadCard, thirdCard);
 		 if (secondComp > 0) {
@@ -362,7 +363,7 @@ public class SpadesEngine {
 
 		 Card fourthCard = table.get(order.get(4))
 				 .playCard(leadSuit, leadCard, hand);
-		 hand.addToTop(fourthCard);
+		 hand.addToBottom(fourthCard);
 
 		 int thirdComp = comp.compare(leadCard, thirdCard);
 		 if (thirdComp > 0) {
@@ -539,6 +540,7 @@ public class SpadesEngine {
 		 System.out.printf("%12s %12d %12d %12d\n",
 				 team2.toString(), team2.getScore(), team2.getTeamBid(),
 				 team2.getTricks());
+		 System.out.println(" ");
 	}
 	/**
 	 * Switches order if the second player wins the hand.
@@ -591,5 +593,6 @@ public class SpadesEngine {
 		team.addTrick();
 		System.out.println("hand winner:" + team.toString());
 		System.out.println("winner:" + table.get(order.get(index)).toString());
+		System.out.println(" ");
 	}
 }

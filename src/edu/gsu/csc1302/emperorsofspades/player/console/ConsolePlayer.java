@@ -70,7 +70,7 @@ public class ConsolePlayer extends Player {
 
 			getCards().sort(Suit.HEART);
 
-			myCard = getCard();
+			myCard = getCard(leadSuit);
 
 		}
 
@@ -79,7 +79,7 @@ public class ConsolePlayer extends Player {
 			getCards().sort(leadSuit);
 			System.out.println("cards on the table\n" + hand.toString());
 			System.out.println("the lead card\n" + leadCard.toString());
-			myCard = getCard();
+			myCard = getCard(leadSuit);
 
 		}
 		return myCard;
@@ -97,14 +97,6 @@ public class ConsolePlayer extends Player {
     	int bid = console.nextInt();
         return bid;
 	}
-//	 /**
-//     * returns a card from the hand of the console player.
-//     * @param leadSuit the lead suit of the hand.
-//     * @return card form the hand of the console player.
-//     */
-//    public int placeBid(final Card.Suit leadSuit) {
-//        return 0;
-//    }
 	/**
 	 * this places a bid for the console player.
 	 * @param player the other player in the team.
@@ -117,9 +109,10 @@ public class ConsolePlayer extends Player {
 	}
 	/**
 	 * return the card the player plays.
+	 * @param leadSuit the lead suit of the hand.
 	 * @return card the player will play
 	 */
-	private Card getCard() {
+	private Card getCard(final Card.Suit leadSuit) {
 
 		Card myCard = new Card(null, null);
 
@@ -127,16 +120,22 @@ public class ConsolePlayer extends Player {
 		do {
 			cardIndex = getIndexOfCard();
 			if (cardIndex != -2) {
-				if ((cardIndex > getCards().size() - 1) || (cardIndex < 0)) {
-					System.out.println("it should be no more"
+				boolean indexValidity = (cardIndex > getCards().size() - 1)
+						|| (cardIndex < 0);
+				if (indexValidity) {
+					System.out.println("the number should be no more"
 							+ " than\n the number of cards you have\n"
-							+ " and no less than 1.)");
+							+ " and no less than 1.");
 					cardIndex = -2;
 				}
 			}
 		} while (cardIndex == -2);
 
-		myCard = getCards().remove(cardIndex);
+		myCard = getCards().get(cardIndex);
+
+		enforceNoRenege(myCard, leadSuit);
+
+		getCards().remove(myCard);
 		return myCard;
 
 	}
@@ -174,5 +173,35 @@ public class ConsolePlayer extends Player {
 		cardIndex--;
 		return cardIndex;
 
+	}
+	/**
+	 * enforces no renege.
+	 * @param myCard the card the console player chose.
+	 * @param leadSuit the lead suit of the hand.
+	 */
+	private void enforceNoRenege(final Card myCard, final Card.Suit leadSuit) {
+		boolean renege = (myCard.getRank().equals(Card.Rank.TWO))
+				|| (myCard.getSuit().equals(Card.Suit.SPADE))
+				|| (myCard.getSuit().equals(leadSuit));
+		if (!renege) {
+			 CardDeck cardsInSuit = new CardDeck();
+			 //Find all the cards that are in-suit
+		        for (Card card : this.getCards()) {
+		        	boolean canPlay = ((card.getSuit().equals(leadSuit))
+		        			&& (!card.getRank().equals(Card.Rank.TWO)));
+		            if (canPlay) {
+		                cardsInSuit.add(card);
+		            }
+		        }
+		        cardsInSuit.sort(leadSuit);
+	            if (cardsInSuit.size() != 0) {
+	            	System.out.println("You can only play a "
+	    					+ "card that is in the Lead-Suit, \n"
+	    					+ "unless it is a trump card.");
+	            	System.out.println("the Lead Suit for the hand is "
+	    					+ leadSuit.toString() + ".");
+	    			getCard(leadSuit);
+	            }
+		}
 	}
 }

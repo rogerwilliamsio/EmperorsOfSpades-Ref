@@ -150,14 +150,15 @@ public abstract class Player {
                 //SPADES suit
             } else if (card.getSuit().equals(Card.Suit.SPADE)) {
                 bidProbability += 0.5;
-            } else if (card.getRank().equals(Card.Rank.ACE) || card.isFaceCard()) {
+            } else if (card.getRank().equals(Card.Rank.ACE)
+            		|| card.isFaceCard()) {
                 bidProbability += 0.4;
             } else {
                 bidProbability += 0.10;
             }
         }
-        System.out.println("Cards: " + cards);
-        System.out.println("\nBid Probability: " + bidProbability + "\n\n");
+//        System.out.println("Cards: " + cards);
+//        System.out.println("\nBid Probability: " + bidProbability + "\n\n");
         return (bidProbability / 13) * 10;
     }
 
