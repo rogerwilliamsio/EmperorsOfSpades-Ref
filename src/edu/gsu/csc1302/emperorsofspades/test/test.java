@@ -42,12 +42,12 @@ public final class Test {
 
     	while (playing.equals("y")) {
     		runGame(console, deck);
-    		String ans = "";
-    		while (ans.length() == 0) {
-    			System.out.println("Do you want to play again?");
-            	System.out.println("Enter y for yes and n "
-            			+ "(or any letter) for no.");
-            	ans = console.nextLine();
+    		System.out.println("Do you want to play again?");
+        	System.out.println("Enter y for yes and n "
+        			+ "(or any letter) for no.");
+    		String ans = console.nextLine();
+    		if (ans.length() == 0) {
+    			ans = "n";
     		}
     		playing = ans;
     		playing = playing.substring(0, 1);
@@ -62,25 +62,26 @@ public final class Test {
      */
 	private static void runGame(final Scanner console, final CardDeck deck) {
 
-		String ans = "";
-		while (ans.length() == 0) {
-
-			System.out.println("Do you want to play with the game?");
-			System.out.println("Enter y for yes and n (or any letter) for no.");
-	    	ans = console.nextLine();
-
-		}
-
+		System.out.println("Do you want to play with the game?");
+		System.out.println("Enter y for yes and n (or any letter) for no.");
+	    String ans = console.nextLine();
+	    if (ans.length() == 0) {
+	    	ans = "n";
+	    }
     	ans = ans.substring(0, 1);
     	ans = ans.toLowerCase();
-    	String name = "";
+    	String name;
     	Player cat;
     	if (ans.equals("y")) {
-    		while (name.length() == 0) {
-    			System.out.println("Enter your name.");
-        		name = console.nextLine();
-    		}
+
+    		System.out.println("Enter your name.");
+        	name = console.nextLine();
+        	if (name.length() == 0) {
+        		name = "anonymous";
+        		System.out.println("your name will be anonymous.");
+        	}
     		cat = new ConsolePlayer(name);
+
     	}
     	else {
             cat = new CautiousPlayer("cautious");
