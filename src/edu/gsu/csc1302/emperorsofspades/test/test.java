@@ -42,8 +42,14 @@ public final class Test {
 
     	while (playing.equals("y")) {
     		runGame(console, deck);
-    		System.out.println("Do you want to play again?");
-    		playing = console.nextLine();
+    		String ans = "";
+    		while (ans.length() == 0) {
+    			System.out.println("Do you want to play again?");
+            	System.out.println("Enter y for yes and n "
+            			+ "(or any letter) for no.");
+            	ans = console.nextLine();
+    		}
+    		playing = ans;
     		playing = playing.substring(0, 1);
     		playing = playing.toLowerCase();
     	}
@@ -56,24 +62,32 @@ public final class Test {
      */
 	private static void runGame(final Scanner console, final CardDeck deck) {
 
-		System.out.println("Do you want to play with the game?");
-    	System.out.println("Enter y for yes and n for no.");
-    	String ans = console.nextLine();
+		String ans = "";
+		while (ans.length() == 0) {
+
+			System.out.println("Do you want to play with the game?");
+			System.out.println("Enter y for yes and n (or any letter) for no.");
+	    	ans = console.nextLine();
+
+		}
+
     	ans = ans.substring(0, 1);
     	ans = ans.toLowerCase();
-    	String name;
+    	String name = "";
     	Player cat;
     	if (ans.equals("y")) {
-    		System.out.println("Enter your name.");
-    		name = console.next();
+    		while (name.length() == 0) {
+    			System.out.println("Enter your name.");
+        		name = console.nextLine();
+    		}
     		cat = new ConsolePlayer(name);
     	}
     	else {
-            cat = new CautiousPlayer("cat");
+            cat = new CautiousPlayer("cautious");
     	}
-        AIPlayer agr = new AggressivePlayer("agr");
-        AIPlayer sop = new SophisticatedPlayer("sop");
-        AIPlayer wil = new WildcardPlayer("wil");
+        AIPlayer agr = new AggressivePlayer("aggressive");
+        AIPlayer sop = new SophisticatedPlayer("sophisticated");
+        AIPlayer wil = new WildcardPlayer("wild");
         ArrayList<Player> players = new ArrayList<>();
 
         players.add(agr);

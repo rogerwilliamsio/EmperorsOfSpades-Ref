@@ -372,26 +372,19 @@ public class SpadesEngine {
 		 int win = hand.indexOf(leadCard);
 
 		 if (win == 0) {
-			 team1.addTrick();
-			 System.out.println("hand winner:" + team1.toString());
-			 System.out.println("winner:" + table.get(order.get(1)).toString());
+			 displayHandWinner(team1, win + 1);
 		 }
 		 else if (win == 2) {
-			 team1.addTrick();
-			 System.out.println("hand winner:" + team1.toString());
-			 System.out.println("winner:" + table.get(order.get(3)).toString());
+			 displayHandWinner(team1, win + 1);
 			 orderSwitch3();
 		 }
 		 else if (win == 1) {
-			 team2.addTrick();
-			 System.out.println("hand winner:" + team2.toString());
-			 System.out.println("winner:" + table.get(order.get(2)).toString());
+			 displayHandWinner(team1, win + 1);
 			 orderSwitch2();
 		 }
 		 else {
+			 displayHandWinner(team1, win + 1);
 			 team2.addTrick();
-			 System.out.println("hand winner:" + team2.toString());
-			 System.out.println("winner:" + table.get(order.get(4)).toString());
 			 orderSwitch4();
 		 }
 		 System.out.println("hand played:" + hand.toString());
@@ -588,5 +581,15 @@ public class SpadesEngine {
 		order.put(2, next2Winner);
 		order.put(3, winnerTeamMate);
 		order.put(4, lastPlayer);
+	}
+	/**
+	 * this displays the team and the player who won the round.
+	 * @param team the team who won the hand.
+	 * @param index the index of the winning player in the order.
+	 */
+	private void displayHandWinner(final Team team, final int index) {
+		team.addTrick();
+		System.out.println("hand winner:" + team.toString());
+		System.out.println("winner:" + table.get(order.get(index)).toString());
 	}
 }
