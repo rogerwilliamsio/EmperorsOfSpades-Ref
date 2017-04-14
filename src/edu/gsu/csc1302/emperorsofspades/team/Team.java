@@ -185,8 +185,8 @@ public class Team {
     	} else {
     		teamScore = teamScore + 10 * bidNum;
     	}
-        this.numOfSets = 0;
         totalTricks = 0;
+        numOfSets = 0;
     }
     /**
      * this deducts point on the team.
