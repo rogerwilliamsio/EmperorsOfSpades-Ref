@@ -70,7 +70,7 @@ public final class Test {
 	    }
     	ans = ans.substring(0, 1);
     	ans = ans.toLowerCase();
-    	String name;
+    	String name = null;
     	Player cat;
     	if (ans.equals("y")) {
 
@@ -99,7 +99,7 @@ public final class Test {
         SpadesEngine game = new SpadesEngine(players, deck);
         if (ans.equals("y")) {
         	String teamName = cat.getTeamName();
-            System.out.println("you are on team: " + teamName + ".");
+            System.out.println(name + " you are on team: " + teamName + ".");
     	}
         game.startRound();
     	boolean ending = game.isGameEnd();
@@ -108,6 +108,7 @@ public final class Test {
         	game.startNewRound();
         	ending = game.isGameEnd();
         }
-        System.out.println("Game Ended");
+        System.out.println("Game Ended.");
+        System.out.println(" ");
     }
 }

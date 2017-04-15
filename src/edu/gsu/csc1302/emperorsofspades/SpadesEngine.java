@@ -211,7 +211,9 @@ public class SpadesEngine {
 	 private void playFirstRound() {
 
 		 for (int i = 0; i < 13; i++) {
+			 	System.out.println(" ");
 	        	System.out.println("hand game: " + (i + 1));
+	        	System.out.println(" ");
 	        	playHand();
 	     }
 
@@ -259,6 +261,7 @@ public class SpadesEngine {
 		 for (int i = 0; i < 13; i++) {
 
 	        	System.out.println("hand game: " + (i + 1));
+	        	System.out.println(" ");
 	        	playHand();
 	     }
 
@@ -270,12 +273,14 @@ public class SpadesEngine {
 			 System.out.println("team: "
 		 +  team1.toString() + " has won.(Boston)");
 			 displayScore();
+			 showRound();
 			 setGameEnd(true);
 		 }
 		 if ((bidOfTeam2 >= 10) && (team2Tricks == 13)) {
 			 System.out.println("team: "
 		 +  team2.toString() + " has won.(Boston)");
 			 displayScore();
+			 showRound();
 			 setGameEnd(true);
 		 }
 		 if ((bidOfTeam1 <= team1Tricks) && (bidOfTeam1 >= team1Tricks - 3)) {
@@ -290,7 +295,7 @@ public class SpadesEngine {
 		 else {
 			 team2.setSets();
 		 }
-
+		 checkSets();
 		 checkWinner();
 
 	}
@@ -375,17 +380,16 @@ public class SpadesEngine {
 		 if (win == 0) {
 			 displayHandWinner(team1, win + 1);
 		 }
-		 else if (win == 2) {
+		 if (win == 2) {
 			 displayHandWinner(team1, win + 1);
 			 orderSwitch3();
 		 }
-		 else if (win == 1) {
-			 displayHandWinner(team1, win + 1);
+		 if (win == 1) {
+			 displayHandWinner(team2, win + 1);
 			 orderSwitch2();
 		 }
-		 else {
-			 displayHandWinner(team1, win + 1);
-			 team2.addTrick();
+		 if (win == 3) {
+			 displayHandWinner(team2, win + 1);
 			 orderSwitch4();
 		 }
 		 System.out.println("hand played:" + hand.toString());
@@ -408,6 +412,7 @@ public class SpadesEngine {
 				System.out.println("team: "
 						  + teams.get(teamName2).toString() + " got two sets in a row.");
 				displayScore();
+				showRound();
 				setGameEnd(true);
 			 }
 		 }
@@ -419,6 +424,7 @@ public class SpadesEngine {
 						System.out.println("team: "
 							+ teams.get(teamName1).toString() + " got two sets in a row.");
 						displayScore();
+						showRound();
 				setGameEnd(true);
 			 }
 		 }
@@ -427,16 +433,16 @@ public class SpadesEngine {
 		 int teamScore2 = teams.get(teamName2).getScore();
 
 		 if (teamScore1 >= teamScore2 + 100) {
-			 teams.get(teamName1).setIsBlindBid(true);
-		 }
-		 else {
-			 teams.get(teamName1).setIsBlindBid(false);
-		 }
-		 if (teamScore2 >= teamScore1 + 100) {
 			 teams.get(teamName2).setIsBlindBid(true);
 		 }
 		 else {
 			 teams.get(teamName2).setIsBlindBid(false);
+		 }
+		 if (teamScore2 >= teamScore1 + 100) {
+			 teams.get(teamName1).setIsBlindBid(true);
+		 }
+		 else {
+			 teams.get(teamName1).setIsBlindBid(false);
 		 }
 
 		 if ((teamScore1 >= 500) || (teamScore2 >= 500)) {
@@ -445,6 +451,7 @@ public class SpadesEngine {
 			 + teams.get(teamName1).toString() + " has won by points.");
 				 System.out.println(teams.get(teamName1).getTeammates().toString());
 				 displayScore();
+				 showRound();
 				 setGameEnd(true);
 			 }
 			 else {
@@ -452,6 +459,7 @@ public class SpadesEngine {
 			 + teams.get(teamName2).toString() + " has won points.");
 				 System.out.println(teams.get(teamName2).getTeammates().toString());
 				 displayScore();
+				 showRound();
 				 setGameEnd(true);
 			 }
 		 }
@@ -514,7 +522,6 @@ public class SpadesEngine {
 	public void setLeadSuit(final Card.Suit leadSuit) {
 		this.leadSuit = leadSuit;
 	}
-
 	 /**
 	  * returns the team of the player.
 	  * @param player the player
@@ -529,9 +536,10 @@ public class SpadesEngine {
 	 */
 	public void displayScore() {
 
-		Team team1 = teams.get(teamName1);
-		Team team2 = teams.get(teamName2);
+		 Team team1 = teams.get(teamName1);
+		 Team team2 = teams.get(teamName2);
 
+		 System.out.println(" ");
 		 System.out.printf("%12s %12s %12s %12s\n",
 				 "teams", "score", "team bid", "tricks");
 		 System.out.printf("%12s %12d %12d %12d\n",
@@ -574,6 +582,7 @@ public class SpadesEngine {
 	 * Switches order if the second player wins the hand.
 	 */
 	private void orderSwitch4() {
+
 		String winner = order.get(4);
 		String next2Winner = order.get(1);
 		String winnerTeamMate = order.get(2);
@@ -583,6 +592,7 @@ public class SpadesEngine {
 		order.put(2, next2Winner);
 		order.put(3, winnerTeamMate);
 		order.put(4, lastPlayer);
+
 	}
 	/**
 	 * this displays the team and the player who won the round.
@@ -594,5 +604,31 @@ public class SpadesEngine {
 		System.out.println("hand winner:" + team.toString());
 		System.out.println("winner:" + table.get(order.get(index)).toString());
 		System.out.println(" ");
+	}
+	/**
+	 * displays the total round played.
+	 */
+	private void showRound() {
+		System.out.println(" ");
+		System.out.println("Total rounds played " + roundNumber + ".");
+		System.out.println(" ");
+	}
+	/**
+	 * checks if one team alone got set twice consecutively.
+	 */
+	private void checkSets() {
+
+		Team team1 = teams.get(teamName1);
+		Team team2 = teams.get(teamName2);
+
+		int teamTrick1 = team1.getNumOfSets();
+		int teamTrick2 = team2.getNumOfSets();
+
+		if (teamTrick1 > 0) {
+			if (teamTrick2 > 0) {
+				team1.setNumOfSets(0);
+				team2.setNumOfSets(0);
+			}
+		}
 	}
 }

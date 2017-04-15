@@ -33,19 +33,13 @@ public class ConsolePlayer extends Player {
     	System.out.println("cards on your hand (" + getCards().size()
 				+ " cards)");
 
-		if (getCards().size() > 8) {
-
-			CardDeck clone = (CardDeck) getCards().clone();
-			System.out.println(clone.drawFromTop(8).toString());
-			System.out.println(clone.toString());
-
-		}
-		else {
-			System.out.println(getCards().toString());
-		}
+		CardDeck clone = (CardDeck) getCards().clone();
+		clone.sort(Card.Suit.HEART);
+		System.out.println(clone.drawFromTop(8).toString());
+		System.out.println(clone.toString());
 
     	System.out.println("place your bid");
-    	System.out.println("get a number b/n 4 and 10 and half and round it.");
+    	System.out.println("it is a number b/n 4 and 10.");
     	int bid = console.nextInt();
         return bid;
     }
@@ -93,7 +87,7 @@ public class ConsolePlayer extends Player {
 		@SuppressWarnings("resource")
 		Scanner console = new Scanner(System.in);
     	System.out.println("place your blind bid");
-    	System.out.println("get a number 6 and 10.");
+    	System.out.println("it is a number b/n 6 and 10.");
     	int bid = console.nextInt();
         return bid;
 	}
