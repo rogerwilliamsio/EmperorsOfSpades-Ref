@@ -186,7 +186,6 @@ public class Team {
     		teamScore = teamScore + 10 * bidNum;
     	}
         totalTricks = 0;
-        numOfSets = 0;
     }
     /**
      * this deducts point on the team.
@@ -197,6 +196,13 @@ public class Team {
         totalTricks = 0;
     }
     /**
+     * sets the number of set with a given number.
+	 * @param numOfSets the numOfSets to set.
+	 */
+	public void setNumOfSets(final int numOfSets) {
+		this.numOfSets = numOfSets;
+	}
+	/**
      * Returns the number of sets the team has.
      * @return sets
      */

@@ -153,7 +153,7 @@ public class CardDeck extends ArrayList<Card> implements Deck {
     }
 
     /**
-     * Returns thw card at the top of the deck.
+     * Returns the card at the top of the deck.
      * @return the card at the top.
      */
     @Override
