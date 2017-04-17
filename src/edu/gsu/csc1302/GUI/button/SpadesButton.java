@@ -1,4 +1,6 @@
-package edu.gsu.csc1302.GUI;
+package edu.gsu.csc1302.GUI.button;
+
+import edu.gsu.csc1302.GUI.SpadesGUIActionListener;
 
 import javax.swing.JButton;
 import java.awt.Color;
@@ -28,9 +30,8 @@ public class SpadesButton extends JButton {
     /**
      * Init with just the text and default settings.
      * @param text to put on the button
-     * @param componentGridWidth the width of the button
      */
-    public SpadesButton(final String text, final int componentGridWidth) {
+    public SpadesButton(final String text) {
         this(text, null, null);
     }
 
@@ -38,10 +39,12 @@ public class SpadesButton extends JButton {
      * Class constructor. Init with overriding settings.
      * @param text to put on the button
      * @param backgroundColor background color of the button
-     * @param foregroundColor forgroun color of the button (text color)
+     * @param foregroundColor foreground color of the button (text color)
      */
     public SpadesButton(final String text, final Color backgroundColor, final Color foregroundColor) {
         super(text);
+//        Add event listener to all spades button
+        this.addActionListener(new SpadesGUIActionListener());
         applySpadesStyles(backgroundColor, foregroundColor);
 
     }

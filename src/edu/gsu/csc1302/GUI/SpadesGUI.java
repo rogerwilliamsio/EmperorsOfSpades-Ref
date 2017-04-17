@@ -1,20 +1,45 @@
 package edu.gsu.csc1302.GUI;
 
-import java.awt.*;
+import edu.gsu.csc1302.GUI.button.SpadesButton;
+import edu.gsu.csc1302.GUI.dialog.SpadesConfirmDialog;
+import edu.gsu.csc1302.GUI.dialog.SpadesDialog;
+import edu.gsu.csc1302.GUI.dialog.SpadesInputDialog;
+import edu.gsu.csc1302.GUI.frame.SplashScreenFrame;
+import edu.gsu.csc1302.GUI.heading.SpadesH1Heading;
 
 import javax.swing.*;
-import  javax.swing.ImageIcon;
+import java.awt.*;
 
 /**
  * The entry point for the Emperors of Spades game engine.
  *
  * @author Roger Williams
  */
-public final class SpadesGUI extends JFrame {
+public final class SpadesGUI {
 	/**
 	 * The default background color of the UI.
 	 */
-	private static final Color UI_BACKGROUND_COLOR = new Color(27, 94, 32);
+	public static final Color UI_BACKGROUND_COLOR = new Color(27, 94, 32);
+
+	/**
+	 * The default width of a frame.
+	 */
+	public static final int DEFAULT_FRAME_WIDTH = 1200;
+
+	/**
+	 * The default height of a frame.
+	 */
+	public static final int DEFAULT_FRAME_HEIGHT = 700;
+
+	/**
+	 * The name of the application.
+	 */
+	public static final String APP_NAME = "Emperors of Spades";
+
+	/**
+	 * Stores the current/active frame.
+	 */
+	private static JFrame currentFrame = null;
 
 	/**
 	 * OS window toolkit.
@@ -26,53 +51,55 @@ public final class SpadesGUI extends JFrame {
 	 * @param partialTitle the partial title for the window
 	 */
 	private SpadesGUI(final String partialTitle) {
-		super("Emperors of Spades - " + partialTitle);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(800, 500);
-		this.setResizable(false);
-		this.setLocationRelativeTo(null);
-
-		//Sets up the main content panel for this window.
-		this.setupMainPanel();
-
-		this.setVisible(true);
 
 	}
 
-	private void setupMainPanel() {
-		SpadesPanel mainPanel = new SpadesPanel();
-		GridBagConstraints gridConstraints = new GridBagConstraints();
-		gridConstraints.gridx = gridConstraints.gridy = 0;
-
-		gridConstraints.insets = new Insets(10, 10, 10, 10);
-
-		mainPanel.setBackground(SpadesGUI.UI_BACKGROUND_COLOR);
-
-//		The text
-		JLabel testLable = new JLabel("Welcome to");
-		mainPanel.add(testLable);
-
-		//Create logo
-		JLabel logoLabel = new JLabel(new ImageIcon(this.getClass().getResource("/edu/gsu/csc1302/GUI/resources/images/logo-large-1.png")));
-//		Add logo to panel
-		mainPanel.addToNextRow(logoLabel);
-
-//		Create the start button
-		SpadesButton startBtn = new SpadesButton("Start The Game!", 1);
-
-//		gridConstraints.fill = GridBagConstraints.HORIZONTAL;
-		mainPanel.addToNextRow(startBtn);
-
-
-
-		//Add this panel to the frame
-		this.add(mainPanel);
-	}
 	/**
 	 * Initializes the application.
 	 * @param args the arguments used.
 	 */
 	public static void main(final String[] args) {
-		new SpadesGUI("Welcome!");
+		currentFrame = new SplashScreenFrame();
+	}
+
+
+
+	public static boolean promptUserToPlayFrame() {
+		return SpadesConfirmDialog.show(null, SpadesDialog.MessageType.PLAIN, "Confirm", "Do you want to play!");
+	}
+
+	/**
+	 * Returns the current frame
+	 * @return frame
+	 */
+	public static JFrame getCurrentFrame() {
+		return currentFrame;
+	}
+
+	/**
+	 * update the current frame.
+	 * @param frame frame
+	 */
+	public static void setCurrentFrame(final JFrame frame) {
+		currentFrame = frame;
+	}
+
+	public static ImageIcon getImage(final String pathToImage) {
+		return new ImageIcon(SpadesGUI.class.getResource(pathToImage));
+	}
+
+	public static ImageIcon getLargeLogo() {
+		return SpadesGUI.getImage("/edu/gsu/csc1302/GUI/resources/images/logo-large-1.png");
+	}
+
+	public static ImageIcon getSmallLogo() {
+		return SpadesGUI.getImage("/edu/gsu/csc1302/GUI/resources/images/logo-small-1.png");
+	}
+
+	public static JSeparator generateSeparator() {
+		JSeparator separator =  new JSeparator(SwingConstants.HORIZONTAL);
+		separator.setBackground(Color.BLACK);
+		separator.setForeground(Color.BLACK);
+		return separator;
 	}
 }

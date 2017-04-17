@@ -13,7 +13,6 @@ public class SpadesPanel extends JPanel {
 
     public SpadesPanel() {
         super(new GridBagLayout());
-        this.goToPoint(0, 0);
     }
 
     public GridBagConstraints contraints() {
