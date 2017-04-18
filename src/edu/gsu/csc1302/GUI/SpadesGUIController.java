@@ -117,7 +117,7 @@ public class SpadesGUIController implements ActionListener {
             players.add(annon);
 
         } else {
-            System.out.println("NOT playeing");
+            System.out.println("NOT playing");
             CautiousPlayer puff = new CautiousPlayer("Puff");
             players.add(puff);
         }

@@ -9,12 +9,14 @@ import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.player.Player;
 import edu.gsu.csc1302.emperorsofspades.player.gui.GuiPlayer;
+import edu.gsu.csc1302.emperorsofspades.team.Team;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * A frame for game play windows.
@@ -65,6 +67,11 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      * and deck of cards, when needed.
      */
     private final JPanel gameTablePanel = new JPanel();
+
+    /**
+     * The game stats panel on the right.
+     */
+    private final JPanel statsPanel = new JPanel();
 
 
     /**
@@ -120,7 +127,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         System.out.println(guiPlayer);
         this.theGuiPlayer = guiPlayer;
 
-        //        @todo: want to make user click on card deck to deal when his turn
+        // @todo: want to make user click on card deck to deal when his turn
 //        this.theGamesEngine.startRound();
         this.theGamesEngine.dealCards();
 
@@ -129,6 +136,8 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         this.getContentPane().add(this.theContainerPanel);
         this.pack();
         this.setVisible(true);
+
+        this.notifyUserTOPlay();
     }
 
     /**
@@ -156,7 +165,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
 
 //      ADD: The status panel (on the east of border-layout)
-        JPanel statsPanel = getDisplayOfStatsPanel();
+        JPanel statsPanel = setupGameStatsPanel();
         statsPanel.setAlignmentX(Component.TOP_ALIGNMENT);
         this.theContentPanel.add(statsPanel, BorderLayout.EAST);
     }
@@ -196,23 +205,29 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 //        Notification Center uses flow layout
         this.notificationCenterPanel.setOpaque(true);
         this.notificationCenterPanel.setBackground(new Color(255, 171, 0));
-        this.notificationCenterPanel.add(new SpadesHeading(
-        		"Notice: Your turn!!", 16, Color.RED, SwingConstants.CENTER));
 
 //        Add the game hand cards to the holding panel
-        for (Card handCard : this.gameCards) {
+        for (Card handCard : this.theGamesEngine.getHand()) {
             this.gameCardsPanel.add(new JLabel(GUIHelper.getCardImg(handCard)));
         }
 
 //        ADD: the notification center and the hand deck to container.
         contentPanelCenter.add(this.notificationCenterPanel);
-//        contentPanelCenter.add(this.gameCardsPanel);
-        JPanel carddeck = this.displayDeckOfCards();
-        contentPanelCenter.add(carddeck);
+
+//        @Todo: make sure to init playhnad in the constructor
+//        Display the deck card image if it's the first hand of a round
+        if (this.theGamesEngine.getHandNumber() == 1) {
+            JPanel cardDeckImg = this.displayDeckOfCards();
+            contentPanelCenter.add(cardDeckImg);
+            cardDeckImg.setBounds(0, 50, 600, 300);
+        } else {
+            contentPanelCenter.add(this.gameCardsPanel);
+            this.gameCardsPanel.setBounds(0, 12, 600, 300);
+        }
 
         this.notificationCenterPanel.setBounds(0, 0, 600, 30);
-//        this.gameCardsPanel.setBounds(0, 12, 600, 300);
-        carddeck.setBounds(0, 12, 600, 300);
+
+
         this.notificationCenterPanel.setVisible(false);
         return contentPanelCenter;
     }
@@ -312,57 +327,12 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      * Sets up the stats panel.
      * @return the panel
      */
-    private JPanel getDisplayOfStatsPanel() {
-        JPanel statsPanel = new JPanel();
-        statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
-        statsPanel.setPreferredSize(new Dimension(200, 200));
-        statsPanel.setOpaque(false);
+    private JPanel setupGameStatsPanel() {
+        this.statsPanel.setLayout(new BoxLayout(this.statsPanel, BoxLayout.Y_AXIS));
+        this.statsPanel.setPreferredSize(new Dimension(200, 200));
+        this.statsPanel.setOpaque(false);
 
-//        Add team 2's stats
-        JLabel team2Stats = new JLabel();
-        team2Stats.setText("<html><p><span style="
-        		+ "\"background-color: #0000ff; color: #ffffff;\""
-        		+ "><strong>&nbsp;Score: 109&nbsp; &nbsp; &nbsp; "
-        		+ "&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong></span><br"
-        		+ " /><strong><span style=\"color: #000000; background-color:"
-        		+ " #ffff00;\">&nbsp;Total Tricks: 12 &nbsp; &nbsp;"
-        		+ "</span></strong><br /><span style=\"background-color:"
-        		+ "#00ff00;\"><strong><span style=\"color: #000000;"
-        		+ "\">&nbsp;Total wins: 6 &nbsp; &nbsp;&nbsp;"
-        		+ "</span></strong></span><br /><strong><span style="
-        		+ "\"color: #000000; background-color: #ff0000;\">&nbsp;Total"
-        		+ " Sets: 3 &nbsp; &nbsp;</span></strong></p></html>");
-
-        SpadesH3Heading team2Name = new SpadesH3Heading("Team 2", Color.WHITE);
-        team2Name.setBorder(GUIHelper.uiPadding(0, 0, 10, 0));
-        statsPanel.add(team2Name);
-
-        statsPanel.add(team2Stats);
-
-//        Add team 1's stats
-        JLabel team1Stats = new JLabel();
-        team1Stats.setText("<html><p><span style=\"background-color:"
-        		+ " #0000ff; color: #ffffff;\"><strong>&nbsp;Score: "
-        		+ "109&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;"
-        		+ "</strong></span><br /><strong><span style=\"color: #000000;"
-        		+ " background-color: #ffff00;\">&nbsp;Total Tricks: 12 &nbsp;"
-        		+ " &nbsp;</span></strong><br /><span style=\"background-color:"
-        		+ " #00ff00;\"><strong><span style=\"color: #000000;\">&nbsp;"
-        		+ "Total wins: 6 &nbsp; &nbsp;&nbsp;</span></strong></span><br "
-        		+ "/><strong><span style=\"color: #000000; background-color:"
-        		+ " #ff0000;\">&nbsp;Total Sets: 3 &nbsp; &nbsp;"
-        		+ "</span></strong></p></html>");
-
-        SpadesH3Heading team1Name = new SpadesH3Heading("Team 1", Color.WHITE);
-        team1Name.setBorder(GUIHelper.uiPadding(20, 0, 10, 0));
-        statsPanel.add(team1Name);
-
-        statsPanel.add(team1Stats);
-
-//        Add the panel heading
-        SpadesH3Heading panelHeading = new
-        		SpadesH3Heading("Game Stats", Color.BLACK);
-        statsPanel.add(panelHeading, SwingConstants.CENTER);
+        this.updateTeamStats();
 
         return statsPanel;
     }
@@ -409,6 +379,49 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
         deckOfCards.add(deckImg);
         return deckOfCards;
+    }
+
+    private void notifyUserTOPlay() {
+        SpadesHeading playNowLbl = new SpadesHeading(
+                "It's your turn to play.", 16, Color.RED, SwingConstants.CENTER);
+        this.notificationCenterPanel.add(playNowLbl);
+        this.notificationCenterPanel.setVisible(true);
+    }
+
+    private void updateTeamStats() {
+        Iterator itr = this.theGamesEngine.getTeams().entrySet().iterator();
+
+        while (itr.hasNext()) {
+            Team theTeam = (Team) itr.next();
+
+            JLabel teamLbl = new JLabel();
+            teamLbl.setText("<html><p><span style="
+                    + "\"background-color: #0000ff; color: #ffffff;\""
+                    + "><strong>&nbsp;Score: " + theTeam.getScore() + "&nbsp; &nbsp; &nbsp; "
+                    + "&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong></span><br"
+                    + " /><strong><span style=\"color: #000000; background-color:"
+                    + " #ffff00;\">&nbsp;Total Tricks: " + theTeam.getTricks() + " &nbsp; &nbsp;"
+                    + "</span></strong><br /><span style=\"background-color:"
+                    + "#00ff00;\"><strong><span style=\"color: #000000;"
+                    + "</span></strong></span><br /><strong><span style="
+                    + "\"color: #000000; background-color: #ff0000;\">&nbsp;Total"
+                    + " Sets: " + theTeam.getNumOfSets() + " &nbsp; &nbsp;</span></strong></p></html>");
+
+            SpadesH3Heading teamName = new SpadesH3Heading(theTeam.getTeamName(), Color.WHITE);
+            teamName.setBorder(GUIHelper.uiPadding(20, 0, 10, 0));
+            statsPanel.add(teamName, SwingConstants.CENTER);
+
+            this.statsPanel.add(teamLbl);
+        }
+
+//        Add the panel heading
+        SpadesH3Heading panelHeading = new
+                SpadesH3Heading("Game Stats", Color.BLACK);
+        statsPanel.add(panelHeading, SwingConstants.CENTER);
+    }
+
+    private void startRound() {
+//    Do stuff
     }
 
     private void startNewHand() {
