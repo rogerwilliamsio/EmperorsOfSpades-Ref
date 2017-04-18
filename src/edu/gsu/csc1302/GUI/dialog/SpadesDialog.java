@@ -96,9 +96,6 @@ public abstract class SpadesDialog extends JDialog {
 
     /**
      * Class constructor.
-     * @param owner the modal owner
-     * @param dialogTitle title of the dialog
-     * @param displayText the text
      */
     public SpadesDialog() {
 //        super(owner);

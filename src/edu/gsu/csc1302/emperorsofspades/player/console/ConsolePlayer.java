@@ -198,4 +198,12 @@ public class ConsolePlayer extends Player {
 	            }
 		}
 	}
+	/**
+	 * returns a card for the console player.
+	 */
+	@Override
+	public Card playCard(final CardDeck hand) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

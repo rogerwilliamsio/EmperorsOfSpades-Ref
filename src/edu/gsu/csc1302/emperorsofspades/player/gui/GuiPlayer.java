@@ -58,10 +58,18 @@ public class GuiPlayer extends Player {
     }
     /**
      * returns the other players bid.
-     * @return teo other players bid.
+     * @return to other players bid.
      */
     @Override
     public int placeBid(final Player player) {
         return 0;
     }
+    /**
+     * returns a card for the GUI player.
+     */
+	@Override
+	public Card playCard(final CardDeck hand) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
