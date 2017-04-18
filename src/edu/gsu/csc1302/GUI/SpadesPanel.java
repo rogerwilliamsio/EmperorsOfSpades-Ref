@@ -98,15 +98,19 @@ public class SpadesPanel extends JPanel {
         this.add(component);
     }
     /**
-     * 
-     * @param component the componet to be added
-     * @param nthColumn
+     * adds the component to a specific column.
+     * @param component the component to be added
+     * @param nthColumn the column where the component will be added
      */
-    public void addToNextColumn(final JComponent component, final int nthColumn) {
+    public void addToNextColumn(final JComponent component,
+    		final int nthColumn) {
         this.goToNthColumn(nthColumn);
         this.add(component);
     }
-
+    /**
+     * adds component to the next column.
+     * @param component the component to be added.s
+     */
     public void addToNthColumn(final JComponent component) {
         this.goToNextColumn();
         this.add(component);
