@@ -248,4 +248,15 @@ public class Team {
     public String toString() {
         return String.format("[Team] %s", this.getTeamName());
     }
+    /**
+	 * clone the team.
+	 * @return a clone.
+	 */
+	public Object clone() {
+	    try {
+	        return super.clone();
+	    } catch (Exception e) {
+	        return null;
+	    }
+	}
 }

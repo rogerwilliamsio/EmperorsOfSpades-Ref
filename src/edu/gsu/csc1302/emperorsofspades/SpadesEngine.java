@@ -18,7 +18,10 @@ public class SpadesEngine {
      * The minimum required team bid.
      */
 	public static final int MINIMUM_TEAM_BID = 4;
-
+	/**
+	 * history of the hands.
+	 */
+	private ArrayList<HashMap<String, Object>> handHistory = new ArrayList<>();
     /**
      * The maximum required team bid.
      */
@@ -27,7 +30,10 @@ public class SpadesEngine {
      * The minimum required blind bid.
      */
 	public static final int MINIMUM_BLIND_BID = 6;
-
+	/**
+	 * the hand winner.
+	 */
+	private Player handWinner;
     /**
      * The maximum required blind bid.
      */
@@ -387,17 +393,21 @@ public class SpadesEngine {
 
 		 if (win == 0) {
 			 displayHandWinner(team1, win + 1);
+			 updateStats(hand, win + 1, leadCard);
 		 }
 		 if (win == 2) {
 			 displayHandWinner(team1, win + 1);
+			 updateStats(hand, win + 1, leadCard);
 			 orderSwitch3();
 		 }
 		 if (win == 1) {
 			 displayHandWinner(team2, win + 1);
+			 updateStats(hand, win + 1, leadCard);
 			 orderSwitch2();
 		 }
 		 if (win == 3) {
 			 displayHandWinner(team2, win + 1);
+			 updateStats(hand, win + 1, leadCard);
 			 orderSwitch4();
 		 }
 		 System.out.println("hand played:" + hand.toString());
@@ -555,6 +565,7 @@ public class SpadesEngine {
 	 * Switches order if the second player wins the hand.
 	 */
 	private void orderSwitch2() {
+
 		String winner = order.get(2);
 		String next2Winner = order.get(3);
 		String winnerTeamMate = order.get(4);
@@ -605,6 +616,29 @@ public class SpadesEngine {
 		System.out.println("hand winner:" + team.toString());
 		System.out.println("winner:" + table.get(order.get(index)).toString());
 		System.out.println(" ");
+	}
+	/**
+	 * return the array list of the history for the hand.
+	 * @param deck the hand played
+	 * @param index the index of the player in the order
+	 * @param card the winning card of the hand
+	 */
+	private void updateStats(
+			final CardDeck deck, final int index, final Card card) {
+
+		Player winner = (Player) table.get(order.get(index)).clone();
+		CardDeck cDeck = (CardDeck) deck.clone();
+		Card leadCard = (Card) card.clone();
+
+		handWinner = winner;
+
+		Map<String, Object> handStat = new HashMap<>();
+
+		handStat.put("player", winner);
+		handStat.put("hand", cDeck);
+		handStat.put("leadCard", leadCard);
+
+		handHistory.add((HashMap<String, Object>) handStat);
 	}
 	/**
 	 * displays the total round played.
@@ -659,5 +693,50 @@ public class SpadesEngine {
 	 */
 	public Map<Integer, String> getOrder() {
 		return order;
+	}
+	/**
+	 * returns the hand winner.
+	 * @return the handWinner
+	 */
+	public Player getHandWinner() {
+		return handWinner;
+	}
+//	/**
+//	 * sets the hand winner.
+//	 * @param handWinner the handWinner to set
+//	 */
+//	public void setHandWinner(Player handWinner) {
+//		this.handWinner = handWinner;
+//	}
+	/**
+	 * the hand history in an array list.
+	 * @return the handHistory
+	 */
+	public ArrayList<HashMap<String, Object>> getHandHistory() {
+		return handHistory;
+	}
+//	/**
+//	 * sets the hand history.
+//	 * @param handHistory the handHistory to set
+//	 */
+//	public void setHandHistory(final ArrayList
+//			<HashMap<String, Object>> handHistory) {
+//		this.handHistory = handHistory;
+//	}
+	/**
+	 * returns team one.
+	 * @return the team one.
+	 */
+	public Team getTeam1() {
+		Team team = teams.get(teamName1);
+		return team;
+	}
+	/**
+	 * returns team two.
+	 * @return the team two.
+	 */
+	public Team getTeam2() {
+		Team team = teams.get(teamName2);
+		return team;
 	}
 }

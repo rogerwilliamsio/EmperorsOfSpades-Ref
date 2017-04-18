@@ -11,6 +11,7 @@ import java.awt.Cursor;
  *
  * @author Roger Williams
  */
+@SuppressWarnings("serial")
 public class SpadesButton extends JButton {
     /**
      * The default background color for the buttons.
@@ -41,7 +42,8 @@ public class SpadesButton extends JButton {
      * @param backgroundColor background color of the button
      * @param foregroundColor foreground color of the button (text color)
      */
-    public SpadesButton(final String text, final Color backgroundColor, final Color foregroundColor) {
+    public SpadesButton(final String text,
+    		final Color backgroundColor, final Color foregroundColor) {
         super(text);
 //        Add event listener to all spades button
         this.addActionListener(new SpadesGUIController());
@@ -54,7 +56,8 @@ public class SpadesButton extends JButton {
      * @param backgroundColor the required background color for the button
      * @param foregroundColor the require text color for the button
      */
-    private void applySpadesStyles(final Color backgroundColor, final Color foregroundColor) {
+    private void applySpadesStyles(final Color backgroundColor,
+    		final Color foregroundColor) {
         this.setFocusPainted(false);
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
@@ -73,7 +76,7 @@ public class SpadesButton extends JButton {
 
     /**
      * Returns the with of the button.
-     * @return
+     * @return the component width
      */
     public int getComponentGridWidth() {
         return componentGridWidth;
