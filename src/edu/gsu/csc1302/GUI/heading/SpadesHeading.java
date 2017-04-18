@@ -1,15 +1,18 @@
 package edu.gsu.csc1302.GUI.heading;
 
+import java.awt.Color;
+import java.awt.Font;
+
 import edu.gsu.csc1302.GUI.text.SpadesText;
 
-import javax.swing.*;
-import java.awt.*;
+
 
 /**
- * description
+ * the class for the heading of the texts.
  *
  * @author Roger Williams
  */
+@SuppressWarnings("serial")
 public class SpadesHeading extends SpadesText {
 
     /**
@@ -18,7 +21,8 @@ public class SpadesHeading extends SpadesText {
      * @param fontSize the font size
      * @param fontColor color of the font
      */
-    public SpadesHeading(final String headingText, final int fontSize, final Color fontColor) {
+    public SpadesHeading(final String headingText,
+    		final int fontSize, final Color fontColor) {
         super(headingText);
         this.headingStyles(fontSize, fontColor);
     }
@@ -28,15 +32,17 @@ public class SpadesHeading extends SpadesText {
      * @param headingText the text
      * @param fontSize the font size
      * @param fontColor color of the font
+     * @param alignment the alignment of the text.
      */
-    public SpadesHeading(final String headingText, final int fontSize, final Color fontColor,
+    public SpadesHeading(final String headingText,
+    		final int fontSize, final Color fontColor,
                          final int alignment) {
         super(headingText, alignment);
         this.headingStyles(fontSize, fontColor);
     }
 
     /**
-     * The the styles for the base heading class
+     * The the styles for the base heading class.
      * @param fontSize the font size
      * @param color the color of the font
      */

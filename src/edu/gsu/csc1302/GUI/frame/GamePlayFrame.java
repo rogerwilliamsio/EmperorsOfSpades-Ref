@@ -26,6 +26,7 @@ import java.util.HashMap;
  *
  * @author Roger Williams
  */
+@SuppressWarnings("serial")
 public class GamePlayFrame extends SpadesHeaderFrame {
 
     /**
@@ -39,11 +40,13 @@ public class GamePlayFrame extends SpadesHeaderFrame {
     private final CardDeck gameCards = new CardDeck();
 
     /**
-     * Maps the cards dealt to the console used to the JLabels used to display them.
+     * Maps the cards dealt to the console used to the
+     * JLabels used to display them.
      * IMPORTANT when the user clicks on a card image (JLabel),
-     * that JLabel is looked-up in the hashmap and the card object is returned.
+     * that JLabel is looked-up in the hash-map and the card object is returned.
      */
-    private final HashMap<JLabel, Card> consolePlayerHandMapping = new HashMap<>();
+    private final HashMap<JLabel, Card>
+    consolePlayerHandMapping = new HashMap<>();
 
     /**
      * Holds/controls the game notification center, located above the
@@ -84,10 +87,12 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         this.theContentPanel.setLayout(new BorderLayout(0, 0));
 
 //        ADD: The center panel
-        this.theContentPanel.add(this.getDisplayOfCenterPanel(), BorderLayout.CENTER);
+        this.theContentPanel.add(
+        		this.getDisplayOfCenterPanel(), BorderLayout.CENTER);
 
 //      ADD: List of players
-        this.theContentPanel.add(this.getDisplayOfPlayersPanel(), BorderLayout.WEST);
+        this.theContentPanel.add(
+        		this.getDisplayOfPlayersPanel(), BorderLayout.WEST);
 
 //      ADD: The Console user's hand of cards
 //        @todo: to be removed
@@ -95,9 +100,10 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         for (int i = 0; i < 13; i++) {
             deck.add(new Card(Card.Suit.CLUB, Card.Rank.JACK));
         }
-        this.theContentPanel.add(this.getDisplayOfConsolePlayerCards(deck), BorderLayout.SOUTH);
+        this.theContentPanel.add(
+        		this.getDisplayOfConsolePlayerCards(deck), BorderLayout.SOUTH);
 
-//      ADD: The status panel (on the east of borderlayout)
+//      ADD: The status panel (on the east of border-layout)
         JPanel statsPanel = getDisplayOfStatsPanel();
         statsPanel.setAlignmentX(Component.TOP_ALIGNMENT);
         this.theContentPanel.add(statsPanel, BorderLayout.EAST);
@@ -108,7 +114,8 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      * @return
      */
 //    private JPanel getDisplayOfNotificationCenter() {
-//        this.notificationCenterPanel.add(new JLabel("Hellow. Your turn....!"));
+//        this.notificationCenterPanel.add(new JLabel(
+//    		"Hello. Your turn....!"));
 //
 //        return this.notificationCenterPanel;
 //    }
@@ -137,7 +144,8 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 //        Notification Center uses flow layout
         this.notificationCenterPanel.setOpaque(true);
         this.notificationCenterPanel.setBackground(new Color(255, 171, 0));
-        this.notificationCenterPanel.add(new SpadesHeading("Notice: Your turn!!", 16, Color.RED, SwingConstants.CENTER));
+        this.notificationCenterPanel.add(new SpadesHeading(
+        		"Notice: Your turn!!", 16, Color.RED, SwingConstants.CENTER));
 
 //        Add the game hand cards to the holding panel
         for (Card handCard : this.gameCards) {
@@ -155,26 +163,31 @@ public class GamePlayFrame extends SpadesHeaderFrame {
     }
 
     /**
-     * DISPLAYS the console player's hand of cards
+     * DISPLAYS the console player's hand of cards.
      * @param cardsDealt cards dealt to users by the dealer.
      * @return the panel
      */
     private JPanel getDisplayOfConsolePlayerCards(final CardDeck cardsDealt) {
-//      console user panel is a borderlayout
+//      console user panel is a border-layout
         JPanel consolePlayerOutterWrap = new JPanel();
         consolePlayerOutterWrap.setLayout(new BorderLayout());
-        consolePlayerOutterWrap.setPreferredSize(new Dimension(SpadesGUI.DEFAULT_FRAME_WIDTH, 160));
+        consolePlayerOutterWrap.setPreferredSize(
+        		new Dimension(SpadesGUI.DEFAULT_FRAME_WIDTH, 160));
         consolePlayerOutterWrap.setOpaque(true);
         consolePlayerOutterWrap.setBackground(new Color(56, 142, 60));
 
 //        The console panel header, uses absolute layout
         JPanel consolePlayerOuterHeader = new JPanel();
-        consolePlayerOuterHeader.setPreferredSize(new Dimension(SpadesGUI.DEFAULT_FRAME_WIDTH, 30));
+        consolePlayerOuterHeader.setPreferredSize(
+        		new Dimension(SpadesGUI.DEFAULT_FRAME_WIDTH, 30));
         consolePlayerOuterHeader.setLayout(null);
         consolePlayerOuterHeader.setBackground(new Color(255, 171, 0));
 
-        SpadesH3Heading headerCardLbl = new SpadesH3Heading("Your cards", Color.BLACK);
-        SpadesHeading headerNotifications = new SpadesHeading("<Put some game control buttons here>", 15, Color.RED, SwingConstants.CENTER);
+        SpadesH3Heading headerCardLbl = new
+        		SpadesH3Heading("Your cards", Color.BLACK);
+        SpadesHeading headerNotifications = new
+        		SpadesHeading("<Put some game control buttons here>",
+        				15, Color.RED, SwingConstants.CENTER);
         headerNotifications.setBackground(Color.WHITE);
         consolePlayerOuterHeader.add(headerCardLbl);
         consolePlayerOuterHeader.add(headerNotifications);
@@ -183,7 +196,8 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
 //        The actual panel for the console player's cards.
         JPanel consolePlayerCardsPanel = new JPanel();
-        consolePlayerCardsPanel.setPreferredSize(new Dimension(SpadesGUI.DEFAULT_FRAME_WIDTH, 120));
+        consolePlayerCardsPanel.setPreferredSize(
+        		new Dimension(SpadesGUI.DEFAULT_FRAME_WIDTH, 120));
         consolePlayerCardsPanel.setLayout(new GridLayout(1, 13, 2, 0));
         consolePlayerCardsPanel.setOpaque(false);
 
@@ -202,18 +216,22 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
                     JPanel parent = (JPanel) cardClicked.getParent();
                     parent.remove(cardClicked);
-//                    @todo: trigger event here for when card is removed from player hand
+//                    @todo: trigger event here for when
+                    //card is removed from player hand
 
                     parent.revalidate();
                     parent.repaint();
-                    GamePlayFrame.this.addCardToHandDeck((consolePlayerHandMapping.get(cardClicked)));
+                    GamePlayFrame.this.addCardToHandDeck((
+                    		consolePlayerHandMapping.get(cardClicked)));
                 }
             });
             consolePlayerCardsPanel.add(cardLabel);
         }
 
-        consolePlayerOutterWrap.add(consolePlayerOuterHeader, BorderLayout.NORTH);
-        consolePlayerOutterWrap.add(consolePlayerCardsPanel, BorderLayout.CENTER);
+        consolePlayerOutterWrap.add(
+        		consolePlayerOuterHeader, BorderLayout.NORTH);
+        consolePlayerOutterWrap.add(
+        		consolePlayerCardsPanel, BorderLayout.CENTER);
 
         return consolePlayerOutterWrap;
     }
@@ -243,7 +261,18 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
 //        Add team 2's stats
         JLabel team2Stats = new JLabel();
-        team2Stats.setText("<html><p><span style=\"background-color: #0000ff; color: #ffffff;\"><strong>&nbsp;Score: 109&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong></span><br /><strong><span style=\"color: #000000; background-color: #ffff00;\">&nbsp;Total Tricks: 12 &nbsp; &nbsp;</span></strong><br /><span style=\"background-color: #00ff00;\"><strong><span style=\"color: #000000;\">&nbsp;Total wins: 6 &nbsp; &nbsp;&nbsp;</span></strong></span><br /><strong><span style=\"color: #000000; background-color: #ff0000;\">&nbsp;Total Sets: 3 &nbsp; &nbsp;</span></strong></p></html>");
+        team2Stats.setText("<html><p><span style="
+        		+ "\"background-color: #0000ff; color: #ffffff;\""
+        		+ "><strong>&nbsp;Score: 109&nbsp; &nbsp; &nbsp; "
+        		+ "&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong></span><br"
+        		+ " /><strong><span style=\"color: #000000; background-color:"
+        		+ " #ffff00;\">&nbsp;Total Tricks: 12 &nbsp; &nbsp;"
+        		+ "</span></strong><br /><span style=\"background-color:"
+        		+ "#00ff00;\"><strong><span style=\"color: #000000;"
+        		+ "\">&nbsp;Total wins: 6 &nbsp; &nbsp;&nbsp;"
+        		+ "</span></strong></span><br /><strong><span style="
+        		+ "\"color: #000000; background-color: #ff0000;\">&nbsp;Total"
+        		+ " Sets: 3 &nbsp; &nbsp;</span></strong></p></html>");
 
         SpadesH3Heading team2Name = new SpadesH3Heading("Team 2", Color.WHITE);
         team2Name.setBorder(GUIHelper.uiPadding(0, 0, 10, 0));
@@ -253,7 +282,17 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
 //        Add team 1's stats
         JLabel team1Stats = new JLabel();
-        team1Stats.setText("<html><p><span style=\"background-color: #0000ff; color: #ffffff;\"><strong>&nbsp;Score: 109&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong></span><br /><strong><span style=\"color: #000000; background-color: #ffff00;\">&nbsp;Total Tricks: 12 &nbsp; &nbsp;</span></strong><br /><span style=\"background-color: #00ff00;\"><strong><span style=\"color: #000000;\">&nbsp;Total wins: 6 &nbsp; &nbsp;&nbsp;</span></strong></span><br /><strong><span style=\"color: #000000; background-color: #ff0000;\">&nbsp;Total Sets: 3 &nbsp; &nbsp;</span></strong></p></html>");
+        team1Stats.setText("<html><p><span style=\"background-color:"
+        		+ " #0000ff; color: #ffffff;\"><strong>&nbsp;Score: "
+        		+ "109&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;"
+        		+ "</strong></span><br /><strong><span style=\"color: #000000;"
+        		+ " background-color: #ffff00;\">&nbsp;Total Tricks: 12 &nbsp;"
+        		+ " &nbsp;</span></strong><br /><span style=\"background-color:"
+        		+ " #00ff00;\"><strong><span style=\"color: #000000;\">&nbsp;"
+        		+ "Total wins: 6 &nbsp; &nbsp;&nbsp;</span></strong></span><br "
+        		+ "/><strong><span style=\"color: #000000; background-color:"
+        		+ " #ff0000;\">&nbsp;Total Sets: 3 &nbsp; &nbsp;"
+        		+ "</span></strong></p></html>");
 
         SpadesH3Heading team1Name = new SpadesH3Heading("Team 1", Color.WHITE);
         team1Name.setBorder(GUIHelper.uiPadding(20, 0, 10, 0));
@@ -262,7 +301,8 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         statsPanel.add(team1Stats);
 
 //        Add the panel heading
-        SpadesH3Heading panelHeading = new SpadesH3Heading("Game Stats", Color.BLACK);
+        SpadesH3Heading panelHeading = new
+        		SpadesH3Heading("Game Stats", Color.BLACK);
         statsPanel.add(panelHeading, SwingConstants.CENTER);
 
         return statsPanel;
@@ -270,7 +310,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
     /**
      * Sets up the player's panel. Lists the players in a vertical boxlayout.
-     * @todo: cahnge to list/set of players, not string and REMOVE personality
+     * @todo: change to list/set of players, not string and REMOVE personality
      * @return the panel
      */
     private JPanel getDisplayOfPlayersPanel() {
@@ -281,10 +321,14 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         playersPanel.setOpaque(false);
 
 
-        JLabel player01Img = new JLabel(GUIHelper.getPlayerImg("aggressive", false));
-        JLabel player02Img = new JLabel(GUIHelper.getPlayerImg("console", true));
-        JLabel player03Img = new JLabel(GUIHelper.getPlayerImg("sophisticated", false));
-        JLabel player04Img = new JLabel(GUIHelper.getPlayerImg("wildcard", false));
+        JLabel player01Img = new
+        		JLabel(GUIHelper.getPlayerImg("aggressive", false));
+        JLabel player02Img = new
+        		JLabel(GUIHelper.getPlayerImg("console", true));
+        JLabel player03Img = new
+        		JLabel(GUIHelper.getPlayerImg("sophisticated", false));
+        JLabel player04Img = new
+        		JLabel(GUIHelper.getPlayerImg("wildcard", false));
 
         player01Img.setBorder(GUIHelper.uiPadding(10, 0));
         player02Img.setBorder(GUIHelper.uiPadding(10, 0));
@@ -301,7 +345,8 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         playersPanel.add(player03Img, SwingConstants.CENTER);
         playersPanel.add(player04Img, SwingConstants.CENTER);
 
-        SpadesH3Heading panelHeading = new SpadesH3Heading("Players", Color.BLACK);
+        SpadesH3Heading panelHeading =
+        		new SpadesH3Heading("Players", Color.BLACK);
         playersPanel.add(panelHeading, SwingConstants.CENTER);
 
         return playersPanel;

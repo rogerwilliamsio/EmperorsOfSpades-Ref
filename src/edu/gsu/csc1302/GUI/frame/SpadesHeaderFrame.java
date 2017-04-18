@@ -1,15 +1,24 @@
 package edu.gsu.csc1302.GUI.frame;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+
 import edu.gsu.csc1302.GUI.SpadesGUI;
 import edu.gsu.csc1302.GUI.heading.FrameHeading;
 
-import javax.swing.*;
-import java.awt.*;
+
 
 /**
  * Defines a JFrame with a header and content area.
- * It uses a borderlayout for the container panel.
+ * It uses a border-layout for the container panel.
  */
+@SuppressWarnings("serial")
 public abstract class SpadesHeaderFrame extends SpadesFrame {
 
     /**
@@ -33,10 +42,11 @@ public abstract class SpadesHeaderFrame extends SpadesFrame {
     /**
      * Class constructor.
      * @param partialFrameTitle the partial title
-     * @param backgroundColor background color of te frame
+     * @param backgroundColor background color of the frame
      * @param frameDimensions the dimensions of the frame
      */
-    public SpadesHeaderFrame(final String partialFrameTitle, final Color backgroundColor, final Dimension frameDimensions) {
+    public SpadesHeaderFrame(final String partialFrameTitle,
+    		final Color backgroundColor, final Dimension frameDimensions) {
         super(partialFrameTitle, backgroundColor, frameDimensions);
         this.setupHeaderPanel(partialFrameTitle);
 //        this.setupContentPanel();
@@ -46,7 +56,7 @@ public abstract class SpadesHeaderFrame extends SpadesFrame {
     }
 
     /**
-     * Class constructor with just tiltle.
+     * Class constructor with just title.
      * @param partialTitle the title
      */
     public SpadesHeaderFrame(final String partialTitle) {
@@ -60,7 +70,7 @@ public abstract class SpadesHeaderFrame extends SpadesFrame {
 
     /**
      * Sets up the main content area panel of the frame with all the components
-     * added to the theHeaderPanel field. ALL subcalsses must implement
+     * added to the theHeaderPanel field. ALL subclasses must implement
      */
     protected abstract void setupContentPanel();
 
@@ -70,12 +80,14 @@ public abstract class SpadesHeaderFrame extends SpadesFrame {
      * @param title title of the frame
      */
     private void setupHeaderPanel(final String title) {
-        this.theHeaderPanel.setPreferredSize(new Dimension(SpadesGUI.DEFAULT_FRAME_WIDTH, 100));
+        this.theHeaderPanel.setPreferredSize(new
+        		Dimension(SpadesGUI.DEFAULT_FRAME_WIDTH, 100));
         this.theHeaderPanel.setLayout(null);
         this.theHeaderPanel.setOpaque(false);
 
         JLabel logoLabel = new JLabel(SpadesGUI.getSmallLogo());
-        FrameHeading frameTitleLabel = new FrameHeading(title, SwingConstants.CENTER);
+        FrameHeading frameTitleLabel = new FrameHeading(
+        		title, SwingConstants.CENTER);
 
         this.theHeaderPanel.add(logoLabel);
         this.theHeaderPanel.add(frameTitleLabel);
@@ -89,11 +101,13 @@ public abstract class SpadesHeaderFrame extends SpadesFrame {
 
     /**
      * This is the container for the frame. The frame's layout is set here.
-     * It uses the borderlayout and utilizes the NORTH and CENTER regions.
+     * It uses the border-layout and utilizes the NORTH and CENTER regions.
      * NORTH is for the header. CENTER is for the main content area.
      */
     protected void setupContainerPanel() {
-        this.theContainerPanel.setPreferredSize(new Dimension(SpadesGUI.DEFAULT_FRAME_WIDTH, SpadesGUI.DEFAULT_FRAME_HEIGHT));
+        this.theContainerPanel.setPreferredSize(
+        		new Dimension(SpadesGUI.DEFAULT_FRAME_WIDTH,
+        				SpadesGUI.DEFAULT_FRAME_HEIGHT));
         this.theContainerPanel.setBackground(SpadesGUI.UI_BACKGROUND_COLOR);
 
         BorderLayout layout = new BorderLayout(0, 0);

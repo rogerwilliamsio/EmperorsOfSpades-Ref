@@ -60,7 +60,7 @@ public abstract class SpadesDialog extends JDialog {
         ERROR(JOptionPane.ERROR_MESSAGE),
 
         /**
-         * Ask a question
+         * Ask a question.
          */
         QUESTION(JOptionPane.QUESTION_MESSAGE),
 

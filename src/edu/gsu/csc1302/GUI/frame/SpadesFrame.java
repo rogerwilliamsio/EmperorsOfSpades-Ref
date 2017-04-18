@@ -12,6 +12,7 @@ import java.awt.Dimension;
  *
  * @author Roger Williams
  */
+@SuppressWarnings("serial")
 public class SpadesFrame extends JFrame {
 
     /**
@@ -19,7 +20,9 @@ public class SpadesFrame extends JFrame {
      * @param partialFrameTitle the partial title
      */
     public SpadesFrame(final String partialFrameTitle) {
-        this(partialFrameTitle, SpadesGUI.UI_BACKGROUND_COLOR, new Dimension(SpadesGUI.DEFAULT_FRAME_WIDTH, SpadesGUI.DEFAULT_FRAME_HEIGHT));
+        this(partialFrameTitle, SpadesGUI.UI_BACKGROUND_COLOR,
+        		new Dimension(SpadesGUI.DEFAULT_FRAME_WIDTH,
+        				SpadesGUI.DEFAULT_FRAME_HEIGHT));
     }
 
     /**
@@ -28,7 +31,9 @@ public class SpadesFrame extends JFrame {
      * @param backgroundColor background color of te frame
      * @param frameDimensions the dimensions of the frame
      */
-    public SpadesFrame(final String partialFrameTitle, final Color backgroundColor, final Dimension frameDimensions) {
+    public SpadesFrame(final String partialFrameTitle,
+    		final Color backgroundColor,
+    		final Dimension frameDimensions) {
         super(SpadesGUI.APP_NAME + " - " + partialFrameTitle);
 
         this.setBackground(backgroundColor);
@@ -39,9 +44,8 @@ public class SpadesFrame extends JFrame {
         this.setLocationRelativeTo(null);
 
     }
-
     /**
-     * Refresh/repaint the given panel
+     * Refresh/repaint the given panel.
      * @param panel the panel
      */
     protected void repaintPanel(final JPanel panel) {

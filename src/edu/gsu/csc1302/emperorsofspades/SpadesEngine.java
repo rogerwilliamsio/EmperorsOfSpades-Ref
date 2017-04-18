@@ -23,7 +23,6 @@ public class SpadesEngine {
      * The maximum required team bid.
      */
 	public static final int MAXIMUM_TEAM_BID = 10;
-
     /**
      * The minimum required blind bid.
      */
@@ -56,7 +55,11 @@ public class SpadesEngine {
 	 * this is the map of the table.
 	 * it tracks the teams.
 	 */
-	private final Map<String, Team> teams = new HashMap<>();
+	private Map<String, Team> teams = new HashMap<>();
+	/**
+	 * the hand number.
+	 */
+	private int handNumber;
 	/**
 	 * this is the map of the table.
 	 * it tracks who is the dealer and who
@@ -75,11 +78,11 @@ public class SpadesEngine {
 	/**
 	 * name of the first team.
 	 */
-	private final String teamName1;
+	private String teamName1;
 	/**
 	 * name of the second team.
 	 */
-	private final String teamName2;
+	private String teamName2;
 	/**
 	 * this the the number of rounds played.
 	 */
@@ -120,6 +123,8 @@ public class SpadesEngine {
 			 randomIndex3 = rand.nextInt(4);
 		 }
 
+		 handNumber = 0;
+
 		 table.put("dealer", players.get(randomIndex));
 		 table.put("lDealer", players.get(randomIndex1));
 		 table.put("llDealer", players.get(randomIndex2));
@@ -130,7 +135,7 @@ public class SpadesEngine {
 		 order.put(3, "llDealer");
 		 order.put(4, "rDealer");
 
-		 setHand(null);
+		 this.hand = null;
 		 leadSuit = null;
 		 roundNumber = 0;
 		 teamName1 = "one";
@@ -143,7 +148,7 @@ public class SpadesEngine {
 		 teams.put(teamName2, two);
 
 	 }
-	 /**
+	/**
 	  * this method calls other methods to play the first round.
 	  */
 	 public void startRound() {
@@ -212,7 +217,8 @@ public class SpadesEngine {
 
 		 for (int i = 0; i < 13; i++) {
 			 	System.out.println(" ");
-	        	System.out.println("hand game: " + (i + 1));
+			 	handNumber++;
+	        	System.out.println("hand game: " + (handNumber));
 	        	System.out.println(" ");
 	        	playHand();
 	     }
@@ -260,9 +266,11 @@ public class SpadesEngine {
 
 		 for (int i = 0; i < 13; i++) {
 
-	        	System.out.println("hand game: " + (i + 1));
+			 	handNumber++;
+	        	System.out.println("hand game: " + (handNumber));
 	        	System.out.println(" ");
 	        	playHand();
+
 	     }
 
 		 int team1Tricks = team1.getTricks();
@@ -474,13 +482,6 @@ public class SpadesEngine {
 		return hand;
 	}
 	/**
-	 * this sets the hand.
-	 * @param hand the hand to set.
-	 */
-	private void setHand(final CardDeck hand) {
-		this.hand = hand;
-	}
-	/**
 	 * returns the players in the game.
 	 * @return the players the players in the game.
 	 */
@@ -630,5 +631,33 @@ public class SpadesEngine {
 				team2.setNumOfSets(0);
 			}
 		}
+	}
+	/**
+	 * returns the teams on the table.
+	 * @return the teams
+	 */
+	public Map<String, Team> getTeams() {
+		return teams;
+	}
+	/**
+	 * returns the name of team one.
+	 * @return the teamName1
+	 */
+	public String getTeamName1() {
+		return teamName1;
+	}
+	/**
+	 * returns the name of team two.
+	 * @return the teamName2
+	 */
+	public String getTeamName2() {
+		return teamName2;
+	}
+	/**
+	 * returns the order of players, which means who plays first and next.
+	 * @return the order
+	 */
+	public Map<Integer, String> getOrder() {
+		return order;
 	}
 }

@@ -6,16 +6,23 @@ import edu.gsu.csc1302.GUI.SpadesPanel;
 import edu.gsu.csc1302.GUI.button.SpadesButton;
 import edu.gsu.csc1302.GUI.heading.SpadesH1Heading;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 
 /**
  * The welcome/splash screen.
  *
  * @author Roger Williams
  */
+@SuppressWarnings("serial")
 public class SplashScreenFrame extends SpadesFrame {
-
+	/**
+	 * creates the starting frame.
+	 */
     public SplashScreenFrame() {
         super("Welcome!");
 //        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,7 +35,9 @@ public class SplashScreenFrame extends SpadesFrame {
 
         this.setVisible(true);
     }
-
+    /**
+     * this sets up the main panel.
+     */
     private void setupMainPanel() {
         SpadesPanel mainPanel = new SpadesPanel();
         GridBagConstraints gridConstraints = mainPanel.contraints();
@@ -37,11 +46,14 @@ public class SplashScreenFrame extends SpadesFrame {
         mainPanel.setBackground(SpadesGUI.UI_BACKGROUND_COLOR);
 
 //		The text
-        SpadesH1Heading welcomeLabel = new SpadesH1Heading("Welcome to", Color.BLACK);
+        SpadesH1Heading welcomeLabel =
+        		new SpadesH1Heading("Welcome to", Color.BLACK);
         mainPanel.add(welcomeLabel);
 
         //Create logo
-        JLabel logoLabel = new JLabel(new ImageIcon(this.getClass().getResource("/edu/gsu/csc1302/GUI/resources/images/logo-large-1.png")));
+        JLabel logoLabel = new JLabel(new ImageIcon(
+        		this.getClass().getResource(
+        				"/edu/gsu/csc1302/GUI/resources/images/logo-large-1.png")));
 //		Add logo to panel
         mainPanel.contraints().weightx = 1;
         mainPanel.contraints().ipady = 100;
@@ -49,7 +61,8 @@ public class SplashScreenFrame extends SpadesFrame {
 
 //		Create the start button
         SpadesButton startBtn = new SpadesButton("Let's Play!");
-        startBtn.setActionCommand(SpadesGUIActionListener.GuiActions.START_GAME.getString());
+        startBtn.setActionCommand(SpadesGUIActionListener
+        		.GuiActions.START_GAME.getString());
 
         mainPanel.contraints().ipady = 0;
         mainPanel.addToNextRow(startBtn);
