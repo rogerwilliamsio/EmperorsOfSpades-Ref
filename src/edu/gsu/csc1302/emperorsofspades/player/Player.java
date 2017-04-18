@@ -187,6 +187,12 @@ public abstract class Player {
      */
 
 	public abstract int placeBid(Player player);
+	/**
+	 * returns the card for the player.
+	 * @param hand the deck of the cards played.
+	 * @return the card for the player.
+	 */
+	public abstract Card playCard(CardDeck hand);
 
 	/**
 	 * clone the player.
