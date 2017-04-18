@@ -68,16 +68,6 @@ public abstract class Player {
     public Card playCard(final int index) {
         return this.cards.remove(index);
     }
-    /**
-     * @todo: fix?s
-     * Functionality for the player to play a card in a given hand.
-     * @param deck play the card at the given index.
-     * @return a card.
-     */
-    public Card playCard(final CardDeck deck) {
-//        return this.cards.remove(index);
-        return new Card(Suit.HEART, Card.Rank.EIGHT);
-    }
 
 
     /**

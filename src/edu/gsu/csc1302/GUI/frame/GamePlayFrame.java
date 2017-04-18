@@ -12,15 +12,14 @@ import edu.gsu.csc1302.emperorsofspades.player.ai.AIPlayer;
 import edu.gsu.csc1302.emperorsofspades.player.gui.GuiPlayer;
 import edu.gsu.csc1302.emperorsofspades.team.Team;
 
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Scanner;
 
 /**
  * A frame for game play windows.
@@ -52,6 +51,8 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      */
     private final HashMap<JLabel, Card>
             consolePlayerHandMapping = new HashMap<>();
+
+    private JPanel consolePlayerOutterWrap = new JPanel();
 
     private JPanel playersPanel = new JPanel();
 
@@ -132,6 +133,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
         this.theGuiPlayer = guiPlayer;
 
+//        Deals the cards, etc
         this.startRound();
 
         this.setupContainerPanel();
@@ -141,12 +143,13 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         this.setVisible(true);
 
 
+//        Check if dealer needs to deal cards. Cards are actually already dealt, just for simulation
         if (this.theGamesEngine.getDealer() instanceof GuiPlayer) {
             this.updateNotificationCenter("You are the dealer. Click on the deck of cards to deal.");
+            this.consolePlayerOutterWrap.setVisible(false);
+        } else {
+            this.startNewHand();
         }
-
-        this.beginGamePlay();
-
 
         System.out.println("Hand #: " + this.theGamesEngine.getHandNumber());
 
@@ -166,14 +169,14 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         this.theContentPanel.add(
         		this.getDisplayOfCenterPanel(), BorderLayout.CENTER);
 
-//      ADD: List of players
+//      ADD: List of playersi
+        this.getDisplayOfPlayersPanel();
         this.theContentPanel.add(this.playersPanel, BorderLayout.WEST);
 
         if (this.theGamesEngine.getConsolePlayerIsPlaying()) {
             this.theContentPanel.add(
                     this.getDisplayOfConsolePlayerCards(), BorderLayout.SOUTH);
         }
-
 
 //      ADD: The status panel (on the east of border-layout)
         JPanel statsPanel = setupGameStatsPanel();
@@ -204,12 +207,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         contentPanelCenter.setLayout(null);
         contentPanelCenter.setOpaque(false);
 
-        this.gameCards.add(new Card(Card.Suit.CLUB, Card.Rank.JACK));
-        this.gameCards.add(new Card(Card.Suit.DIAMOND, Card.Rank.KING));
-        this.gameCards.add(new Card(Card.Suit.HEART, Card.Rank.EIGHT));
-
-
-//      Current hand layout holder
+        //      Current hand layout holder
         this.gameCardsPanel.setLayout(new GridLayout(1, 4, 0, 0));
         this.gameCardsPanel.setOpaque(false);
 
@@ -217,32 +215,46 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         this.notificationCenterPanel.setOpaque(true);
         this.notificationCenterPanel.setBackground(new Color(255, 171, 0));
 
-//        Add the game hand cards to the holding panel
-        if (this.theGamesEngine.getHand() != null) {
-            for (Card handCard : this.theGamesEngine.getHand()) {
-                this.gameCardsPanel.add(new JLabel(GUIHelper.getCardImg(handCard)));
-            }
-        }
+//       this.updateGameTable();
 
 //        ADD: the notification center and the hand deck to container.
         contentPanelCenter.add(this.notificationCenterPanel);
 
+
 //        @Todo: make sure to init playhnad in the constructor
 //        Display the deck card image if it's the first hand of a round
-        if (this.theGamesEngine.getHandNumber() == 1) {
-            JPanel cardDeckImg = this.displayDeckOfCards();
-            contentPanelCenter.add(cardDeckImg);
-            cardDeckImg.setBounds(0, 50, 600, 300);
-        } else {
-            contentPanelCenter.add(this.gameCardsPanel);
-            this.gameCardsPanel.setBounds(0, 12, 600, 300);
-        }
-
+        JPanel cardDeckImg = this.displayDeckOfCards();
+        gameCardsPanel.add(cardDeckImg);
+//        if (this.theGamesEngine.getHandNumber() == 1) {
+//
+//            cardDeckImg.setBounds(0, 50, 600, 300);
+//        } else {
+//            contentPanelCenter.add(this.gameCardsPanel);
+//            this.gameCardsPanel.setBounds(0, 12, 600, 300);
+//        }
+//
         this.notificationCenterPanel.setBounds(0, 0, 600, 30);
 
+        contentPanelCenter.add(this.gameCardsPanel);
+       this.gameCardsPanel.setBounds(0, 12, 600, 300);
 
+        this.gameCardsPanel.setVisible(true);
         this.notificationCenterPanel.setVisible(false);
         return contentPanelCenter;
+    }
+
+    private void updateGameTable() {
+//        Add the game hand cards to the holding panel
+        this.gameCardsPanel.removeAll();
+
+        if (this.theGamesEngine.getHand() != null) {
+            for (Card handCard : this.theGamesEngine.getHand()) {
+                System.out.println("Card: " + handCard);
+                this.gameCardsPanel.add(new JLabel(GUIHelper.getCardImg(handCard, true)));
+            }
+        }
+
+        this.repaintPanel(this.gameCardsPanel);
     }
 
     /**
@@ -251,7 +263,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      */
     private JPanel getDisplayOfConsolePlayerCards() {
 //      console user panel is a border-layout
-        JPanel consolePlayerOutterWrap = new JPanel();
+
         consolePlayerOutterWrap.setLayout(new BorderLayout());
         consolePlayerOutterWrap.setPreferredSize(
         		new Dimension(SpadesGUI.DEFAULT_FRAME_WIDTH, 160));
@@ -295,6 +307,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
             cardLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(final MouseEvent e) {
+
                     JLabel cardClicked = (JLabel) e.getSource();
 
                     JPanel parent = (JPanel) cardClicked.getParent();
@@ -302,10 +315,10 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 //                    @todo: trigger event here for when
                     //card is removed from player hand
 
-                    parent.revalidate();
-                    parent.repaint();
+
                     GamePlayFrame.this.addCardToHandDeck((
                     		consolePlayerHandMapping.get(cardClicked)));
+//                    GamePlayFrame.this.updateGameTable();
                 }
             });
             consolePlayerCardsPanel.add(cardLabel);
@@ -329,8 +342,8 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      * @param card the card to add to the game deck
      */
     private void addCardToHandDeck(final Card card) {
-        this.gameCards.add(card);
-        this.gameCardsPanel.add(new JLabel(GUIHelper.getCardImg(card)));
+        this.theGamesEngine.getHand().add(card);
+        this.gameCardsPanel.add(new JLabel(GUIHelper.getCardImg(card, true)));
 
 //        Repaint the hand deck panel/holder
         this.repaintPanel(this.gameCardsPanel);
@@ -412,6 +425,39 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         deckImg.setCursor(new Cursor(Cursor.HAND_CURSOR));
         deckOfCards.setOpaque(false);
 
+        deckImg.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("why ypu clic me");
+                deckImg.setVisible(false);
+                GamePlayFrame.this.notificationCenterPanel.setVisible(false);
+                GamePlayFrame.this.consolePlayerOutterWrap.setVisible(true);
+                GamePlayFrame.this.gameCardsPanel.setVisible(true);
+                GamePlayFrame.this.startNewHand();
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
         deckOfCards.add(deckImg);
         return deckOfCards;
     }
@@ -471,8 +517,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
     private void startRound() {
         this.theGamesEngine.startRoundGUI();
-        this.startNewHand();
-        System.out.println("THe dealer: " + this.theGamesEngine.getDealer());
+//        System.out.println("THe dealer: " + this.theGamesEngine.getDealer());
     }
 
     private void startNewHand() {
@@ -486,17 +531,39 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      * SHould be called eveytime a new hand is started.
      */
     private void beginGamePlay() {
-        Player nextPlayer = this.theGamesEngine.getNextPlayer();
+//        this.startNewHand();
+
+        System.out.println("Dealer: " + this.theGamesEngine.getDealer());
+
 //        @todo: fix, not doing what i want
 //        this.updatePlayingUserImg(nextPlayer);
-//        System.out.println("Game has started. " + this.theGamesEngine.getNextPlayer() + "is playing");
+            boolean  conPLayed = false;
 
-        if (nextPlayer instanceof AIPlayer) {
-            System.out.println("AI should play");
-           this.theGamesEngine.getHand().add(nextPlayer.playCard(this.theGamesEngine.getHand()));
-        } else {
+        for (int i = 0; i < 4; i++) {
+            Player nextPlayer = this.theGamesEngine.getNextPlayer();
 
+            if (nextPlayer instanceof AIPlayer) {
+                System.out.println("AI should play");
+                this.theGamesEngine.getHand().add(nextPlayer.playCard(this.theGamesEngine.getHand()));
+
+                System.out.println("GAME HAND is: " + this.theGamesEngine.getHand());
+                System.out.println("Nextr Player: " + nextPlayer);
+
+                this.updateGameTable();
+
+            } else {
+                this.updateNotificationCenter("Your Turn!");
+
+                JOptionPane.showMessageDialog(null, this.consolePlayerOutterWrap, "Your Cards",
+                        JOptionPane.PLAIN_MESSAGE);
+            }
         }
+//        End of 
+
+
+    }
+
+    private void displayCards() {
 
     }
 

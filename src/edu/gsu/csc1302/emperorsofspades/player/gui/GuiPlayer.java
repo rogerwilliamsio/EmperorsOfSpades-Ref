@@ -64,4 +64,9 @@ public class GuiPlayer extends Player {
     public int placeBid(final Player player) {
         return 0;
     }
+
+    @Override
+    public Card playCard(CardDeck hand) {
+        return null;
+    }
 }

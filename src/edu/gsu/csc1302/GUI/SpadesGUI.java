@@ -93,7 +93,6 @@ public final class SpadesGUI {
 	 * @return image icon.
 	 */
 	public static ImageIcon getImage(final String pathToImage) {
-		System.out.println("PTH: " + pathToImage);
 		return new ImageIcon(SpadesGUI.class.getResource(pathToImage));
 	}
 	/**
