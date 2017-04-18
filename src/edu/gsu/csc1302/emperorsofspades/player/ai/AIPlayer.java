@@ -59,8 +59,8 @@ public abstract class AIPlayer extends Player {
     }
 
     /**
-     * Returns the personality type as a lowercase string
-     * @return
+     * Returns the personality type as a lower-case string.
+     * @return personality type.
      */
     public String getPersonalityString() {
         return this.getPersonalityType().name().toLowerCase();

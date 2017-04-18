@@ -153,8 +153,8 @@ public class SpadesEngineGUI {
 		 this.hand = null;
 		 leadSuit = null;
 		 roundNumber = 0;
-		 teamName1 = "team 1";
-		 teamName2 = "team 2";
+		 teamName1 = "Team 1";
+		 teamName2 = "Team 2";
 	     Team one = new Team(teamName1,  players.get(randomIndex));
 	     one.addPlayer(players.get(randomIndex2));
 		 Team two = new Team(teamName2,  players.get(randomIndex1));
@@ -481,6 +481,7 @@ public class SpadesEngineGUI {
 
 		 CardDeck newHand = new CardDeck();
 		 handNumber++;
+		 turn = 0;
 
 		 this.hand = newHand;
 
