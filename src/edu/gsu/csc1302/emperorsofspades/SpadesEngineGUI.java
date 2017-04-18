@@ -435,6 +435,18 @@ public class SpadesEngineGUI {
 		Team team = teams.get(teamName2);
 		return team;
 	}
+	/**
+	 * returns teams in an array list.
+	 * @return teams in an array list.
+	 */
+	public ArrayList<Team> getTeamsArray() {
+		Team team1 = getTeam1();
+		Team team2 = getTeam2();
+		ArrayList<Team> gameTeam = new ArrayList<>();
+		gameTeam.add(team1);
+		gameTeam.add(team2);
+		return gameTeam;
+	}
 
 	/**
 	 * User's decision to play or not.
