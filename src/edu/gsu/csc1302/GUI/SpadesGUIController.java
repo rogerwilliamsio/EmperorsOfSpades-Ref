@@ -4,6 +4,7 @@ import edu.gsu.csc1302.GUI.frame.GamePlayFrame;
 import edu.gsu.csc1302.GUI.frame.TeamSetupFrame;
 import edu.gsu.csc1302.emperorsofspades.CardDeck;
 import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
+import edu.gsu.csc1302.emperorsofspades.SpadesEngineGUI;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.player.Player;
 import edu.gsu.csc1302.emperorsofspades.player.ai.AggressivePlayer;
@@ -121,7 +122,7 @@ public class SpadesGUIController implements ActionListener {
             CautiousPlayer puff = new CautiousPlayer("Puff");
             players.add(puff);
         }
-        SpadesEngine gameEngine = new SpadesEngine(players, deck);
+        SpadesEngineGUI gameEngine = new SpadesEngineGUI(players, deck);
 
         gameEngine.setConsolePlayerIsPlaying(userPlay);
 

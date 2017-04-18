@@ -8,6 +8,7 @@ import edu.gsu.csc1302.GUI.heading.SpadesH2Heading;
 import edu.gsu.csc1302.GUI.heading.SpadesHeading;
 import edu.gsu.csc1302.emperorsofspades.CardDeck;
 import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
+import edu.gsu.csc1302.emperorsofspades.SpadesEngineGUI;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.player.Player;
 import edu.gsu.csc1302.emperorsofspades.player.ai.*;
@@ -35,12 +36,12 @@ import java.util.ArrayList;
 @SuppressWarnings("serial")
 public class TeamSetupFrame extends SpadesHeaderFrame {
 
-    private final SpadesEngine theGameEngine;
+    private final SpadesEngineGUI theGameEngine;
     /**
      * Class constructor.
      * @param theGameEngine the game object
      */
-    public TeamSetupFrame(final SpadesEngine theGameEngine) {
+    public TeamSetupFrame(final SpadesEngineGUI theGameEngine) {
         super("Team Setup");
 //
         this.theGameEngine = theGameEngine;

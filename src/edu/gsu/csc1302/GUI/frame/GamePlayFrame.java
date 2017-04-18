@@ -5,13 +5,17 @@ import edu.gsu.csc1302.GUI.SpadesGUI;
 import edu.gsu.csc1302.GUI.heading.SpadesH3Heading;
 import edu.gsu.csc1302.GUI.heading.SpadesHeading;
 import edu.gsu.csc1302.emperorsofspades.CardDeck;
-import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
+import edu.gsu.csc1302.emperorsofspades.SpadesEngineGUI;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.player.Player;
+import edu.gsu.csc1302.emperorsofspades.player.ai.AIPlayer;
 import edu.gsu.csc1302.emperorsofspades.player.gui.GuiPlayer;
 import edu.gsu.csc1302.emperorsofspades.team.Team;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -26,7 +30,7 @@ import java.util.Iterator;
 @SuppressWarnings("serial")
 public class GamePlayFrame extends SpadesHeaderFrame {
 
-   private final SpadesEngine theGamesEngine;
+   private final SpadesEngineGUI theGamesEngine;
 
     /**
      * Panel to hold the JLabels of cards played in this hand.
@@ -48,6 +52,8 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      */
     private final HashMap<JLabel, Card>
             consolePlayerHandMapping = new HashMap<>();
+
+    private JPanel playersPanel = new JPanel();
 
     /**
      * Maps the players' images (in the list of players panel)
@@ -110,7 +116,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      * @param partialTitle the title
      * @param theGameEngine the game object
      */
-    public GamePlayFrame(final String partialTitle, final SpadesEngine theGameEngine) {
+    public GamePlayFrame(final String partialTitle, final SpadesEngineGUI theGameEngine) {
         super(partialTitle);
         this.theGamesEngine = theGameEngine;
 
@@ -124,11 +130,9 @@ public class GamePlayFrame extends SpadesHeaderFrame {
             }
         }
 
-        System.out.println(guiPlayer);
         this.theGuiPlayer = guiPlayer;
 
-        this.theGamesEngine.dealCards();
-
+        this.startRound();
 
         this.setupContainerPanel();
 
@@ -136,7 +140,16 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         this.pack();
         this.setVisible(true);
 
-        this.notifyUserTOPlay();
+
+        if (this.theGamesEngine.getDealer() instanceof GuiPlayer) {
+            this.updateNotificationCenter("You are the dealer. Click on the deck of cards to deal.");
+        }
+
+        this.beginGamePlay();
+
+
+        System.out.println("Hand #: " + this.theGamesEngine.getHandNumber());
+
     }
 
     /**
@@ -154,8 +167,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         		this.getDisplayOfCenterPanel(), BorderLayout.CENTER);
 
 //      ADD: List of players
-        this.theContentPanel.add(
-        		this.getDisplayOfPlayersPanel(), BorderLayout.WEST);
+        this.theContentPanel.add(this.playersPanel, BorderLayout.WEST);
 
         if (this.theGamesEngine.getConsolePlayerIsPlaying()) {
             this.theContentPanel.add(
@@ -206,8 +218,10 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         this.notificationCenterPanel.setBackground(new Color(255, 171, 0));
 
 //        Add the game hand cards to the holding panel
-        for (Card handCard : this.theGamesEngine.getHand()) {
-            this.gameCardsPanel.add(new JLabel(GUIHelper.getCardImg(handCard)));
+        if (this.theGamesEngine.getHandNumber() >= 1) {
+            for (Card handCard : this.theGamesEngine.getHand()) {
+                this.gameCardsPanel.add(new JLabel(GUIHelper.getCardImg(handCard)));
+            }
         }
 
 //        ADD: the notification center and the hand deck to container.
@@ -341,29 +355,51 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      * @todo: change to list/set of players, not string and REMOVE personality
      * @return the panel
      */
-    private JPanel getDisplayOfPlayersPanel() {
-        final JPanel playersPanel = new JPanel();
+    private void getDisplayOfPlayersPanel() {
 
-        playersPanel.setPreferredSize(new Dimension(310, 200));
-        playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
-        playersPanel.setOpaque(false);
+        this.playersPanel.setPreferredSize(new Dimension(310, 200));
+        this.playersPanel.setLayout(new BoxLayout(this.playersPanel, BoxLayout.Y_AXIS));
+        this.playersPanel.setOpaque(false);
 
         for (Player player : theGamesEngine.getPlayers()) {
             JLabel playerLabel = new JLabel(
                     GUIHelper.getPlayerImg(player, false));
+            playerLabel.setName(player.getName());
 
             this.playersJlabelMapping.put(playerLabel, player);
 
             playerLabel.setBorder(GUIHelper.uiPadding(10, 0));
             playerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            playersPanel.add(playerLabel, SwingConstants.CENTER);
+            this.playersPanel.add(playerLabel, SwingConstants.CENTER);
         }
 
         SpadesH3Heading panelHeading =
         		new SpadesH3Heading("Players", Color.BLACK);
-        playersPanel.add(panelHeading, SwingConstants.CENTER);
+        this.playersPanel.add(panelHeading, SwingConstants.CENTER);
+    }
 
-        return playersPanel;
+    private void updatePlayingUserImg(final Player thePlayer) {
+        JLabel found = new JLabel();
+        String name = thePlayer.getName();
+
+        for (Component child : this.playersPanel.getComponents()) {
+            if (child instanceof JLabel) {
+                JLabel label = (JLabel) child;
+                if (name.equals(label.getName())) {
+
+                    JLabel playerLabel = new JLabel(
+                            GUIHelper.getPlayerImg(thePlayer, true));
+                    playerLabel.setName(thePlayer.getName());
+                    this.playersJlabelMapping.put(label, thePlayer);
+                    break;
+                }
+            }
+        }
+        this.playersPanel.removeAll();
+        this.getDisplayOfPlayersPanel();
+         this.repaintPanel(this.playersPanel);
+
+
     }
 
     /**
@@ -382,17 +418,32 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
     private void notifyUserTOPlay() {
         SpadesHeading playNowLbl = new SpadesHeading(
-                "It's your turn to play.", 16, Color.RED, SwingConstants.CENTER);
+                "It's your turn to plays.", 16, Color.RED, SwingConstants.CENTER);
+
+        this.notificationCenterPanel.removeAll();
         this.notificationCenterPanel.add(playNowLbl);
+
+        this.repaintPanel(this.notificationCenterPanel);
+//        In case not visible
+        this.notificationCenterPanel.setVisible(true);
+    }
+
+
+    private void updateNotificationCenter(final String text) {
+        SpadesHeading notificationText = new SpadesHeading(
+                text, 16, Color.RED, SwingConstants.CENTER);
+        this.notificationCenterPanel.removeAll();
+        this.notificationCenterPanel.add(notificationText);
+
+        this.repaintPanel(this.notificationCenterPanel);
+//        In case not visible
         this.notificationCenterPanel.setVisible(true);
     }
 
     private void updateTeamStats() {
         Iterator itr = this.theGamesEngine.getTeams().entrySet().iterator();
 
-        while (itr.hasNext()) {
-            Team theTeam = (Team) itr.next();
-
+        for (Team theTeam : this.theGamesEngine.getTeamsArray()) {
             JLabel teamLbl = new JLabel();
             teamLbl.setText("<html><p><span style="
                     + "\"background-color: #0000ff; color: #ffffff;\""
@@ -412,7 +463,6 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
             this.statsPanel.add(teamLbl);
         }
-
 //        Add the panel heading
         SpadesH3Heading panelHeading = new
                 SpadesH3Heading("Game Stats", Color.BLACK);
@@ -420,10 +470,34 @@ public class GamePlayFrame extends SpadesHeaderFrame {
     }
 
     private void startRound() {
-//    Do stuff
+        this.theGamesEngine.startRoundGUI();
+        this.startNewHand();
+        System.out.println("THe dealer: " + this.theGamesEngine.getDealer());
     }
 
     private void startNewHand() {
-        this.theGamesEngine.playHand();
+        this.theGamesEngine.playHandGUI();
+//        System.out.println("SHould play next: " + this.theGamesEngine.getNextPlayer());
+
+        this.beginGamePlay();
     }
+
+    /**
+     * SHould be called eveytime a new hand is started.
+     */
+    private void beginGamePlay() {
+        Player nextPlayer = this.theGamesEngine.getNextPlayer();
+//        @todo: fix, not doing what i want
+        this.updatePlayingUserImg(nextPlayer);
+//        System.out.println("Game has started. " + this.theGamesEngine.getNextPlayer() + "is playing");
+
+        if (nextPlayer instanceof AIPlayer) {
+            System.out.println("AI should play");
+            nextPlayer.playCard(this.theGamesEngine.getHand())
+        } else {
+
+        }
+
+    }
+
 }
