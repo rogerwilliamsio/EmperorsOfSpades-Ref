@@ -1,7 +1,7 @@
 package edu.gsu.csc1302.GUI.frame;
 
 import edu.gsu.csc1302.GUI.SpadesGUI;
-import edu.gsu.csc1302.GUI.SpadesGUIActionListener;
+import edu.gsu.csc1302.GUI.SpadesGUIController;
 import edu.gsu.csc1302.GUI.SpadesPanel;
 import edu.gsu.csc1302.GUI.button.SpadesButton;
 import edu.gsu.csc1302.GUI.heading.SpadesH1Heading;
@@ -61,7 +61,7 @@ public class SplashScreenFrame extends SpadesFrame {
 
 //		Create the start button
         SpadesButton startBtn = new SpadesButton("Let's Play!");
-        startBtn.setActionCommand(SpadesGUIActionListener
+        startBtn.setActionCommand(SpadesGUIController
         		.GuiActions.START_GAME.getString());
 
         mainPanel.contraints().ipady = 0;

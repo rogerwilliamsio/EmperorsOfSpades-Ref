@@ -2,9 +2,18 @@ package edu.gsu.csc1302.GUI.frame;
 
 import edu.gsu.csc1302.GUI.GUIHelper;
 import edu.gsu.csc1302.GUI.SpadesGUI;
+import edu.gsu.csc1302.GUI.SpadesGUIController;
 import edu.gsu.csc1302.GUI.button.SpadesButton;
 import edu.gsu.csc1302.GUI.heading.SpadesH2Heading;
 import edu.gsu.csc1302.GUI.heading.SpadesHeading;
+import edu.gsu.csc1302.emperorsofspades.CardDeck;
+import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
+import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
+import edu.gsu.csc1302.emperorsofspades.player.Player;
+import edu.gsu.csc1302.emperorsofspades.player.ai.AggressivePlayer;
+import edu.gsu.csc1302.emperorsofspades.player.ai.CautiousPlayer;
+import edu.gsu.csc1302.emperorsofspades.player.ai.WildcardPlayer;
+import edu.gsu.csc1302.emperorsofspades.player.console.ConsolePlayer;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -16,6 +25,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 
 /**
@@ -25,11 +35,39 @@ import java.awt.event.ActionListener;
  */
 @SuppressWarnings("serial")
 public class TeamSetupFrame extends SpadesHeaderFrame {
+
+    private final SpadesEngine theGameEngine;
     /**
      * Class constructor.
+     * @param theGameEngine the game object
      */
-    public TeamSetupFrame() {
+    public TeamSetupFrame(final SpadesEngine theGameEngine) {
         super("Team Setup");
+
+        AggressivePlayer bob = new AggressivePlayer("Bob");
+        CautiousPlayer puff = new CautiousPlayer("Puff");
+        WildcardPlayer patrick = new WildcardPlayer("Patrick");
+
+//        Optional console player
+        ConsolePlayer annon = new ConsolePlayer("Con");
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(bob);
+        players.add(puff);
+        players.add(patrick);
+        players.add(annon);
+
+//      the game deck
+        CardDeck deck = new CardDeck();
+        for (Card.Suit suit: Card.Suit.values()) {
+            for (Card.Rank rank: Card.Rank.values()) {
+                Card c = new Card(suit, rank);
+                deck.add(c);
+            }
+        }
+
+        this.theGameEngine = new SpadesEngine(players, deck);
+
         this.setPreferredSize(new Dimension(
         		SpadesGUI.DEFAULT_FRAME_WIDTH, SpadesGUI.DEFAULT_FRAME_HEIGHT));
 
@@ -44,9 +82,9 @@ public class TeamSetupFrame extends SpadesHeaderFrame {
      * TODO: Remove this.
      * @param args used.
      */
-    public static void main(final String[] args) {
-        new TeamSetupFrame();
-    }
+//    public static void main(final String[] args) {
+//        new TeamSetupFrame();
+//    }
     /**
      * this sets up the content panel.
      */
@@ -69,11 +107,14 @@ public class TeamSetupFrame extends SpadesHeaderFrame {
         final SpadesButton proceedButton =
         		new SpadesButton("Let's GO!!!", Color.YELLOW, Color.BLACK);
 
+//        proceedButton.setActionCommand(SpadesGUIController.GuiActions.LAUNCH_GAME.getString());
+
         proceedButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 System.out.println("GOING");
-                new GamePlayFrame("Round 1: Hand 1");
+//                new GamePlayFrame("Round 1: Hand 1");
+                TeamSetupFrame.this.startFirstRound();
                 TeamSetupFrame.this.dispose();
             }
         });
@@ -107,6 +148,8 @@ public class TeamSetupFrame extends SpadesHeaderFrame {
         teamTwoInfo.setOpaque(false);
 
 //      @todo: remove these dummy players
+
+
         JLabel player01Img = new JLabel(
         		GUIHelper.getPlayerImg("aggressive", false));
         JLabel consolePlayer = new JLabel(
@@ -153,5 +196,9 @@ public class TeamSetupFrame extends SpadesHeaderFrame {
         teamInfoPanel.setBounds(300, 0, 700, 400);
 
         return teamInfoPanel;
+    }
+
+    private void startFirstRound() {
+        new GamePlayFrame("Round 1: Hand 1", this.theGameEngine );
     }
 }

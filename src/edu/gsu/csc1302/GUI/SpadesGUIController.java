@@ -2,12 +2,23 @@ package edu.gsu.csc1302.GUI;
 
 import edu.gsu.csc1302.GUI.frame.GamePlayFrame;
 import edu.gsu.csc1302.GUI.frame.TeamSetupFrame;
+import edu.gsu.csc1302.emperorsofspades.CardDeck;
+import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
+import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
+import edu.gsu.csc1302.emperorsofspades.player.Player;
+import edu.gsu.csc1302.emperorsofspades.player.ai.AggressivePlayer;
+import edu.gsu.csc1302.emperorsofspades.player.ai.CautiousPlayer;
+import edu.gsu.csc1302.emperorsofspades.player.ai.SophisticatedPlayer;
+import edu.gsu.csc1302.emperorsofspades.player.ai.WildcardPlayer;
+import edu.gsu.csc1302.emperorsofspades.player.console.ConsolePlayer;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 /**
  * Main event/action listener for the entire GUI.
@@ -15,7 +26,7 @@ import javax.swing.JFrame;
  *
  * @author Roger Williams
  */
-public class SpadesGUIActionListener implements ActionListener {
+public class SpadesGUIController implements ActionListener {
 	/**
 	 * the enum for the message.
 	 * @author Roger Williams
@@ -57,19 +68,22 @@ public class SpadesGUIActionListener implements ActionListener {
             return this.string;
         }
     }
+
     /**
-     * Triggered when action is performed.
+     * Triggered when action is performed (buttons)
      * @param e the event
      */
     @Override
     public void actionPerformed(final ActionEvent e) {
         if (e.getActionCommand().equals(GuiActions.START_GAME.getString())) {
             this.startGame(e);
+
         } else if (e.getActionCommand().
         		equals(GuiActions.LAUNCH_GAME.getString())) {
             this.launchGame(e);
         }
     }
+
     /**
      * the game start dialog box.
      * @param e the action event form the dialog box/frame.
@@ -77,11 +91,39 @@ public class SpadesGUIActionListener implements ActionListener {
     private void startGame(final ActionEvent e) {
         boolean userPlay = SpadesGUI.promptUserToPlayFrame();
 
-        if (userPlay) {
-            new TeamSetupFrame();
-        } else {
-            System.out.println("Does NOT want to play will do stuff here.");
+        AggressivePlayer bob = new AggressivePlayer("Bob");
+        SophisticatedPlayer gary = new SophisticatedPlayer("Gary");
+        WildcardPlayer patrick = new WildcardPlayer("Patrick");
+
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(bob);
+        players.add(gary);
+        players.add(patrick);
+
+//      the game deck
+        CardDeck deck = new CardDeck();
+        for (Card.Suit suit: Card.Suit.values()) {
+            for (Card.Rank rank: Card.Rank.values()) {
+                Card c = new Card(suit, rank);
+                deck.add(c);
+            }
         }
+
+        if (userPlay) {
+
+//        Optional console player
+            ConsolePlayer annon = new ConsolePlayer("Con");
+            players.add(annon);
+
+        } else {
+            CautiousPlayer puff = new CautiousPlayer("Puff");
+            players.add(puff);
+        }
+
+//        Display the team setuo frame
+        new TeamSetupFrame(new SpadesEngine(players, deck));
+
         SpadesGUI.getCurrentFrame().dispose();
     }
     /**
@@ -89,12 +131,20 @@ public class SpadesGUIActionListener implements ActionListener {
      * @param e action form dialog box/frame.
      */
     private void launchGame(final ActionEvent e) {
-        JButton button = (JButton) e.getSource();
-        JFrame parent = (JFrame) button.getParent();
-
+        JButton button =  (JButton) e.getSource();
+        JFrame parent = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, button);
         parent.dispose();
 
-        new GamePlayFrame("Round 1: Hand 1");
+        this.startFirstRound();
+
+    }
+
+    /**
+     * Starts the first round, hand 1.
+     */
+    private void startFirstRound() {
+
+
 
     }
 }

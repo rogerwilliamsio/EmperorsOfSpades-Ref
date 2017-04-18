@@ -5,20 +5,19 @@ import edu.gsu.csc1302.GUI.SpadesGUI;
 import edu.gsu.csc1302.GUI.heading.SpadesH3Heading;
 import edu.gsu.csc1302.GUI.heading.SpadesHeading;
 import edu.gsu.csc1302.emperorsofspades.CardDeck;
+import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
+import edu.gsu.csc1302.emperorsofspades.player.Player;
+import edu.gsu.csc1302.emperorsofspades.player.ai.AggressivePlayer;
+import edu.gsu.csc1302.emperorsofspades.player.ai.CautiousPlayer;
+import edu.gsu.csc1302.emperorsofspades.player.ai.WildcardPlayer;
+import edu.gsu.csc1302.emperorsofspades.player.console.ConsolePlayer;
 
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -28,6 +27,8 @@ import java.util.HashMap;
  */
 @SuppressWarnings("serial")
 public class GamePlayFrame extends SpadesHeaderFrame {
+
+   private final SpadesEngine theGamesEngine;
 
     /**
      * Panel to hold the JLabels of cards played in this hand.
@@ -46,13 +47,20 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      * that JLabel is looked-up in the hash-map and the card object is returned.
      */
     private final HashMap<JLabel, Card>
-    consolePlayerHandMapping = new HashMap<>();
+            consolePlayerHandMapping = new HashMap<>();
 
     /**
      * Holds/controls the game notification center, located above the
      * game hand deck of cards in the center panel.
      */
     private final JPanel notificationCenterPanel = new JPanel();
+
+//    @todo: ONLY add the deckImg and the game hand to this panel
+    /**
+     * The game table panel that displays the game hand
+     * and deck of cards, when needed.
+     */
+    private final JPanel gameTablePanel = new JPanel();
 
 
     /**
@@ -61,15 +69,39 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      * @param args used.
      */
     public static void main(final String[] args) {
-        new GamePlayFrame("Round 1");
+//        AggressivePlayer bob = new AggressivePlayer("Bob");
+//        CautiousPlayer puff = new CautiousPlayer("Puff");
+//        WildcardPlayer patrick = new WildcardPlayer("Patrick");
+//
+////        Optional console player
+//        ConsolePlayer annon = new ConsolePlayer("Con");
+//
+//        ArrayList<Player> players = new ArrayList<>();
+//        players.add(bob);
+//        players.add(puff);
+//        players.add(patrick);
+//        players.add(annon);
+//
+////      the game deck
+//        CardDeck deck = new CardDeck();
+//        for (Card.Suit suit: Card.Suit.values()) {
+//            for (Card.Rank rank: Card.Rank.values()) {
+//                Card c = new Card(suit, rank);
+//                deck.add(c);
+//            }
+//        }
+//
+//        new GamePlayFrame("Round 1: Hand 1", new SpadesEngine(players, deck));
     }
 
     /**
      * Class constructor.
      * @param partialTitle the title
+     * @param theGameEngine the game object
      */
-    public GamePlayFrame(final String partialTitle) {
+    public GamePlayFrame(final String partialTitle, final SpadesEngine theGameEngine) {
         super(partialTitle);
+        this.theGamesEngine = theGameEngine;
         this.setupContainerPanel();
 
         this.getContentPane().add(this.theContainerPanel);
@@ -86,6 +118,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         this.theContentPanel.setOpaque(false);
         this.theContentPanel.setLayout(new BorderLayout(0, 0));
 
+//        @todo: Optimize this center panel
 //        ADD: The center panel
         this.theContentPanel.add(
         		this.getDisplayOfCenterPanel(), BorderLayout.CENTER);
@@ -154,10 +187,13 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
 //        ADD: the notification center and the hand deck to container.
         contentPanelCenter.add(this.notificationCenterPanel);
-        contentPanelCenter.add(this.gameCardsPanel);
+//        contentPanelCenter.add(this.gameCardsPanel);
+        JPanel carddeck = this.displayDeckOfCards();
+        contentPanelCenter.add(carddeck);
 
         this.notificationCenterPanel.setBounds(0, 0, 600, 30);
-        this.gameCardsPanel.setBounds(0, 12, 600, 300);
+//        this.gameCardsPanel.setBounds(0, 12, 600, 300);
+        carddeck.setBounds(0, 12, 600, 300);
         this.notificationCenterPanel.setVisible(false);
         return contentPanelCenter;
     }
@@ -235,6 +271,10 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
         return consolePlayerOutterWrap;
     }
+
+//    private JPanel getDisplayOfGameHand() {
+//        this.center
+//    }
 
     /**
      * Adds a given card to the current hand deck.
@@ -350,5 +390,19 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         playersPanel.add(panelHeading, SwingConstants.CENTER);
 
         return playersPanel;
+    }
+
+    /**
+     * Dsiplays the deck of cards to be dealt.
+     * @return image.
+     */
+    private JPanel displayDeckOfCards() {
+        JPanel deckOfCards = new JPanel();
+        JLabel deckImg = new JLabel(GUIHelper.getImage("/res/images/misc/carddeck.png"));
+        deckImg.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        deckOfCards.setOpaque(false);
+
+        deckOfCards.add(deckImg);
+        return deckOfCards;
     }
 }
