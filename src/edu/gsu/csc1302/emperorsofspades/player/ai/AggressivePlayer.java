@@ -3,6 +3,7 @@ package edu.gsu.csc1302.emperorsofspades.player.ai;
 import java.util.Random;
 
 import edu.gsu.csc1302.emperorsofspades.CardDeck;
+import edu.gsu.csc1302.emperorsofspades.SpadesComparator;
 import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card.Suit;
@@ -82,5 +83,38 @@ public class AggressivePlayer extends AIPlayer {
         		- SpadesEngine.MINIMUM_BLIND_BID) + 1;
         return new Random().nextInt(bidBound)
         		+ SpadesEngine.MINIMUM_BLIND_BID;
+	}
+	/**
+	 * returns a card for the player.
+	 * @param hand the hand of the game.
+	 * @return a card for the player.
+	 */
+	public Card playCard(final CardDeck hand) {
+
+		 CardDeck newHand = (CardDeck) hand.clone();
+
+		 Card leadCard = new Card(null, null);
+		 Card myCard = new Card(null, null);
+		 Card.Suit leadSuit = null;
+
+		 SpadesComparator comp;
+
+		 if (newHand.size() >= 1) {
+			 Card firstCard = newHand.get(0);
+			 leadCard = firstCard;
+			 leadSuit = firstCard.getSuit();
+			 comp = new  SpadesComparator(leadSuit);
+			 newHand.remove(0);
+			 if (newHand.size() >= 1) {
+				 for (Card card: newHand) {
+					 int compare = comp.compare(leadCard, card);
+					 if (compare > 0) {
+						  leadCard = card;
+					 }
+				 }
+			 }
+		 }
+		 myCard = playCard(leadSuit, leadCard, hand);
+		return myCard;
 	}
 }

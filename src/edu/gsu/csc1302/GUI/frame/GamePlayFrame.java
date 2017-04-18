@@ -127,9 +127,8 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         System.out.println(guiPlayer);
         this.theGuiPlayer = guiPlayer;
 
-        // @todo: want to make user click on card deck to deal when his turn
-//        this.theGamesEngine.startRound();
         this.theGamesEngine.dealCards();
+
 
         this.setupContainerPanel();
 

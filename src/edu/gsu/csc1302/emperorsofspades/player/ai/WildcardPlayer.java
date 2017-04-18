@@ -154,4 +154,37 @@ public class WildcardPlayer extends AIPlayer {
 //	        return this.getHand().remove(2);
 //
 //	    }
+		/**
+		 * returns a card for the player.
+		 * @param hand the hand of the game.
+		 * @return a card for the player.
+		 */
+		public Card playCard(final CardDeck hand) {
+
+			 CardDeck newHand = (CardDeck) hand.clone();
+
+			 Card leadCard = new Card(null, null);
+			 Card myCard = new Card(null, null);
+			 Card.Suit leadSuit = null;
+
+			 SpadesComparator comp;
+
+			 if (newHand.size() >= 1) {
+				 Card firstCard = newHand.get(0);
+				 leadCard = firstCard;
+				 leadSuit = firstCard.getSuit();
+				 comp = new  SpadesComparator(leadSuit);
+				 newHand.remove(0);
+				 if (newHand.size() >= 1) {
+					 for (Card card: newHand) {
+						 int compare = comp.compare(leadCard, card);
+						 if (compare > 0) {
+							  leadCard = card;
+						 }
+					 }
+				 }
+			 }
+			 myCard = playCard(leadSuit, leadCard, hand);
+			return myCard;
+		}
 }
