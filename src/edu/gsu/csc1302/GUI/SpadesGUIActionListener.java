@@ -2,20 +2,24 @@ package edu.gsu.csc1302.GUI;
 
 import edu.gsu.csc1302.GUI.frame.GamePlayFrame;
 import edu.gsu.csc1302.GUI.frame.TeamSetupFrame;
-import edu.gsu.csc1302.emperorsofspades.team.Team;
-import oracle.jrockit.jfr.JFR;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
 /**
- * @todo: add window listener so can't close while playing.
  * Main event/action listener for the entire GUI.
+ * @todo: add window listener so can't close while playing.
  *
  * @author Roger Williams
  */
 public class SpadesGUIActionListener implements ActionListener {
+	/**
+	 * the enum for the message.
+	 * @author Roger Williams
+	 */
     public enum GuiActions {
         /**
          * Command to start the game.
@@ -61,11 +65,15 @@ public class SpadesGUIActionListener implements ActionListener {
     public void actionPerformed(final ActionEvent e) {
         if (e.getActionCommand().equals(GuiActions.START_GAME.getString())) {
             this.startGame(e);
-        } else if (e.getActionCommand().equals(GuiActions.LAUNCH_GAME.getString())) {
+        } else if (e.getActionCommand().
+        		equals(GuiActions.LAUNCH_GAME.getString())) {
             this.launchGame(e);
         }
     }
-
+    /**
+     * the game start dialog box.
+     * @param e the action event form the dialog box/frame.
+     */
     private void startGame(final ActionEvent e) {
         boolean userPlay = SpadesGUI.promptUserToPlayFrame();
 
@@ -76,7 +84,10 @@ public class SpadesGUIActionListener implements ActionListener {
         }
         SpadesGUI.getCurrentFrame().dispose();
     }
-
+    /**
+     * the game lunch method.
+     * @param e action form dialog box/frame.
+     */
     private void launchGame(final ActionEvent e) {
         JButton button = (JButton) e.getSource();
         JFrame parent = (JFrame) button.getParent();

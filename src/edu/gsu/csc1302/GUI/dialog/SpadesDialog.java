@@ -1,15 +1,18 @@
 package edu.gsu.csc1302.GUI.dialog;
 
-import edu.gsu.csc1302.GUI.SpadesPanel;
+import java.awt.Color;
+import java.awt.Cursor;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
- * A default spades dialog gui.
+ * A default spades dialog GUI.
  *
  * @author Roger Williams
  */
+@SuppressWarnings("serial")
 public abstract class SpadesDialog extends JDialog {
     /**
      * Yes option.

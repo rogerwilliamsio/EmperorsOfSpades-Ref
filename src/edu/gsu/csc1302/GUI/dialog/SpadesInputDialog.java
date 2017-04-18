@@ -1,26 +1,30 @@
 package edu.gsu.csc1302.GUI.dialog;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Frame;
+
+import javax.swing.JOptionPane;
 
 /**
- * description
- *
+ * Input dialog box.
  * @author Roger Williams
  */
+@SuppressWarnings("serial")
 public class SpadesInputDialog extends SpadesDialog {
     /**
-     * @Todo: fix button issues.
      * Class constructor.
-     * @param owner
-     * @param dialogTitle
-     * @param dialogMessage
+     * @Todo: fix button issues.
+     * @param owner the frame.
+     * @param dialogTitle the title of the dialog box.
+     * @param dialogMessage the dialog message.
+     * @return value of the response.
      */
-    public static String show(final Frame owner, final String dialogTitle, final String dialogMessage) {
+    public static String show(final Frame owner,
+    		final String dialogTitle, final String dialogMessage) {
         String dialogResponse;
 
         do {
-            dialogResponse = JOptionPane.showInputDialog(owner, dialogMessage, dialogTitle, JOptionPane.PLAIN_MESSAGE);
+            dialogResponse = JOptionPane.showInputDialog(
+            owner, dialogMessage, dialogTitle, JOptionPane.PLAIN_MESSAGE);
             if (dialogMessage.length() > 0) {
                 dialogResponse = dialogResponse.trim();
             }

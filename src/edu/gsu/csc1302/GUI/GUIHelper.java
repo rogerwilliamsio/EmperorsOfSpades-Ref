@@ -94,8 +94,8 @@ public final class GUIHelper {
 
     }
     /**
-     * 
-     * @return
+     * generates separator.
+     * @return the separator generated.
      */
     public static JSeparator generateSeparator() {
         JSeparator separator =  new JSeparator(SwingConstants.HORIZONTAL);
@@ -104,23 +104,25 @@ public final class GUIHelper {
         return separator;
     }
     /**
-     * 
-     * @param topBottom
-     * @param leftRight
-     * @return
+     * creates padding using empty boarder.
+     * @param topBottom the length from top to bottom.
+     * @param leftRight the length from right to left.
+     * @return an empty border
      */
     public static Border uiPadding(final int topBottom, final int leftRight) {
-        return  BorderFactory.createEmptyBorder(topBottom,leftRight,topBottom,leftRight);
+        return  BorderFactory.createEmptyBorder(
+        		topBottom, leftRight, topBottom, leftRight);
     }
     /**
-     * 
-     * @param top
-     * @param right
-     * @param bottom
-     * @param left
-     * @return
+     * creates padding using empty boarder.
+     * @param top location.
+     * @param right location.
+     * @param bottom location.
+     * @param left location.
+     * @return an empty border
      */
-    public static Border uiPadding(final int top, final int right, final int bottom, final int left) {
-        return  BorderFactory.createEmptyBorder(top,right,bottom,left);
+    public static Border uiPadding(final int top, final int right,
+    		final int bottom, final int left) {
+        return  BorderFactory.createEmptyBorder(top, right, bottom, left);
     }
 }
