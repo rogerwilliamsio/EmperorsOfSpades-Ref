@@ -11,7 +11,7 @@ import edu.gsu.csc1302.emperorsofspades.player.Player;
 /**
  * Simulates a console player.
  *
- * @author Roger Williams
+ * @author Mahetem Moges
  */
 
 public class ConsolePlayer extends Player {

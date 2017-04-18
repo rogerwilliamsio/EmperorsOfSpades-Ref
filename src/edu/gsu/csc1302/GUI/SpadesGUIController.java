@@ -11,6 +11,7 @@ import edu.gsu.csc1302.emperorsofspades.player.ai.CautiousPlayer;
 import edu.gsu.csc1302.emperorsofspades.player.ai.SophisticatedPlayer;
 import edu.gsu.csc1302.emperorsofspades.player.ai.WildcardPlayer;
 import edu.gsu.csc1302.emperorsofspades.player.console.ConsolePlayer;
+import edu.gsu.csc1302.emperorsofspades.player.gui.GuiPlayer;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -111,18 +112,21 @@ public class SpadesGUIController implements ActionListener {
         }
 
         if (userPlay) {
-
 //        Optional console player
-            ConsolePlayer annon = new ConsolePlayer("Con");
+            GuiPlayer annon = new GuiPlayer();
             players.add(annon);
 
         } else {
+            System.out.println("NOT playeing");
             CautiousPlayer puff = new CautiousPlayer("Puff");
             players.add(puff);
         }
+        SpadesEngine gameEngine = new SpadesEngine(players, deck);
+
+        gameEngine.setConsolePlayerIsPlaying(userPlay);
 
 //        Display the team setuo frame
-        new TeamSetupFrame(new SpadesEngine(players, deck));
+        new TeamSetupFrame(gameEngine);
 
         SpadesGUI.getCurrentFrame().dispose();
     }

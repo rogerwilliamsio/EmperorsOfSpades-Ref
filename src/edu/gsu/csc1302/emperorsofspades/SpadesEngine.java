@@ -14,6 +14,11 @@ import java.util.Random;
  * @author Mahetem Moges
  */
 public class SpadesEngine {
+	/**
+	 * Whether the console user wants to play.
+	 */
+	private boolean consolePlayerIsPlaying = false;
+
     /**
      * The minimum required team bid.
      */
@@ -738,5 +743,21 @@ public class SpadesEngine {
 	public Team getTeam2() {
 		Team team = teams.get(teamName2);
 		return team;
+	}
+
+	/**
+	 * User's decision to play or not.
+	 * @return true/false
+	 */
+	public boolean getConsolePlayerIsPlaying() {
+		return this.consolePlayerIsPlaying;
+	}
+
+	/**
+	 * User's decision to play or not.
+	 * @param wantsToPlay trye/false
+	 */
+	public void setConsolePlayerIsPlaying(final boolean wantsToPlay) {
+		this.consolePlayerIsPlaying = wantsToPlay;
 	}
 }

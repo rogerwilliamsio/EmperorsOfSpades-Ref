@@ -8,16 +8,12 @@ import edu.gsu.csc1302.emperorsofspades.CardDeck;
 import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.player.Player;
-import edu.gsu.csc1302.emperorsofspades.player.ai.AggressivePlayer;
-import edu.gsu.csc1302.emperorsofspades.player.ai.CautiousPlayer;
-import edu.gsu.csc1302.emperorsofspades.player.ai.WildcardPlayer;
-import edu.gsu.csc1302.emperorsofspades.player.console.ConsolePlayer;
+import edu.gsu.csc1302.emperorsofspades.player.gui.GuiPlayer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -40,6 +36,8 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      */
     private final CardDeck gameCards = new CardDeck();
 
+    private final GuiPlayer theGuiPlayer;
+
     /**
      * Maps the cards dealt to the console used to the
      * JLabels used to display them.
@@ -48,6 +46,12 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      */
     private final HashMap<JLabel, Card>
             consolePlayerHandMapping = new HashMap<>();
+
+    /**
+     * Maps the players' images (in the list of players panel)
+     * to their player object
+     */
+    private final HashMap<JLabel, Player> playersJlabelMapping = new HashMap<>();
 
     /**
      * Holds/controls the game notification center, located above the
@@ -102,6 +106,24 @@ public class GamePlayFrame extends SpadesHeaderFrame {
     public GamePlayFrame(final String partialTitle, final SpadesEngine theGameEngine) {
         super(partialTitle);
         this.theGamesEngine = theGameEngine;
+
+        GuiPlayer guiPlayer = null;
+        if (this.theGamesEngine.getConsolePlayerIsPlaying()) {
+            for (Object player : this.theGamesEngine.getPlayers()) {
+                if (player instanceof GuiPlayer) {
+                    guiPlayer = (GuiPlayer) player;
+                    break;
+                }
+            }
+        }
+
+        System.out.println(guiPlayer);
+        this.theGuiPlayer = guiPlayer;
+
+        //        @todo: want to make user click on card deck to deal when his turn
+//        this.theGamesEngine.startRound();
+        this.theGamesEngine.dealCards();
+
         this.setupContainerPanel();
 
         this.getContentPane().add(this.theContainerPanel);
@@ -127,14 +149,11 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         this.theContentPanel.add(
         		this.getDisplayOfPlayersPanel(), BorderLayout.WEST);
 
-//      ADD: The Console user's hand of cards
-//        @todo: to be removed
-        CardDeck deck = new CardDeck();
-        for (int i = 0; i < 13; i++) {
-            deck.add(new Card(Card.Suit.CLUB, Card.Rank.JACK));
+        if (this.theGamesEngine.getConsolePlayerIsPlaying()) {
+            this.theContentPanel.add(
+                    this.getDisplayOfConsolePlayerCards(), BorderLayout.SOUTH);
         }
-        this.theContentPanel.add(
-        		this.getDisplayOfConsolePlayerCards(deck), BorderLayout.SOUTH);
+
 
 //      ADD: The status panel (on the east of border-layout)
         JPanel statsPanel = getDisplayOfStatsPanel();
@@ -200,10 +219,9 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
     /**
      * DISPLAYS the console player's hand of cards.
-     * @param cardsDealt cards dealt to users by the dealer.
      * @return the panel
      */
-    private JPanel getDisplayOfConsolePlayerCards(final CardDeck cardsDealt) {
+    private JPanel getDisplayOfConsolePlayerCards() {
 //      console user panel is a border-layout
         JPanel consolePlayerOutterWrap = new JPanel();
         consolePlayerOutterWrap.setLayout(new BorderLayout());
@@ -241,10 +259,11 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
 
 //        @Todo: and remove card from the user's deck too.
-        for (Card theCard : cardsDealt) {
+        for (Card theCard : this.theGuiPlayer.getHand()) {
             JLabel cardLabel = new JLabel(GUIHelper.getCardImg(theCard, true));
             consolePlayerHandMapping.put(cardLabel, theCard);
             cardLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            cardLabel.setEnabled(false);
             cardLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(final MouseEvent e) {
@@ -360,30 +379,16 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
         playersPanel.setOpaque(false);
 
+        for (Player player : theGamesEngine.getPlayers()) {
+            JLabel playerLabel = new JLabel(
+                    GUIHelper.getPlayerImg(player, false));
 
-        JLabel player01Img = new
-        		JLabel(GUIHelper.getPlayerImg("aggressive", false));
-        JLabel player02Img = new
-        		JLabel(GUIHelper.getPlayerImg("console", true));
-        JLabel player03Img = new
-        		JLabel(GUIHelper.getPlayerImg("sophisticated", false));
-        JLabel player04Img = new
-        		JLabel(GUIHelper.getPlayerImg("wildcard", false));
+            this.playersJlabelMapping.put(playerLabel, player);
 
-        player01Img.setBorder(GUIHelper.uiPadding(10, 0));
-        player02Img.setBorder(GUIHelper.uiPadding(10, 0));
-        player03Img.setBorder(GUIHelper.uiPadding(10, 0));
-        player04Img.setBorder(GUIHelper.uiPadding(10, 0));
-
-        player01Img.setAlignmentX(Component.CENTER_ALIGNMENT);
-        player02Img.setAlignmentX(Component.CENTER_ALIGNMENT);
-        player03Img.setAlignmentX(Component.CENTER_ALIGNMENT);
-        player04Img.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        playersPanel.add(player01Img, SwingConstants.CENTER);
-        playersPanel.add(player02Img, SwingConstants.CENTER);
-        playersPanel.add(player03Img, SwingConstants.CENTER);
-        playersPanel.add(player04Img, SwingConstants.CENTER);
+            playerLabel.setBorder(GUIHelper.uiPadding(10, 0));
+            playerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            playersPanel.add(playerLabel, SwingConstants.CENTER);
+        }
 
         SpadesH3Heading panelHeading =
         		new SpadesH3Heading("Players", Color.BLACK);
@@ -393,7 +398,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
     }
 
     /**
-     * Dsiplays the deck of cards to be dealt.
+     * Displays the deck of cards to be dealt.
      * @return image.
      */
     private JPanel displayDeckOfCards() {
@@ -404,5 +409,9 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
         deckOfCards.add(deckImg);
         return deckOfCards;
+    }
+
+    private void startNewHand() {
+        this.theGamesEngine.playHand();
     }
 }

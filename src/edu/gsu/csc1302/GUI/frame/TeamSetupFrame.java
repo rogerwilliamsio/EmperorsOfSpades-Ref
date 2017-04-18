@@ -10,10 +10,9 @@ import edu.gsu.csc1302.emperorsofspades.CardDeck;
 import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.player.Player;
-import edu.gsu.csc1302.emperorsofspades.player.ai.AggressivePlayer;
-import edu.gsu.csc1302.emperorsofspades.player.ai.CautiousPlayer;
-import edu.gsu.csc1302.emperorsofspades.player.ai.WildcardPlayer;
+import edu.gsu.csc1302.emperorsofspades.player.ai.*;
 import edu.gsu.csc1302.emperorsofspades.player.console.ConsolePlayer;
+import edu.gsu.csc1302.emperorsofspades.team.Team;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -43,30 +42,8 @@ public class TeamSetupFrame extends SpadesHeaderFrame {
      */
     public TeamSetupFrame(final SpadesEngine theGameEngine) {
         super("Team Setup");
-
-        AggressivePlayer bob = new AggressivePlayer("Bob");
-        CautiousPlayer puff = new CautiousPlayer("Puff");
-        WildcardPlayer patrick = new WildcardPlayer("Patrick");
-
-//        Optional console player
-        ConsolePlayer annon = new ConsolePlayer("Con");
-
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(bob);
-        players.add(puff);
-        players.add(patrick);
-        players.add(annon);
-
-//      the game deck
-        CardDeck deck = new CardDeck();
-        for (Card.Suit suit: Card.Suit.values()) {
-            for (Card.Rank rank: Card.Rank.values()) {
-                Card c = new Card(suit, rank);
-                deck.add(c);
-            }
-        }
-
-        this.theGameEngine = new SpadesEngine(players, deck);
+//
+        this.theGameEngine = theGameEngine;
 
         this.setPreferredSize(new Dimension(
         		SpadesGUI.DEFAULT_FRAME_WIDTH, SpadesGUI.DEFAULT_FRAME_HEIGHT));
@@ -107,14 +84,12 @@ public class TeamSetupFrame extends SpadesHeaderFrame {
         final SpadesButton proceedButton =
         		new SpadesButton("Let's GO!!!", Color.YELLOW, Color.BLACK);
 
-//        proceedButton.setActionCommand(SpadesGUIController.GuiActions.LAUNCH_GAME.getString());
-
         proceedButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 System.out.println("GOING");
-//                new GamePlayFrame("Round 1: Hand 1");
-                TeamSetupFrame.this.startFirstRound();
+                new GamePlayFrame("Round 1: Hand 1", TeamSetupFrame.this.theGameEngine);
+//                TeamSetupFrame.this.startFirstRound();
                 TeamSetupFrame.this.dispose();
             }
         });
@@ -136,7 +111,7 @@ public class TeamSetupFrame extends SpadesHeaderFrame {
         teamInfoPanel.setOpaque(false);
 
         //      TEAM ONE
-//      TODO: will be replaced with a loop
+//      @TODO: will be replaced with a loop
 //      when list of teams is passed in the game engine object
         JPanel teamOneInfo = new JPanel();
         teamOneInfo.setLayout(new BoxLayout(teamOneInfo, BoxLayout.Y_AXIS));
@@ -149,26 +124,32 @@ public class TeamSetupFrame extends SpadesHeaderFrame {
 
 //      @todo: remove these dummy players
 
+//       Team 1 setup
+        for (Player t1Player : this.theGameEngine.getTeam1().getTeammates()) {
+            JLabel player1Label = new JLabel(
+                    GUIHelper.getPlayerImg(t1Player, false));
 
-        JLabel player01Img = new JLabel(
-        		GUIHelper.getPlayerImg("aggressive", false));
-        JLabel consolePlayer = new JLabel(
-        		GUIHelper.getPlayerImg("console", false));
-        JLabel player03Img = new JLabel(
-        		GUIHelper.getPlayerImg("sophisticated", false));
-        JLabel player04Img = new JLabel(
-        		GUIHelper.getPlayerImg("wildcard", false));
+            player1Label.setBorder(GUIHelper.uiPadding(10, 0));
 
-        player01Img.setBorder(GUIHelper.uiPadding(10, 0));
-        consolePlayer.setBorder(GUIHelper.uiPadding(10, 0));
-        player03Img.setBorder(GUIHelper.uiPadding(10, 0));
-        player04Img.setBorder(GUIHelper.uiPadding(10, 0));
+            player1Label.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        player01Img.setAlignmentX(Component.LEFT_ALIGNMENT);
-        consolePlayer.setAlignmentX(Component.LEFT_ALIGNMENT);
-        player03Img.setAlignmentX(Component.LEFT_ALIGNMENT);
-        player04Img.setAlignmentX(Component.LEFT_ALIGNMENT);
+            teamOneInfo.add(player1Label, SwingConstants.CENTER);
+        }
 
+//      Team 2 setup
+        for (Player t2Player : this.theGameEngine.getTeam2().getTeammates()) {
+            JLabel playerLabel = new JLabel(
+                    GUIHelper.getPlayerImg(t2Player, false));
+
+            playerLabel.setBorder(GUIHelper.uiPadding(10, 0));
+
+            playerLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+            teamTwoInfo.add(playerLabel, SwingConstants.CENTER);
+        }
+
+
+//        @todo: consider removing this label?
         SpadesHeading yourTeamLbl =
         		new SpadesHeading("You are on this team.",
         			15, Color.YELLOW, SwingConstants.CENTER);
@@ -179,15 +160,7 @@ public class TeamSetupFrame extends SpadesHeaderFrame {
         teamOneLbl.setAlignmentX(Component.LEFT_ALIGNMENT);
         teamTwoLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-
-
-        teamOneInfo.add(player01Img, SwingConstants.CENTER);
-        teamOneInfo.add(consolePlayer, SwingConstants.CENTER);
-        teamOneInfo.add(yourTeamLbl, SwingConstants.CENTER);
         teamOneInfo.add(teamOneLbl, SwingConstants.CENTER);
-
-        teamTwoInfo.add(player03Img, SwingConstants.CENTER);
-        teamTwoInfo.add(player04Img, SwingConstants.CENTER);
         teamTwoInfo.add(teamTwoLbl, SwingConstants.CENTER);
 
         teamInfoPanel.add(teamOneInfo);

@@ -1,6 +1,8 @@
 package edu.gsu.csc1302.GUI;
 
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
+import edu.gsu.csc1302.emperorsofspades.player.Player;
+import edu.gsu.csc1302.emperorsofspades.player.ai.AIPlayer;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -84,15 +86,25 @@ public final class GUIHelper {
      * @return  the image from memory.
      */
     public static ImageIcon getPlayerImg(
-    		final String player, final boolean getRedImg) {
+            final Player player, final boolean getRedImg) {
+        String imgString;
+
+        if (player instanceof AIPlayer) {
+            imgString = ((AIPlayer) player).getPersonalityString();
+            imgString = imgString.toLowerCase();
+            System.out.println(imgString);
+        } else {
+            imgString = "console";
+        }
         if (getRedImg) {
             return SpadesGUI.getImage(
-            		"/res/images/playericons/" + player + "_red.png");
+            		"/res/images/playericons/" + imgString + "_red.png");
         }
 
-        return SpadesGUI.getImage("/res/images/playericons/" + player + ".png");
+        return SpadesGUI.getImage("/res/images/playericons/" + imgString + ".png");
 
     }
+
     /**
      * generates separator.
      * @return the separator generated.

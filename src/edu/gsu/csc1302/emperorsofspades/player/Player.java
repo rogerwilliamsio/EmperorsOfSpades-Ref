@@ -24,6 +24,7 @@ public abstract class Player {
      */
     private String teamName;
 
+
     /**
      * Class constructor.
      * @param name the name of the player
@@ -174,7 +175,9 @@ public abstract class Player {
      * @param player player biding.
      * @return integer the bid.
      */
+
 	public abstract int placeBid(Player player);
+
 	/**
 	 * clone the player.
 	 * @return a clone.

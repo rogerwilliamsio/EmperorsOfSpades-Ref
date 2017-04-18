@@ -145,13 +145,13 @@ public class WildcardPlayer extends AIPlayer {
 //	        ArrayList<Card> cardsInSuit = new ArrayList<Card>();
 //
 //	        //Find all the cards that are in-suit
-//	        for (Card card : this.getCards()) {
+//	        for (Card card : this.getHand()) {
 //	            if (card.getSuit().equals(leadSuit)) {
 //	                cardsInSuit.add(card);
 //	            }
 //	        }
 //
-//	        return this.getCards().remove(2);
+//	        return this.getHand().remove(2);
 //
 //	    }
 }
