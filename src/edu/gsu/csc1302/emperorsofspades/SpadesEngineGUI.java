@@ -570,19 +570,31 @@ public class SpadesEngineGUI {
 
 		 if (win == 0) {
 			 updateStats(hand, win + 1, leadCard);
+			 updateTricks(win + 1);
 		 }
 		 if (win == 2) {
 			 updateStats(hand, win + 1, leadCard);
+			 updateTricks(win + 1);
 			 orderSwitch3();
 		 }
 		 if (win == 1) {
 			 updateStats(hand, win + 1, leadCard);
+			 updateTricks(win + 1);
 			 orderSwitch2();
 		 }
 		 if (win == 3) {
 			 updateStats(hand, win + 1, leadCard);
+			 updateTricks(win + 1);
 			 orderSwitch4();
 		 }
 
+	}
+	/**
+	 * updates the trick of the winning team.
+	 * @param index of the winner player.
+	 */
+	private void updateTricks(final int index) {
+		Team winTeam = getTeam(table.get(order.get(index)));
+		winTeam.addTrick();
 	}
 }
