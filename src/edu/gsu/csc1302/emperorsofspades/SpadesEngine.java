@@ -723,4 +723,20 @@ public class SpadesEngine {
 //			<HashMap<String, Object>> handHistory) {
 //		this.handHistory = handHistory;
 //	}
+	/**
+	 * returns team one.
+	 * @return the team one.
+	 */
+	public Team getTeam1() {
+		Team team = teams.get(teamName1);
+		return team;
+	}
+	/**
+	 * returns team two.
+	 * @return the team two.
+	 */
+	public Team getTeam2() {
+		Team team = teams.get(teamName2);
+		return team;
+	}
 }
