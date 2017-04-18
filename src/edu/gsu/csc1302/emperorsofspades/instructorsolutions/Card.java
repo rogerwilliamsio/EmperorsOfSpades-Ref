@@ -216,4 +216,15 @@ public final class Card {
 		}
 		return true;
 	}
+	  /**
+		 * clone the team.
+		 * @return a clone.
+		 */
+		public Object clone() {
+		    try {
+		        return super.clone();
+		    } catch (Exception e) {
+		        return null;
+		    }
+		}
 }

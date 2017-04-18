@@ -175,4 +175,15 @@ public abstract class Player {
      * @return integer the bid.
      */
 	public abstract int placeBid(Player player);
+	/**
+	 * clone the player.
+	 * @return a clone.
+	 */
+	public Object clone() {
+	    try {
+	        return super.clone();
+	    } catch (Exception e) {
+	        return null;
+	    }
+	}
 }
