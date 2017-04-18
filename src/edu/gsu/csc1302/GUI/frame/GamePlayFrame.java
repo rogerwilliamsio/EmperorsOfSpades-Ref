@@ -558,7 +558,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
                         JOptionPane.PLAIN_MESSAGE);
             }
         }
-//        End of 
+//        End of
 
 
     }

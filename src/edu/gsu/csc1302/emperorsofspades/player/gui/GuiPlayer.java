@@ -58,7 +58,7 @@ public class GuiPlayer extends Player {
     }
     /**
      * returns the other players bid.
-     * @return teo other players bid.
+     * @return to other players bid.
      */
     @Override
     public int placeBid(final Player player) {
@@ -69,4 +69,5 @@ public class GuiPlayer extends Player {
     public Card playCard(CardDeck hand) {
         return null;
     }
+
 }

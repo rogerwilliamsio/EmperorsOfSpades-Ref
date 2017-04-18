@@ -145,10 +145,10 @@ public class SpadesEngine {
 		 table.put("llDealer", players.get(randomIndex2));
 		 table.put("rDealer", players.get(randomIndex3));
 
-		 order.put(1, "dealer");
-		 order.put(2, "lDealer");
-		 order.put(3, "llDealer");
-		 order.put(4, "rDealer");
+		 order.put(4, "dealer");
+		 order.put(1, "lDealer");
+		 order.put(2, "llDealer");
+		 order.put(3, "rDealer");
 
 		 this.hand = null;
 		 leadSuit = null;
