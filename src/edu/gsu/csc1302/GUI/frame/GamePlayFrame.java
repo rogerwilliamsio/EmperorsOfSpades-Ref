@@ -218,7 +218,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         this.notificationCenterPanel.setBackground(new Color(255, 171, 0));
 
 //        Add the game hand cards to the holding panel
-        if (this.theGamesEngine.getHandNumber() >= 1) {
+        if (this.theGamesEngine.getHand() != null) {
             for (Card handCard : this.theGamesEngine.getHand()) {
                 this.gameCardsPanel.add(new JLabel(GUIHelper.getCardImg(handCard)));
             }
@@ -488,12 +488,12 @@ public class GamePlayFrame extends SpadesHeaderFrame {
     private void beginGamePlay() {
         Player nextPlayer = this.theGamesEngine.getNextPlayer();
 //        @todo: fix, not doing what i want
-        this.updatePlayingUserImg(nextPlayer);
+//        this.updatePlayingUserImg(nextPlayer);
 //        System.out.println("Game has started. " + this.theGamesEngine.getNextPlayer() + "is playing");
 
         if (nextPlayer instanceof AIPlayer) {
             System.out.println("AI should play");
-            nextPlayer.playCard(this.theGamesEngine.getHand())
+           this.theGamesEngine.getHand().add(nextPlayer.playCard(this.theGamesEngine.getHand()));
         } else {
 
         }
