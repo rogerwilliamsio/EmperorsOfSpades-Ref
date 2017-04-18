@@ -9,11 +9,11 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * The game engine.
+ * The game engine for GUI.
  *
  * @author Mahetem Moges
  */
-public class SpadesEngine {
+public class SpadesEngineGUI {
 	/**
 	 * Whether the console user wants to play.
 	 */
@@ -116,7 +116,7 @@ public class SpadesEngine {
 	 * @param players the list of players
 	 * @param gameDeck the deck of the game.
 	 */
-	 public SpadesEngine(final ArrayList<Player> players,
+	 public SpadesEngineGUI(final ArrayList<Player> players,
 			 final CardDeck gameDeck) {
 
 		 this.setPlayers(players);
@@ -153,48 +153,14 @@ public class SpadesEngine {
 		 this.hand = null;
 		 leadSuit = null;
 		 roundNumber = 0;
-		 teamName1 = "one";
-		 teamName2 = "two";
+		 teamName1 = "team 1";
+		 teamName2 = "team 2";
 	     Team one = new Team(teamName1,  players.get(randomIndex));
 	     one.addPlayer(players.get(randomIndex2));
 		 Team two = new Team(teamName2,  players.get(randomIndex1));
 		 two.addPlayer(players.get(randomIndex3));
 		 teams.put(teamName1, one);
 		 teams.put(teamName2, two);
-
-	 }
-	/**
-	  * this method calls other methods to play the first round.
-	  */
-	 public void startRound() {
-
-		 roundNumber++;
-
-     	 System.out.println(" ");
-		 System.out.println("round number " + roundNumber + ".");
-     	 System.out.println(" ");
-
-		 dealCards();
-
-		 playFirstRound();
-
-	 }
-	 /**
-	  * this method calls other methods to play consecutive rounds.
-	  */
-	 public void startNewRound() {
-
-		 roundNumber++;
-
-     	 System.out.println(" ");
-		 System.out.println("round number " + roundNumber + ".");
-     	 System.out.println(" ");
-
-		 switchPlayers();
-
-		 dealCards();
-
-		 playRound();
 
 	 }
 	 /**
@@ -223,105 +189,6 @@ public class SpadesEngine {
 			 }
 		 }
 	 }
-	/**
-	 * this is the method is called for the first round.
-	 * the players don't have to bid to play this round.
-	 * it checks to see if there are any winners using an other method.
-	 */
-	 private void playFirstRound() {
-
-		 for (int i = 0; i < 13; i++) {
-			 	System.out.println(" ");
-			 	handNumber++;
-	        	System.out.println("hand game: " + (handNumber));
-	        	System.out.println(" ");
-	        	playHand();
-	     }
-
-		 int teamTrick1 = teams.get(teamName1).getTricks();
-
-		 int teamTrick2 = teams.get(teamName2).getTricks();
-
-		 teams.get(teamName1).setSuccess(teamTrick1);
-
-		 teams.get(teamName2).setSuccess(teamTrick2);
-
-		 checkWinner();
-
-	 }
-
-	/**
-	 * this method is called to play any round after the first round.
-	 * it uses an other method to check if there are any winners on each call.
-	 */
-	 private void playRound() {
-
-		 int bidOfTeam1;
-		 int bidOfTeam2;
-
-		 Team team1 = getTeam(table.get("dealer"));
-
-		 Team team2 = getTeam(table.get("lDealer"));
-
-		 bidOfTeam1 = team1.placeTeamBid(table.get("dealer"),
-				 table.get("llDealer"));
-
-
-		 if (team1.getIsBlindBid()) {
-			 assert (bidOfTeam1 >= MINIMUM_BLIND_BID)
-			 && (bidOfTeam1 <= MAXIMUM_BLIND_BID);
-		 }
-		 else {
-			 assert (bidOfTeam1 >= MINIMUM_TEAM_BID)
-			 && (bidOfTeam1 <= MAXIMUM_TEAM_BID);
-		 }
-
-		 bidOfTeam2 = team2.placeTeamBid(table.get("lDealer"),
-				 table.get("rDealer"));
-
-		 for (int i = 0; i < 13; i++) {
-
-			 	handNumber++;
-	        	System.out.println("hand game: " + (handNumber));
-	        	System.out.println(" ");
-	        	playHand();
-
-	     }
-
-		 int team1Tricks = team1.getTricks();
-
-		 int team2Tricks = team2.getTricks();
-
-		 if ((bidOfTeam1 >= 10) && (team1Tricks == 13)) {
-			 System.out.println("team: "
-		 +  team1.toString() + " has won.(Boston)");
-			 displayScore();
-			 showRound();
-			 setGameEnd(true);
-		 }
-		 if ((bidOfTeam2 >= 10) && (team2Tricks == 13)) {
-			 System.out.println("team: "
-		 +  team2.toString() + " has won.(Boston)");
-			 displayScore();
-			 showRound();
-			 setGameEnd(true);
-		 }
-		 if ((bidOfTeam1 <= team1Tricks) && (bidOfTeam1 >= team1Tricks - 3)) {
-			 team1.setSuccess(bidOfTeam1);
-		 }
-		 else {
-			 team1.setSets();
-		 }
-		 if ((bidOfTeam2 <= team2Tricks) && (bidOfTeam2 >= team2Tricks - 3)) {
-			 team2.setSuccess(bidOfTeam2);
-		 }
-		 else {
-			 team2.setSets();
-		 }
-		 checkSets();
-		 checkWinner();
-
-	}
 
 	/**
 	 * this method is used to change the dealer after each round.
@@ -345,154 +212,12 @@ public class SpadesEngine {
 
 	}
 	/**
-	 * this method is called to pay each hand game.
-	 * each players will throw one card at a time.
-	 * the method will also evaluate who won the hand.
-	 */
-	public void playHand() {
-
-		 CardDeck newHand = new CardDeck();
-
-		 this.hand = newHand;
-
-		 Team team1 = getTeam(table.get(order.get(1)));
-		 Team team2 = getTeam(table.get(order.get(2)));
-
-		 Card leadCard = new Card(null, null);
-		 leadSuit = null;
-
-		 Card firstCard = table.get(order.get(1))
-				 .playCard(leadSuit, leadCard, hand);
-
-		 hand.addToBottom(firstCard);
-		 leadCard = firstCard;
-		 leadSuit = firstCard.getSuit();
-		 SpadesComparator comp = new  SpadesComparator(leadSuit);
-
-
-		 Card secondCard = table.get(order.get(2))
-				 .playCard(leadSuit, leadCard, hand);
-		 hand.addToBottom(secondCard);
-
-		 int firstComp = comp.compare(firstCard, secondCard);
-		 if (firstComp > 0) {
-			  leadCard = secondCard;
-		 }
-
-
-		 Card thirdCard = table.get(order.get(3))
-				 .playCard(leadSuit, leadCard, hand);
-		 hand.addToBottom(thirdCard);
-
-		 int secondComp = comp.compare(leadCard, thirdCard);
-		 if (secondComp > 0) {
-			  leadCard = thirdCard;
-		 }
-
-		 Card fourthCard = table.get(order.get(4))
-				 .playCard(leadSuit, leadCard, hand);
-		 hand.addToBottom(fourthCard);
-
-		 int thirdComp = comp.compare(leadCard, fourthCard);
-		 if (thirdComp > 0) {
-			  leadCard = fourthCard;
-		 }
-
-		 int win = hand.indexOf(leadCard);
-
-		 if (win == 0) {
-			 displayHandWinner(team1, win + 1);
-			 updateStats(hand, win + 1, leadCard);
-		 }
-		 if (win == 2) {
-			 displayHandWinner(team1, win + 1);
-			 updateStats(hand, win + 1, leadCard);
-			 orderSwitch3();
-		 }
-		 if (win == 1) {
-			 displayHandWinner(team2, win + 1);
-			 updateStats(hand, win + 1, leadCard);
-			 orderSwitch2();
-		 }
-		 if (win == 3) {
-			 displayHandWinner(team2, win + 1);
-			 updateStats(hand, win + 1, leadCard);
-			 orderSwitch4();
-		 }
-		 System.out.println("hand played:" + hand.toString());
-		 displayScore();
-	}
-	/**
 	 * this method is called to check who won the game.
 	 * it is called after each round.
 	 */
 	private void checkWinner() {
 
-		 int numOfSets1 = teams.get(teamName1).getNumOfSets();
-		 int numOfSets2 = teams.get(teamName2).getNumOfSets();
-
-		 if (numOfSets1 == 0) {
-			 if (numOfSets2 == 2) {
-				System.out.println("team: "
-			  + teams.get(teamName1).toString() + " has won.");
-				System.out.println(teams.get(teamName1).getTeammates().toString());
-				System.out.println("team: "
-						  + teams.get(teamName2).toString() + " got two sets in a row.");
-				displayScore();
-				showRound();
-				setGameEnd(true);
-			 }
-		 }
-		 if (numOfSets2 == 0) {
-			 if (numOfSets1 == 2) {
-				 System.out.println("team: "
-					  + teams.get(teamName2).toString() + " has won.");
-				 System.out.println(teams.get(teamName2).getTeammates().toString());
-						System.out.println("team: "
-							+ teams.get(teamName1).toString() + " got two sets in a row.");
-						displayScore();
-						showRound();
-				setGameEnd(true);
-			 }
-		 }
-
-		 int teamScore1 = teams.get(teamName1).getScore();
-		 int teamScore2 = teams.get(teamName2).getScore();
-
-		 if (teamScore1 >= teamScore2 + 100) {
-			 teams.get(teamName2).setIsBlindBid(true);
-		 }
-		 else {
-			 teams.get(teamName2).setIsBlindBid(false);
-		 }
-		 if (teamScore2 >= teamScore1 + 100) {
-			 teams.get(teamName1).setIsBlindBid(true);
-		 }
-		 else {
-			 teams.get(teamName1).setIsBlindBid(false);
-		 }
-
-		 if ((teamScore1 >= 500) || (teamScore2 >= 500)) {
-			 if (teamScore1 > teamScore2) {
-				 System.out.println("team: "
-			 + teams.get(teamName1).toString() + " has won by points.");
-				 System.out.println(teams.get(teamName1).getTeammates().toString());
-				 displayScore();
-				 showRound();
-				 setGameEnd(true);
-			 }
-			 else {
-				 System.out.println("team: "
-			 + teams.get(teamName2).toString() + " has won points.");
-				 System.out.println(teams.get(teamName2).getTeammates().toString());
-				 displayScore();
-				 showRound();
-				 setGameEnd(true);
-			 }
-		 }
-
 	}
-
 	/**
 	 * returns the cards that are thrown by the players.
 	 * @return the hand the cards on the table.
@@ -552,25 +277,6 @@ public class SpadesEngine {
 		return teams.get(name);
 	}
 	/**
-	 * prints a table showing information about the teams.
-	 */
-	public void displayScore() {
-
-		 Team team1 = teams.get(teamName1);
-		 Team team2 = teams.get(teamName2);
-
-		 System.out.println(" ");
-		 System.out.printf("%12s %12s %12s %12s\n",
-				 "teams", "score", "team bid", "tricks");
-		 System.out.printf("%12s %12d %12d %12d\n",
-				 team1.toString(), team1.getScore(), team1.getTeamBid(),
-				 team1.getTricks());
-		 System.out.printf("%12s %12d %12d %12d\n",
-				 team2.toString(), team2.getScore(), team2.getTeamBid(),
-				 team2.getTricks());
-		 System.out.println(" ");
-	}
-	/**
 	 * Switches order if the second player wins the hand.
 	 */
 	private void orderSwitch2() {
@@ -616,17 +322,6 @@ public class SpadesEngine {
 
 	}
 	/**
-	 * this displays the team and the player who won the round.
-	 * @param team the team who won the hand.
-	 * @param index the index of the winning player in the order.
-	 */
-	private void displayHandWinner(final Team team, final int index) {
-		team.addTrick();
-		System.out.println("hand winner:" + team.toString());
-		System.out.println("winner:" + table.get(order.get(index)).toString());
-		System.out.println(" ");
-	}
-	/**
 	 * return the array list of the history for the hand.
 	 * @param deck the hand played
 	 * @param index the index of the player in the order
@@ -648,14 +343,6 @@ public class SpadesEngine {
 		handStat.put("leadCard", leadCard);
 
 		handHistory.add((HashMap<String, Object>) handStat);
-	}
-	/**
-	 * displays the total round played.
-	 */
-	private void showRound() {
-		System.out.println(" ");
-		System.out.println("Total rounds played " + roundNumber + ".");
-		System.out.println(" ");
 	}
 	/**
 	 * checks if one team alone got set twice consecutively.
@@ -781,6 +468,7 @@ public class SpadesEngine {
 	public void playHandGUI() {
 
 		 CardDeck newHand = new CardDeck();
+		 handNumber++;
 
 		 this.hand = newHand;
 
@@ -805,6 +493,83 @@ public class SpadesEngine {
 
 		Player player = table.get("dealer");
 		return player;
+
+	}
+	/**
+	 * returns the hand number.
+	 * @return the handNumber
+	 */
+	public int getHandNumber() {
+		return handNumber;
+	}
+	/**
+	 * sets the hand number.
+	 * @param handNumber the handNumber to set
+	 */
+	public void setHandNumber(final int handNumber) {
+		this.handNumber = handNumber;
+	}
+	/**
+	 * end of the hand record keeper.
+	 */
+	public void endOfHand() {
+
+		 CardDeck newHand = new CardDeck();
+
+		 newHand = this.hand;
+
+		 Card leadCard = new Card(null, null);
+		 leadSuit = null;
+
+		 Card firstCard = hand.get(0);
+		 newHand.addToBottom(firstCard);
+
+		 leadCard = firstCard;
+		 leadSuit = firstCard.getSuit();
+
+		 SpadesComparator comp = new  SpadesComparator(leadSuit);
+
+		 Card secondCard = hand.get(1);
+		 newHand.addToBottom(secondCard);
+
+		 int firstComp = comp.compare(firstCard, secondCard);
+		 if (firstComp > 0) {
+			  leadCard = secondCard;
+		 }
+
+		 Card thirdCard = hand.get(2);
+		 newHand.addToBottom(thirdCard);
+
+		 int secondComp = comp.compare(leadCard, thirdCard);
+		 if (secondComp > 0) {
+			  leadCard = thirdCard;
+		 }
+
+		 Card fourthCard = hand.get(3);
+		 newHand.addToBottom(fourthCard);
+
+		 int thirdComp = comp.compare(leadCard, fourthCard);
+		 if (thirdComp > 0) {
+			  leadCard = fourthCard;
+		 }
+
+		 int win = newHand.indexOf(leadCard);
+
+		 if (win == 0) {
+			 updateStats(hand, win + 1, leadCard);
+		 }
+		 if (win == 2) {
+			 updateStats(hand, win + 1, leadCard);
+			 orderSwitch3();
+		 }
+		 if (win == 1) {
+			 updateStats(hand, win + 1, leadCard);
+			 orderSwitch2();
+		 }
+		 if (win == 3) {
+			 updateStats(hand, win + 1, leadCard);
+			 orderSwitch4();
+		 }
 
 	}
 }
