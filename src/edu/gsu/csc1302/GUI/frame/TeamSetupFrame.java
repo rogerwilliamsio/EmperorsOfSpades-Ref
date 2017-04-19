@@ -89,8 +89,7 @@ public class TeamSetupFrame extends SpadesHeaderFrame {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 System.out.println("GOING");
-                new GamePlayFrame("Round 1: Hand 1", TeamSetupFrame.this.theGameEngine);
-//                TeamSetupFrame.this.startFirstRound();
+                new GamePlayFrame("Round 1", TeamSetupFrame.this.theGameEngine);
                 TeamSetupFrame.this.dispose();
             }
         });
@@ -170,9 +169,5 @@ public class TeamSetupFrame extends SpadesHeaderFrame {
         teamInfoPanel.setBounds(300, 0, 700, 400);
 
         return teamInfoPanel;
-    }
-
-    private void startFirstRound() {
-        new GamePlayFrame("Round 1: Hand 1", this.theGameEngine );
     }
 }

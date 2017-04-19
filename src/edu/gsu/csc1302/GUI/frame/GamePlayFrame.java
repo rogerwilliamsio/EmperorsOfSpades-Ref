@@ -287,7 +287,6 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 //                      Removing from the container
                         JPanel parent = (JPanel) cardClicked.getParent();
                         parent.remove(cardClicked);
-//                    @todo: trigger event here for when
                         //card is removed from player hand
                         GamePlayFrame.this.theGuiPlayer.playCard(
                                 GamePlayFrame.this.consolePlayerHandMapping.get(cardClicked)
@@ -296,7 +295,6 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 //                        Add card to the game deck
                         GamePlayFrame.this.addCardToHandDeck(consolePlayerHandMapping.get(cardClicked));
                         GamePlayFrame.this.GUIUserPlayed = true;
-//                    GamePlayFrame.this.updateGameTable();
                     }
                 }
             });
@@ -368,31 +366,6 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         this.playersPanel.add(panelHeading, SwingConstants.CENTER);
     }
 
-    private void updatePlayingUserImg(final Player thePlayer) {
-        JLabel found = new JLabel();
-        String name = thePlayer.getName();
-
-        for (Component child : this.playersPanel.getComponents()) {
-            if (child instanceof JLabel) {
-                JLabel label = (JLabel) child;
-                if (name.equals(label.getName())) {
-
-                    JLabel playerLabel = new JLabel(
-                            GUIHelper.getPlayerImg(thePlayer, true));
-                    playerLabel.setName(thePlayer.getName());
-                    this.playersJlabelMapping.put(label, thePlayer);
-                    break;
-                }
-            }
-        }
-        this.playersPanel.removeAll();
-        this.getDisplayOfPlayersPanel();
-         this.repaintPanel(this.playersPanel);
-
-
-    }
-
-
     private void updateNotificationCenter(final String text) {
         SpadesHeading notificationText = new SpadesHeading(
                 text, 16, Color.RED, SwingConstants.CENTER);
@@ -406,26 +379,17 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
     private void updateTeamStats() {
         statsPanel.removeAll();
-//        System.out.println("Size of teama array: " + this.theGamesEngine.getTeamsArray());
-//        System.out.println("TEAM STUFF");
-//        System.out.println(theTeam.getTeamName());
-//        System.out.println(theTeam.getScore());
-//        System.out.println(theTeam.getTricks());
-//        System.out.println(theTeam.getNumOfSets());
-//        System.out.println("END OF STATS");
-
-
 //        Update team 1 stats
         Team teamOne = this.theGamesEngine.getTeam1();
         SpadesH3Heading teamOneName = new SpadesH3Heading("Team 1", Color.WHITE);
         teamOneName.setBorder(GUIHelper.uiPadding(20, 0, 10, 0));
 
         statsPanel.add(teamOneName, SwingConstants.CENTER);
-        teamOneName.setBounds(0, 0, 200, 20);
+        teamOneName.setBounds(0, 30, 200, 20);
 //        generate team one's stats
         JLabel teamOneStats = this.generateTeamStatsString(teamOne);
         this.statsPanel.add(teamOneStats);
-        teamOneStats.setBounds(0, 30, 200, 30);
+        teamOneStats.setBounds(0, 60, 200, 30);
 
 
 //        Update team 2 stats
@@ -434,18 +398,20 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         teamOneName.setBorder(GUIHelper.uiPadding(20, 0, 10, 0));
 
         statsPanel.add(teamTwoName, SwingConstants.CENTER);
-        teamTwoName.setBounds(0, 70, 200, 20);
+        teamTwoName.setBounds(0, 100, 200, 20);
 //        generate team two's stats
         JLabel teamTwoStats = this.generateTeamStatsString(teamTwo);
         this.statsPanel.add(teamTwoStats);
-        teamTwoStats.setBounds(0, 100, 200, 30);
+        teamTwoStats.setBounds(0, 130, 200, 30);
 
-
-        this.repaintPanel(statsPanel);
 //        Add the panel heading
         SpadesH3Heading panelHeading = new
                 SpadesH3Heading("Game Stats", Color.BLACK);
         statsPanel.add(panelHeading, SwingConstants.CENTER);
+
+        panelHeading.setBounds(0, 0, 200, 30);
+
+        this.repaintPanel(statsPanel);
     }
 
     private JLabel generateTeamStatsString(final Team team) {
@@ -480,7 +446,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         for (int j = 0; j < 13; j++) {
             this.GUIUserPlayed = false;
             this.theGamesEngine.playHandGUI();
-//            Emable the deck for each hand
+//            Enable the deck for each hand
             this.consolePlayerOutterWrap.setEnabled(true);
 
             for (int i = 0; i < 4; i++) {
@@ -494,8 +460,11 @@ public class GamePlayFrame extends SpadesHeaderFrame {
                     this.updateNotificationCenter("Your Turn!");
 
                     do {
-                        JOptionPane.showMessageDialog(null, this.consolePlayerOutterWrap, "Your Cards",
-                                JOptionPane.PLAIN_MESSAGE);
+                        JDialog usersDeckOfCards = new JOptionPane(this.consolePlayerOutterWrap).createDialog(null, "Your Cards");
+                        usersDeckOfCards.setLocationRelativeTo(this);
+                        usersDeckOfCards.setLocation(75, 450);
+                        usersDeckOfCards.setVisible(true);
+
                     } while (!this.GUIUserPlayed);
                 }
             }
@@ -506,14 +475,15 @@ public class GamePlayFrame extends SpadesHeaderFrame {
             this.theGamesEngine.endOfHand();
             this.updateTeamStats();
 
-            System.out.printf("Sizze of list: "+ this.theGamesEngine.getHandHistory().size());
-
             HashMap<String, Object> handHist = this.theGamesEngine.getHandHistory().get(this.theGamesEngine.getHandHistory().size() - 1);
             Player winningPlayer = (Player) handHist.get("player");
             Card leadCard = (Card) handHist.get("leadCard");
 
-            JOptionPane.showMessageDialog(null, "End of hand!", "Notice",
-                    JOptionPane.INFORMATION_MESSAGE);
+            JDialog endOfHandNotice = new JOptionPane("Click OK to see winner.").createDialog(null, "End of hand!");
+            endOfHandNotice.setLocationRelativeTo(this);
+            endOfHandNotice.setLocation(600, 400);
+            endOfHandNotice.setVisible(true);
+
 
             this.gameCardsPanel.removeAll();
             GamePlayFrame.this.updateNotificationCenter(winningPlayer.getName() + " won that hand!!");
@@ -521,16 +491,30 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
             GamePlayFrame.this.repaintPanel(GamePlayFrame.this.gameCardsPanel);
 
-            JOptionPane.showMessageDialog(null, "Start New Hand", "Notice",
-                    JOptionPane.INFORMATION_MESSAGE);
+            JDialog startNewRound = new JOptionPane("Click OK to go to next hand.").createDialog(null, "Start New Hand!");
+            startNewRound.setLocationRelativeTo(this);
+            startNewRound.setLocation(600, 400);
+            startNewRound.setVisible(true);
 
         }
 //        End of round
-//        this.theGamesEngine.roun
+        this.theGamesEngine.endOfRound();
+        this.updateTeamStats();
 
+        this.endGamePlay();
+    }
 
+    private void endGamePlay() {
+        this.gameCardsPanel.removeAll();
+        this.updateNotificationCenter("End of game. More features are coming! \nStay Tuned!");
+        this.gameCardsPanel.add(new JLabel(GUIHelper.getLargeLogo()));
+        this.repaintPanel(this.gameCardsPanel);
 
-
+        JDialog endOfRound = new JOptionPane("Click OK to close the game.").createDialog(null, "End of Game");
+        endOfRound.setLocationRelativeTo(this);
+        endOfRound.setLocation(600, 400);
+        endOfRound.setVisible(true);
+        System.exit(0);
 
     }
 
