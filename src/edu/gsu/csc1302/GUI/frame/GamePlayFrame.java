@@ -331,8 +331,8 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      * @return the panel
      */
     private JPanel setupGameStatsPanel() {
-        this.statsPanel.setLayout(new BoxLayout(this.statsPanel, BoxLayout.Y_AXIS));
-        this.statsPanel.setPreferredSize(new Dimension(200, 200));
+        this.statsPanel.setLayout(null);
+        this.statsPanel.setPreferredSize(new Dimension(200, 450));
         this.statsPanel.setOpaque(false);
 
         this.updateTeamStats();
@@ -419,18 +419,26 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         Team teamOne = this.theGamesEngine.getTeam1();
         SpadesH3Heading teamOneName = new SpadesH3Heading("Team 1", Color.WHITE);
         teamOneName.setBorder(GUIHelper.uiPadding(20, 0, 10, 0));
+
         statsPanel.add(teamOneName, SwingConstants.CENTER);
+        teamOneName.setBounds(0, 0, 200, 20);
 //        generate team one's stats
-        this.statsPanel.add(this.generateTeamStatsString(teamOne));
+        JLabel teamOneStats = this.generateTeamStatsString(teamOne);
+        this.statsPanel.add(teamOneStats);
+        teamOneStats.setBounds(0, 30, 200, 30);
 
 
 //        Update team 2 stats
-        Team teamTwo = this.theGamesEngine.getTeam1();
+        Team teamTwo = this.theGamesEngine.getTeam2();
         SpadesH3Heading teamTwoName = new SpadesH3Heading("Team 2", Color.WHITE);
         teamOneName.setBorder(GUIHelper.uiPadding(20, 0, 10, 0));
+
         statsPanel.add(teamTwoName, SwingConstants.CENTER);
+        teamTwoName.setBounds(0, 70, 200, 20);
 //        generate team two's stats
-        this.statsPanel.add(this.generateTeamStatsString(teamTwo));
+        JLabel teamTwoStats = this.generateTeamStatsString(teamTwo);
+        this.statsPanel.add(teamTwoStats);
+        teamTwoStats.setBounds(0, 100, 200, 30);
 
 
         this.repaintPanel(statsPanel);
@@ -442,6 +450,9 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
     private JLabel generateTeamStatsString(final Team team) {
         JLabel teamLbl = new JLabel();
+        System.out.println("Team name: " + team.getTeamName());
+        System.out.println("Team score: " + team.getTricks());
+        teamLbl.setName(team.getTeamName());
         teamLbl.setText("<html><p><span style="
                 + "\"background-color: #0000ff; color: #ffffff;\""
                 + "><strong>&nbsp;Score: " + team.getScore() + "&nbsp; &nbsp; &nbsp; "
