@@ -87,8 +87,11 @@ public class GamePlayFrame extends SpadesHeaderFrame {
     /**
      * the statues of the players action.
      */
-    private boolean GUIUserPlayed = false;
+    private boolean gUIUserPlayed = false;
 
+    /**
+     * hand history.
+     */
     private JPanel historyPanel = new JPanel();
 
     /**
@@ -283,7 +286,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 //                        Add card to the game deck
                         GamePlayFrame.this.addCardToHandDeck(
                         		consolePlayerHandMapping.get(cardClicked));
-                        GamePlayFrame.this.GUIUserPlayed = true;
+                        GamePlayFrame.this.gUIUserPlayed = true;
                     }
                 }
             });
@@ -328,11 +331,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
     /**
      * Sets up the player's panel. Lists the players in a vertical boxlayout.
-<<<<<<< HEAD
      * @return the panel
-=======
-     * @todo: change to list/set of players, not string and REMOVE personality
->>>>>>> b2d4cb89f6cbb46d54b24f0a19d1ea12acc6276b
      */
     private void getDisplayOfPlayersPanel() {
 
@@ -451,7 +450,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      */
     private void beginGamePlay() {
         for (int j = 0; j < 13; j++) {
-            this.GUIUserPlayed = false;
+            this.gUIUserPlayed = false;
             this.theGamesEngine.playHandGUI();
 //            Enable the deck for each hand
             this.consolePlayerOutterWrap.setEnabled(true);
@@ -475,7 +474,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
                         usersDeckOfCards.setLocation(75, 450);
                         usersDeckOfCards.setVisible(true);
 
-                    } while (!this.GUIUserPlayed);
+                    } while (!this.gUIUserPlayed);
                 }
             }
 
@@ -490,12 +489,9 @@ public class GamePlayFrame extends SpadesHeaderFrame {
             Player winningPlayer = (Player) handHist.get("player");
             Card leadCard = (Card) handHist.get("leadCard");
 
-<<<<<<< HEAD
-            JDialog endOfHandNotice = new JOptionPane("Hand #" + this.theGamesEngine.getHandNumber() + " has ended. Click OK to see winner.").createDialog(null, "End of hand!");
-=======
+
             JDialog endOfHandNotice = new JOptionPane(
             		"Click OK to see winner.").createDialog(null, "End of hand!");
->>>>>>> b2d4cb89f6cbb46d54b24f0a19d1ea12acc6276b
             endOfHandNotice.setLocationRelativeTo(this);
             endOfHandNotice.setLocation(600, 400);
             endOfHandNotice.setVisible(true);
