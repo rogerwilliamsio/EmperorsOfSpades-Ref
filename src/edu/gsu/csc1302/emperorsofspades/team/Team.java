@@ -36,7 +36,7 @@ public class Team {
      * Total points accumulated throughout the rounds.
      */
     private int teamScore = 0;
-    /**
+	/**
      * Returns the total number of trick this team
      * has accumulated.
      */
@@ -161,6 +161,13 @@ public class Team {
     public int getScore() {
         return teamScore;
     }
+    /**
+     * sets the team score based on what they scored.
+   	 * @param teamScore the teamScore to set
+   	 */
+   	public void setTeamScore(final int teamScore) {
+   		this.teamScore = teamScore;
+   	}
     /**
      * Returns the number of tricks the team has.
      * @return integer the total tricks won.

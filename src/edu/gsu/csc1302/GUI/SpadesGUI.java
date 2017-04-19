@@ -116,9 +116,11 @@ public final class SpadesGUI {
 	 * @return the separator to use in the display.
 	 */
 	public static JSeparator generateSeparator() {
+
 		JSeparator separator =  new JSeparator(SwingConstants.HORIZONTAL);
 		separator.setBackground(Color.BLACK);
 		separator.setForeground(Color.BLACK);
 		return separator;
+
 	}
 }

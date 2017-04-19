@@ -589,6 +589,17 @@ public class SpadesEngineGUI {
 
 	}
 	/**
+	 * end of the hand record keeper.
+	 */
+	public void endOfRound() {
+
+		Team team1 = getTeam1();
+		Team team2 = getTeam2();
+		team1.setTeamScore(10 * team1.getTricks());
+		team2.setTeamScore(10 * team2.getTricks());
+
+	}
+	/**
 	 * updates the trick of the winning team.
 	 * @param index of the winner player.
 	 */
