@@ -17,9 +17,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * A frame for game play windows.
@@ -79,6 +77,8 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      * The game stats panel on the right.
      */
     private final JPanel statsPanel = new JPanel();
+
+    private boolean GUIUserPlayed = false;
 
 
     /**
@@ -141,18 +141,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         this.getContentPane().add(this.theContainerPanel);
         this.pack();
         this.setVisible(true);
-
-
-//        Check if dealer needs to deal cards. Cards are actually already dealt, just for simulation
-        if (this.theGamesEngine.getDealer() instanceof GuiPlayer) {
-            this.updateNotificationCenter("You are the dealer. Click on the deck of cards to deal.");
-            this.consolePlayerOutterWrap.setVisible(false);
-        } else {
-            this.startNewHand();
-        }
-
-        System.out.println("Hand #: " + this.theGamesEngine.getHandNumber());
-
+        this.beginGamePlay();
     }
 
     /**
@@ -184,16 +173,6 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         this.theContentPanel.add(statsPanel, BorderLayout.EAST);
     }
 
-    /**
-     *
-     * @return
-     */
-//    private JPanel getDisplayOfNotificationCenter() {
-//        this.notificationCenterPanel.add(new JLabel(
-//    		"Hello. Your turn....!"));
-//
-//        return this.notificationCenterPanel;
-//    }
 
     /**
      * Sets up the display for the center panel of the content area.
@@ -215,26 +194,13 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         this.notificationCenterPanel.setOpaque(true);
         this.notificationCenterPanel.setBackground(new Color(255, 171, 0));
 
-//       this.updateGameTable();
 
 //        ADD: the notification center and the hand deck to container.
         contentPanelCenter.add(this.notificationCenterPanel);
 
-
-//        @Todo: make sure to init playhnad in the constructor
-//        Display the deck card image if it's the first hand of a round
-        JPanel cardDeckImg = this.displayDeckOfCards();
-        gameCardsPanel.add(cardDeckImg);
-//        if (this.theGamesEngine.getHandNumber() == 1) {
-//
-//            cardDeckImg.setBounds(0, 50, 600, 300);
-//        } else {
-//            contentPanelCenter.add(this.gameCardsPanel);
-//            this.gameCardsPanel.setBounds(0, 12, 600, 300);
-//        }
-//
         this.notificationCenterPanel.setBounds(0, 0, 600, 30);
 
+//        Card panel is init to empty, but is then updated when
         contentPanelCenter.add(this.gameCardsPanel);
        this.gameCardsPanel.setBounds(0, 12, 600, 300);
 
@@ -303,24 +269,39 @@ public class GamePlayFrame extends SpadesHeaderFrame {
             JLabel cardLabel = new JLabel(GUIHelper.getCardImg(theCard, true));
             consolePlayerHandMapping.put(cardLabel, theCard);
             cardLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            cardLabel.setEnabled(false);
             cardLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(final MouseEvent e) {
 
-                    JLabel cardClicked = (JLabel) e.getSource();
+//                    ONly process if user deck is enabled.
+                    if (cardLabel.isEnabled() && GamePlayFrame.this.consolePlayerOutterWrap.isEnabled()) {
+                        cardLabel.setEnabled(false);
+                        GamePlayFrame.this.notificationCenterPanel.setVisible(false);
+                        GamePlayFrame.this.repaintPanel(GamePlayFrame.this.notificationCenterPanel);
+//                        Disable the frame
+                        GamePlayFrame.this.consolePlayerOutterWrap.setEnabled(false);
 
-                    JPanel parent = (JPanel) cardClicked.getParent();
-                    parent.remove(cardClicked);
+                        GamePlayFrame.this.repaintPanel(GamePlayFrame.this.consolePlayerOutterWrap);
+
+                        JLabel cardClicked = (JLabel) e.getSource();
+//                      Removing from the container
+                        JPanel parent = (JPanel) cardClicked.getParent();
+                        parent.remove(cardClicked);
 //                    @todo: trigger event here for when
-                    //card is removed from player hand
+                        //card is removed from player hand
+                        GamePlayFrame.this.theGuiPlayer.playCard(
+                                GamePlayFrame.this.consolePlayerHandMapping.get(cardClicked)
+                        );
 
-
-                    GamePlayFrame.this.addCardToHandDeck((
-                    		consolePlayerHandMapping.get(cardClicked)));
+//                        Add card to the game deck
+                        GamePlayFrame.this.addCardToHandDeck(consolePlayerHandMapping.get(cardClicked));
+                        GamePlayFrame.this.GUIUserPlayed = true;
 //                    GamePlayFrame.this.updateGameTable();
+                    }
                 }
             });
+
+//            BACK to adding the cards to the user's deck
             consolePlayerCardsPanel.add(cardLabel);
         }
 
@@ -331,10 +312,6 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
         return consolePlayerOutterWrap;
     }
-
-//    private JPanel getDisplayOfGameHand() {
-//        this.center
-//    }
 
     /**
      * Adds a given card to the current hand deck.
@@ -415,65 +392,6 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
     }
 
-    /**
-     * Displays the deck of cards to be dealt.
-     * @return image.
-     */
-    private JPanel displayDeckOfCards() {
-        JPanel deckOfCards = new JPanel();
-        JLabel deckImg = new JLabel(GUIHelper.getImage("/res/images/misc/carddeck.png"));
-        deckImg.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        deckOfCards.setOpaque(false);
-
-        deckImg.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("why ypu clic me");
-                deckImg.setVisible(false);
-                GamePlayFrame.this.notificationCenterPanel.setVisible(false);
-                GamePlayFrame.this.consolePlayerOutterWrap.setVisible(true);
-                GamePlayFrame.this.gameCardsPanel.setVisible(true);
-                GamePlayFrame.this.startNewHand();
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-
-        deckOfCards.add(deckImg);
-        return deckOfCards;
-    }
-
-    private void notifyUserTOPlay() {
-        SpadesHeading playNowLbl = new SpadesHeading(
-                "It's your turn to plays.", 16, Color.RED, SwingConstants.CENTER);
-
-        this.notificationCenterPanel.removeAll();
-        this.notificationCenterPanel.add(playNowLbl);
-
-        this.repaintPanel(this.notificationCenterPanel);
-//        In case not visible
-        this.notificationCenterPanel.setVisible(true);
-    }
-
 
     private void updateNotificationCenter(final String text) {
         SpadesHeading notificationText = new SpadesHeading(
@@ -487,83 +405,121 @@ public class GamePlayFrame extends SpadesHeaderFrame {
     }
 
     private void updateTeamStats() {
-        Iterator itr = this.theGamesEngine.getTeams().entrySet().iterator();
+        statsPanel.removeAll();
+//        System.out.println("Size of teama array: " + this.theGamesEngine.getTeamsArray());
+//        System.out.println("TEAM STUFF");
+//        System.out.println(theTeam.getTeamName());
+//        System.out.println(theTeam.getScore());
+//        System.out.println(theTeam.getTricks());
+//        System.out.println(theTeam.getNumOfSets());
+//        System.out.println("END OF STATS");
 
-        for (Team theTeam : this.theGamesEngine.getTeamsArray()) {
-            JLabel teamLbl = new JLabel();
-            teamLbl.setText("<html><p><span style="
-                    + "\"background-color: #0000ff; color: #ffffff;\""
-                    + "><strong>&nbsp;Score: " + theTeam.getScore() + "&nbsp; &nbsp; &nbsp; "
-                    + "&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong></span><br"
-                    + " /><strong><span style=\"color: #000000; background-color:"
-                    + " #ffff00;\">&nbsp;Total Tricks: " + theTeam.getTricks() + " &nbsp; &nbsp;"
-                    + "</span></strong><br /><span style=\"background-color:"
-                    + "#00ff00;\"><strong><span style=\"color: #000000;"
-                    + "</span></strong></span><br /><strong><span style="
-                    + "\"color: #000000; background-color: #ff0000;\">&nbsp;Total"
-                    + " Sets: " + theTeam.getNumOfSets() + " &nbsp; &nbsp;</span></strong></p></html>");
 
-            SpadesH3Heading teamName = new SpadesH3Heading(theTeam.getTeamName(), Color.WHITE);
-            teamName.setBorder(GUIHelper.uiPadding(20, 0, 10, 0));
-            statsPanel.add(teamName, SwingConstants.CENTER);
+//        Update team 1 stats
+        Team teamOne = this.theGamesEngine.getTeam1();
+        SpadesH3Heading teamOneName = new SpadesH3Heading("Team 1", Color.WHITE);
+        teamOneName.setBorder(GUIHelper.uiPadding(20, 0, 10, 0));
+        statsPanel.add(teamOneName, SwingConstants.CENTER);
+//        generate team one's stats
+        this.statsPanel.add(this.generateTeamStatsString(teamOne));
 
-            this.statsPanel.add(teamLbl);
-        }
+
+//        Update team 2 stats
+        Team teamTwo = this.theGamesEngine.getTeam1();
+        SpadesH3Heading teamTwoName = new SpadesH3Heading("Team 2", Color.WHITE);
+        teamOneName.setBorder(GUIHelper.uiPadding(20, 0, 10, 0));
+        statsPanel.add(teamTwoName, SwingConstants.CENTER);
+//        generate team two's stats
+        this.statsPanel.add(this.generateTeamStatsString(teamTwo));
+
+
+        this.repaintPanel(statsPanel);
 //        Add the panel heading
         SpadesH3Heading panelHeading = new
                 SpadesH3Heading("Game Stats", Color.BLACK);
         statsPanel.add(panelHeading, SwingConstants.CENTER);
     }
 
-    private void startRound() {
-        this.theGamesEngine.startRoundGUI();
-//        System.out.println("THe dealer: " + this.theGamesEngine.getDealer());
+    private JLabel generateTeamStatsString(final Team team) {
+        JLabel teamLbl = new JLabel();
+        teamLbl.setText("<html><p><span style="
+                + "\"background-color: #0000ff; color: #ffffff;\""
+                + "><strong>&nbsp;Score: " + team.getScore() + "&nbsp; &nbsp; &nbsp; "
+                + "&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong></span><br"
+                + " /><strong><span style=\"color: #000000; background-color:"
+                + " #ffff00;\">&nbsp;Total Tricks: " + team.getTricks() + " &nbsp; &nbsp;"
+                + "</span></strong><br /><span style=\"background-color:"
+                + "#00ff00;\"><strong><span style=\"color: #000000;"
+                + "</span></strong></span><br /><strong><span style="
+                + "\"color: #000000; background-color: #ff0000;\">&nbsp;Total"
+                + " Sets: " + team.getNumOfSets() + " &nbsp; &nbsp;</span></strong></p></html>");
+
+        return teamLbl;
     }
 
-    private void startNewHand() {
-        this.theGamesEngine.playHandGUI();
-//        System.out.println("SHould play next: " + this.theGamesEngine.getNextPlayer());
-
-        this.beginGamePlay();
+    private void startRound() {
+        this.theGamesEngine.startRoundGUI();
     }
 
     /**
      * SHould be called eveytime a new hand is started.
      */
     private void beginGamePlay() {
-//        this.startNewHand();
 
-        System.out.println("Dealer: " + this.theGamesEngine.getDealer());
+        for (int j = 0; j < 13; j++) {
+            this.GUIUserPlayed = false;
+            this.theGamesEngine.playHandGUI();
+//            Emable the deck for each hand
+            this.consolePlayerOutterWrap.setEnabled(true);
 
-//        @todo: fix, not doing what i want
-//        this.updatePlayingUserImg(nextPlayer);
-            boolean  conPLayed = false;
+            for (int i = 0; i < 4; i++) {
+                Player nextPlayer = this.theGamesEngine.getNextPlayer();
 
-        for (int i = 0; i < 4; i++) {
-            Player nextPlayer = this.theGamesEngine.getNextPlayer();
+                if (nextPlayer instanceof AIPlayer) {
+                    this.theGamesEngine.getHand().add(nextPlayer.playCard(this.theGamesEngine.getHand()));
+                    this.updateGameTable();
 
-            if (nextPlayer instanceof AIPlayer) {
-                System.out.println("AI should play");
-                this.theGamesEngine.getHand().add(nextPlayer.playCard(this.theGamesEngine.getHand()));
+                } else {
+                    this.updateNotificationCenter("Your Turn!");
 
-                System.out.println("GAME HAND is: " + this.theGamesEngine.getHand());
-                System.out.println("Nextr Player: " + nextPlayer);
-
-                this.updateGameTable();
-
-            } else {
-                this.updateNotificationCenter("Your Turn!");
-
-                JOptionPane.showMessageDialog(null, this.consolePlayerOutterWrap, "Your Cards",
-                        JOptionPane.PLAIN_MESSAGE);
+                    do {
+                        JOptionPane.showMessageDialog(null, this.consolePlayerOutterWrap, "Your Cards",
+                                JOptionPane.PLAIN_MESSAGE);
+                    } while (!this.GUIUserPlayed);
+                }
             }
+            System.out.println("Console cards: " + this.theGuiPlayer.getHand());
+
+//        End of hand
+            System.out.println("End of hand=================================");
+            this.theGamesEngine.endOfHand();
+            this.updateTeamStats();
+
+            System.out.printf("Sizze of list: "+ this.theGamesEngine.getHandHistory().size());
+
+            HashMap<String, Object> handHist = this.theGamesEngine.getHandHistory().get(this.theGamesEngine.getHandHistory().size() - 1);
+            Player winningPlayer = (Player) handHist.get("player");
+            Card leadCard = (Card) handHist.get("leadCard");
+
+            JOptionPane.showMessageDialog(null, "End of hand!", "Notice",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            this.gameCardsPanel.removeAll();
+            GamePlayFrame.this.updateNotificationCenter(winningPlayer.getName() + " won that hand!!");
+            GamePlayFrame.this.gameCardsPanel.add(new JLabel(GUIHelper.getCardImg(leadCard, true)));
+
+            GamePlayFrame.this.repaintPanel(GamePlayFrame.this.gameCardsPanel);
+
+            JOptionPane.showMessageDialog(null, "Start New Hand", "Notice",
+                    JOptionPane.INFORMATION_MESSAGE);
+
         }
-//        End of
+//        End of round
+//        this.theGamesEngine.roun
 
 
-    }
 
-    private void displayCards() {
+
 
     }
 

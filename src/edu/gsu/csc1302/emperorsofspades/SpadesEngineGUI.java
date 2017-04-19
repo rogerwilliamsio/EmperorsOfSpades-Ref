@@ -330,15 +330,16 @@ public class SpadesEngineGUI {
 	private void updateStats(
 			final CardDeck deck, final int index, final Card card) {
 
-		Player winner = (Player) table.get(order.get(index)).clone();
-		CardDeck cDeck = (CardDeck) deck.clone();
-		Card leadCard = (Card) card.clone();
+		Player winner = table.get(order.get(index));
+		CardDeck cDeck = deck;
+		Card leadCard = card;
 
 		handWinner = winner;
 
 		Map<String, Object> handStat = new HashMap<>();
 
 		handStat.put("player", winner);
+		System.out.println("this is pppppp " + winner);
 		handStat.put("hand", cDeck);
 		handStat.put("leadCard", leadCard);
 
@@ -528,8 +529,6 @@ public class SpadesEngineGUI {
 	public void endOfHand() {
 
 		 CardDeck newHand = new CardDeck();
-
-		 newHand = this.hand;
 
 		 Card leadCard = new Card(null, null);
 		 leadSuit = null;

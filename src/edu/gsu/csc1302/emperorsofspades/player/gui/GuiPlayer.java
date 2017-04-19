@@ -30,7 +30,6 @@ public class GuiPlayer extends Player {
     @Override
     public Card playCard(final Card.Suit leadSuit,
     		final Card leadCard, final CardDeck hand) {
-        System.out.println("Your turn gui player.");
         return null;
     }
     /**
@@ -68,6 +67,15 @@ public class GuiPlayer extends Player {
     @Override
     public Card playCard(CardDeck hand) {
         return null;
+    }
+
+
+    public void playCard(final Card card) {
+        this.getCards().remove(card);
+    }
+
+    public String getName() {
+        return "You";
     }
 
 }
