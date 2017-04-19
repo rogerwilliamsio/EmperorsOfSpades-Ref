@@ -12,8 +12,19 @@ import edu.gsu.csc1302.emperorsofspades.player.ai.AIPlayer;
 import edu.gsu.csc1302.emperorsofspades.player.gui.GuiPlayer;
 import edu.gsu.csc1302.emperorsofspades.team.Team;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BoxLayout;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
@@ -231,7 +242,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         SpadesH3Heading headerCardLbl = new
         		SpadesH3Heading("Your cards", Color.BLACK);
         SpadesHeading headerNotifications = new
-        		SpadesHeading("<Put some game control buttons here>",
+        		SpadesHeading("Click on the card that you want to play.",
         				15, Color.RED, SwingConstants.CENTER);
         headerNotifications.setBackground(Color.WHITE);
         consolePlayerOuterHeader.add(headerCardLbl);
@@ -331,7 +342,6 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
     /**
      * Sets up the player's panel. Lists the players in a vertical boxlayout.
-     * @return the panel
      */
     private void getDisplayOfPlayersPanel() {
 
@@ -491,7 +501,9 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
 
             JDialog endOfHandNotice = new JOptionPane(
-            		"Click OK to see winner.").createDialog(null, "End of hand!");
+                    "End of hand #" + this.theGamesEngine.getHandNumber()
+                            + " Click OK to see winner.")
+                    .createDialog(null, "End of hand!");
             endOfHandNotice.setLocationRelativeTo(this);
             endOfHandNotice.setLocation(600, 400);
             endOfHandNotice.setVisible(true);
