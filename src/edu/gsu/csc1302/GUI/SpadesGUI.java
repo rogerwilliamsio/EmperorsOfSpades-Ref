@@ -121,6 +121,5 @@ public final class SpadesGUI {
 		separator.setBackground(Color.BLACK);
 		separator.setForeground(Color.BLACK);
 		return separator;
-
 	}
 }
