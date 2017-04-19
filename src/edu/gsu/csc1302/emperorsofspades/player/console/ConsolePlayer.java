@@ -101,9 +101,12 @@ public class ConsolePlayer extends Player {
 		int otherBid = player.placeBid();
 		return bid + otherBid;
 	}
-
+	/**
+	 * play card method.
+	 * @param hand the deck of the game hand.
+	 */
 	@Override
-	public Card playCard(CardDeck hand) {
+	public Card playCard(final CardDeck hand) {
 		return null;
 	}
 

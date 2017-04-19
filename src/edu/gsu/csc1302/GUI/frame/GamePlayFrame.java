@@ -12,19 +12,8 @@ import edu.gsu.csc1302.emperorsofspades.player.ai.AIPlayer;
 import edu.gsu.csc1302.emperorsofspades.player.gui.GuiPlayer;
 import edu.gsu.csc1302.emperorsofspades.team.Team;
 
-import javax.swing.BoxLayout;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
@@ -37,7 +26,9 @@ import java.util.Iterator;
  */
 @SuppressWarnings("serial")
 public class GamePlayFrame extends SpadesHeaderFrame {
-
+	/**
+	 * the game engine.
+	 */
    private final SpadesEngineGUI theGamesEngine;
 
     /**
@@ -49,7 +40,9 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      * Holds the cards that were played in the current hand of the game.
      */
     private final CardDeck gameCards = new CardDeck();
-
+    /**
+     * the GUI player.
+     */
     private final GuiPlayer theGuiPlayer;
 
     /**
@@ -60,16 +53,20 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      */
     private final HashMap<JLabel, Card>
             consolePlayerHandMapping = new HashMap<>();
-
-    private JPanel consolePlayerOutterWrap = new JPanel();
-
-    private JPanel playersPanel = new JPanel();
-
     /**
-     * Maps the players' images (in the list of players panel)
+     * the player wrap.
+     */
+    private JPanel consolePlayerOutterWrap = new JPanel();
+    /**
+     * the players panel.
+     */
+    private JPanel playersPanel = new JPanel();
+    /**
+     * Maps the players' images (in the list of players panel).
      * to their player object
      */
-    private final HashMap<JLabel, Player> playersJlabelMapping = new HashMap<>();
+    private final HashMap<JLabel, Player>
+    playersJlabelMapping = new HashMap<>();
 
     /**
      * Holds/controls the game notification center, located above the
@@ -87,7 +84,9 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      * The game stats panel on the right.
      */
     private final JPanel statsPanel = new JPanel();
-
+    /**
+     * the statues of the players action.
+     */
     private boolean GUIUserPlayed = false;
 
     private JPanel historyPanel = new JPanel();
@@ -97,7 +96,8 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      * @param partialTitle the title
      * @param theGameEngine the game object
      */
-    public GamePlayFrame(final String partialTitle, final SpadesEngineGUI theGameEngine) {
+    public GamePlayFrame(final String partialTitle,
+    		final SpadesEngineGUI theGameEngine) {
         super(partialTitle);
         this.theGamesEngine = theGameEngine;
 
@@ -187,7 +187,9 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         this.notificationCenterPanel.setVisible(false);
         return contentPanelCenter;
     }
-
+    /**
+     * updates the table.
+     */
     private void updateGameTable() {
 //        Add the game hand cards to the holding panel
         this.gameCardsPanel.removeAll();
@@ -195,7 +197,8 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         if (this.theGamesEngine.getHand() != null) {
             for (Card handCard : this.theGamesEngine.getHand()) {
                 System.out.println("Card: " + handCard);
-                this.gameCardsPanel.add(new JLabel(GUIHelper.getCardImg(handCard, true)));
+                this.gameCardsPanel.add(new JLabel(
+                		GUIHelper.getCardImg(handCard, true)));
             }
         }
 
@@ -252,14 +255,20 @@ public class GamePlayFrame extends SpadesHeaderFrame {
                 public void mouseClicked(final MouseEvent e) {
 
 //                    ONly process if user deck is enabled.
-                    if (cardLabel.isEnabled() && GamePlayFrame.this.consolePlayerOutterWrap.isEnabled()) {
+                    if (cardLabel.isEnabled()
+                    	&& GamePlayFrame.this.consolePlayerOutterWrap
+                    	.isEnabled()) {
                         cardLabel.setEnabled(false);
-                        GamePlayFrame.this.notificationCenterPanel.setVisible(false);
-                        GamePlayFrame.this.repaintPanel(GamePlayFrame.this.notificationCenterPanel);
+                        GamePlayFrame.this.notificationCenterPanel
+                        .setVisible(false);
+                        GamePlayFrame.this.repaintPanel(
+                        		GamePlayFrame.this.notificationCenterPanel);
 //                        Disable the frame
-                        GamePlayFrame.this.consolePlayerOutterWrap.setEnabled(false);
+                        GamePlayFrame.this.consolePlayerOutterWrap.
+                        setEnabled(false);
 
-                        GamePlayFrame.this.repaintPanel(GamePlayFrame.this.consolePlayerOutterWrap);
+                        GamePlayFrame.this.repaintPanel(GamePlayFrame.
+                        		this.consolePlayerOutterWrap);
 
                         JLabel cardClicked = (JLabel) e.getSource();
 //                      Removing from the container
@@ -267,11 +276,13 @@ public class GamePlayFrame extends SpadesHeaderFrame {
                         parent.remove(cardClicked);
                         //card is removed from player hand
                         GamePlayFrame.this.theGuiPlayer.playCard(
-                                GamePlayFrame.this.consolePlayerHandMapping.get(cardClicked)
+                                GamePlayFrame.this.
+                                consolePlayerHandMapping.get(cardClicked)
                         );
 
 //                        Add card to the game deck
-                        GamePlayFrame.this.addCardToHandDeck(consolePlayerHandMapping.get(cardClicked));
+                        GamePlayFrame.this.addCardToHandDeck(
+                        		consolePlayerHandMapping.get(cardClicked));
                         GamePlayFrame.this.GUIUserPlayed = true;
                     }
                 }
@@ -317,12 +328,17 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
     /**
      * Sets up the player's panel. Lists the players in a vertical boxlayout.
+<<<<<<< HEAD
      * @return the panel
+=======
+     * @todo: change to list/set of players, not string and REMOVE personality
+>>>>>>> b2d4cb89f6cbb46d54b24f0a19d1ea12acc6276b
      */
     private void getDisplayOfPlayersPanel() {
 
         this.playersPanel.setPreferredSize(new Dimension(310, 200));
-        this.playersPanel.setLayout(new BoxLayout(this.playersPanel, BoxLayout.Y_AXIS));
+        this.playersPanel.setLayout(
+        		new BoxLayout(this.playersPanel, BoxLayout.Y_AXIS));
         this.playersPanel.setOpaque(false);
 
         for (Player player : theGamesEngine.getPlayers()) {
@@ -341,7 +357,10 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         		new SpadesH3Heading("Players", Color.BLACK);
         this.playersPanel.add(panelHeading, SwingConstants.CENTER);
     }
-
+    /**
+     * the notification center.
+     * @param text the text to display.
+     */
     private void updateNotificationCenter(final String text) {
         SpadesHeading notificationText = new SpadesHeading(
                 text, 16, Color.RED, SwingConstants.CENTER);
@@ -352,12 +371,15 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 //        In case not visible
         this.notificationCenterPanel.setVisible(true);
     }
-
+    /**
+     * updates the teams stats.
+     */
     private void updateTeamStats() {
         statsPanel.removeAll();
 //        Update team 1 stats
         Team teamOne = this.theGamesEngine.getTeam1();
-        SpadesH3Heading teamOneName = new SpadesH3Heading("Team 1", Color.WHITE);
+        SpadesH3Heading teamOneName =
+        		new SpadesH3Heading("Team 1", Color.WHITE);
         teamOneName.setBorder(GUIHelper.uiPadding(20, 0, 10, 0));
 
         statsPanel.add(teamOneName, SwingConstants.CENTER);
@@ -370,7 +392,8 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
 //        Update team 2 stats
         Team teamTwo = this.theGamesEngine.getTeam2();
-        SpadesH3Heading teamTwoName = new SpadesH3Heading("Team 2", Color.WHITE);
+        SpadesH3Heading teamTwoName =
+        		new SpadesH3Heading("Team 2", Color.WHITE);
         teamOneName.setBorder(GUIHelper.uiPadding(20, 0, 10, 0));
 
         statsPanel.add(teamTwoName, SwingConstants.CENTER);
@@ -389,7 +412,11 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
         this.repaintPanel(statsPanel);
     }
-
+    /**
+     * returns the label for the team.
+     * @param team the team.
+     * @return the label.
+     */
     private JLabel generateTeamStatsString(final Team team) {
         JLabel teamLbl = new JLabel();
         System.out.println("Team name: " + team.getTeamName());
@@ -397,25 +424,30 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         teamLbl.setName(team.getTeamName());
         teamLbl.setText("<html><p><span style="
                 + "\"background-color: #0000ff; color: #ffffff;\""
-                + "><strong>&nbsp;Score: " + team.getScore() + "&nbsp; &nbsp; &nbsp; "
+                + "><strong>&nbsp;Score: "
+                + team.getScore() + "&nbsp; &nbsp; &nbsp; "
                 + "&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong></span><br"
                 + " /><strong><span style=\"color: #000000; background-color:"
-                + " #ffff00;\">&nbsp;Total Tricks: " + team.getTricks() + " &nbsp; &nbsp;"
+                + " #ffff00;\">&nbsp;Total Tricks: "
+                + team.getTricks() + " &nbsp; &nbsp;"
                 + "</span></strong><br /><span style=\"background-color:"
                 + "#00ff00;\"><strong><span style=\"color: #000000;"
                 + "</span></strong></span><br /><strong><span style="
                 + "\"color: #000000; background-color: #ff0000;\">&nbsp;Total"
-                + " Sets: " + team.getNumOfSets() + " &nbsp; &nbsp;</span></strong></p></html>");
+                + " Sets: " + team.getNumOfSets()
+                + " &nbsp; &nbsp;</span></strong></p></html>");
 
         return teamLbl;
     }
-
+    /**
+     * starts the round.
+     */
     private void startRound() {
         this.theGamesEngine.startRoundGUI();
     }
 
     /**
-     * SHould be called eveytime a new hand is started.
+     * SHould be called every time a new hand is started.
      */
     private void beginGamePlay() {
         for (int j = 0; j < 13; j++) {
@@ -428,14 +460,17 @@ public class GamePlayFrame extends SpadesHeaderFrame {
                 Player nextPlayer = this.theGamesEngine.getNextPlayer();
 
                 if (nextPlayer instanceof AIPlayer) {
-                    this.theGamesEngine.getHand().add(nextPlayer.playCard(this.theGamesEngine.getHand()));
+                    this.theGamesEngine.getHand()
+                    .add(nextPlayer.playCard(this.theGamesEngine.getHand()));
                     this.updateGameTable();
 
                 } else {
                     this.updateNotificationCenter("Your Turn!");
 
                     do {
-                        JDialog usersDeckOfCards = new JOptionPane(this.consolePlayerOutterWrap).createDialog(null, "Your Cards");
+                        JDialog usersDeckOfCards = new
+                        		JOptionPane(this.consolePlayerOutterWrap).
+                        		createDialog(null, "Your Cards");
                         usersDeckOfCards.setLocationRelativeTo(this);
                         usersDeckOfCards.setLocation(75, 450);
                         usersDeckOfCards.setVisible(true);
@@ -449,23 +484,34 @@ public class GamePlayFrame extends SpadesHeaderFrame {
             this.theGamesEngine.endOfHand();
             this.updateTeamStats();
 
-            HashMap<String, Object> handHist = this.theGamesEngine.getHandHistory().get(this.theGamesEngine.getHandHistory().size() - 1);
+            HashMap<String, Object> handHist =
+            		this.theGamesEngine.getHandHistory()
+            		.get(this.theGamesEngine.getHandHistory().size() - 1);
             Player winningPlayer = (Player) handHist.get("player");
             Card leadCard = (Card) handHist.get("leadCard");
 
+<<<<<<< HEAD
             JDialog endOfHandNotice = new JOptionPane("Hand #" + this.theGamesEngine.getHandNumber() + " has ended. Click OK to see winner.").createDialog(null, "End of hand!");
+=======
+            JDialog endOfHandNotice = new JOptionPane(
+            		"Click OK to see winner.").createDialog(null, "End of hand!");
+>>>>>>> b2d4cb89f6cbb46d54b24f0a19d1ea12acc6276b
             endOfHandNotice.setLocationRelativeTo(this);
             endOfHandNotice.setLocation(600, 400);
             endOfHandNotice.setVisible(true);
 
 
             this.gameCardsPanel.removeAll();
-            GamePlayFrame.this.updateNotificationCenter(winningPlayer.getName() + " won that hand!!");
-            GamePlayFrame.this.gameCardsPanel.add(new JLabel(GUIHelper.getCardImg(leadCard, true)));
+            GamePlayFrame.this.updateNotificationCenter(
+            		winningPlayer.getName() + " won that hand!!");
+            GamePlayFrame.this.gameCardsPanel.add(
+            		new JLabel(GUIHelper.getCardImg(leadCard, true)));
 
             GamePlayFrame.this.repaintPanel(GamePlayFrame.this.gameCardsPanel);
 
-            JDialog startNewRound = new JOptionPane("Click OK to go to next hand.").createDialog(null, "Start New Hand!");
+            JDialog startNewRound = new JOptionPane(
+            		"Click OK to go to next hand.")
+            		.createDialog(null, "Start New Hand!");
             startNewRound.setLocationRelativeTo(this);
             startNewRound.setLocation(600, 400);
             startNewRound.setVisible(true);
@@ -483,11 +529,13 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      */
     private void endGamePlay() {
         this.gameCardsPanel.removeAll();
-        this.updateNotificationCenter("End of game. More features are coming! \nStay Tuned!");
+        this.updateNotificationCenter(
+        		"End of game. More features are coming! \nStay Tuned!");
         this.gameCardsPanel.add(new JLabel(GUIHelper.getLargeLogo()));
         this.repaintPanel(this.gameCardsPanel);
 
-        JDialog endOfRound = new JOptionPane("Click OK to close the game.").createDialog(null, "End of Game");
+        JDialog endOfRound = new JOptionPane(
+        		"Click OK to close the game.").createDialog(null, "End of Game");
         endOfRound.setLocationRelativeTo(this);
         endOfRound.setLocation(600, 400);
         endOfRound.setVisible(true);

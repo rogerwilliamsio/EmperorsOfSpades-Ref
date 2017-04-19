@@ -36,6 +36,7 @@ public class WildcardPlayer extends AIPlayer {
     }
     /**
      * Places a bid for the aggressive player.
+	 * @todo: Remove extra placebid methods.
      * @param player the player in the same team.
      * @return bid the number of bid.
      */

@@ -11,9 +11,6 @@ import edu.gsu.csc1302.emperorsofspades.player.ai.SophisticatedPlayer;
 import edu.gsu.csc1302.emperorsofspades.player.ai.WildcardPlayer;
 import edu.gsu.csc1302.emperorsofspades.player.gui.GuiPlayer;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -70,7 +67,6 @@ public class SpadesGUIController implements ActionListener {
 
     /**
      * Triggered when action is performed (buttons).
-     *
      * @param e the event
      */
     @Override
@@ -137,9 +133,9 @@ public class SpadesGUIController implements ActionListener {
      * @param e action form dialog box/frame.
      */
     private void launchGame(final ActionEvent e) {
-        JButton button = (JButton) e.getSource();
-        JFrame parent = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class,
-                button);
+        JButton button =  (JButton) e.getSource();
+        JFrame parent = (JFrame)
+        		SwingUtilities.getAncestorOfClass(JFrame.class, button);
         parent.dispose();
     }
 }

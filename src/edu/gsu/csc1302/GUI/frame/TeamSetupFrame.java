@@ -2,18 +2,10 @@ package edu.gsu.csc1302.GUI.frame;
 
 import edu.gsu.csc1302.GUI.GUIHelper;
 import edu.gsu.csc1302.GUI.SpadesGUI;
-import edu.gsu.csc1302.GUI.SpadesGUIController;
 import edu.gsu.csc1302.GUI.button.SpadesButton;
 import edu.gsu.csc1302.GUI.heading.SpadesH2Heading;
-import edu.gsu.csc1302.GUI.heading.SpadesHeading;
-import edu.gsu.csc1302.emperorsofspades.CardDeck;
-import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
 import edu.gsu.csc1302.emperorsofspades.SpadesEngineGUI;
-import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.player.Player;
-import edu.gsu.csc1302.emperorsofspades.player.ai.*;
-import edu.gsu.csc1302.emperorsofspades.player.console.ConsolePlayer;
-import edu.gsu.csc1302.emperorsofspades.team.Team;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -25,8 +17,6 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
 
 /**
  * The team setup frame. Displayed at the beginning of the game.
@@ -35,7 +25,9 @@ import java.util.ArrayList;
  */
 @SuppressWarnings("serial")
 public class TeamSetupFrame extends SpadesHeaderFrame {
-
+	/**
+	 * the game engine.
+	 */
     private final SpadesEngineGUI theGameEngine;
     /**
      * Class constructor.
@@ -58,7 +50,6 @@ public class TeamSetupFrame extends SpadesHeaderFrame {
     /**
      * this sets up the content panel.
      */
-
     @Override
     protected void setupContentPanel() {
         this.theContentPanel.setLayout(null);
@@ -103,6 +94,7 @@ public class TeamSetupFrame extends SpadesHeaderFrame {
         teamInfoPanel.setOpaque(false);
 
         //      TEAM ONE
+
 //      when list of teams is passed in the game engine object
         JPanel teamOneInfo = new JPanel();
         teamOneInfo.setLayout(new BoxLayout(teamOneInfo, BoxLayout.Y_AXIS));
