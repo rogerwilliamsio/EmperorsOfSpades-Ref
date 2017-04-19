@@ -468,7 +468,6 @@ public class GamePlayFrame extends SpadesHeaderFrame {
                     } while (!this.GUIUserPlayed);
                 }
             }
-            System.out.println("Console cards: " + this.theGuiPlayer.getHand());
 
 //        End of hand
             System.out.println("End of hand=================================");
@@ -504,6 +503,9 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         this.endGamePlay();
     }
 
+    /**
+     * Ends the game.
+     */
     private void endGamePlay() {
         this.gameCardsPanel.removeAll();
         this.updateNotificationCenter("End of game. More features are coming! \nStay Tuned!");
@@ -517,5 +519,4 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         System.exit(0);
 
     }
-
 }
