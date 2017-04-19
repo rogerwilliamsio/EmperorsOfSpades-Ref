@@ -101,7 +101,8 @@ public final class GUIHelper {
             		"/res/images/playericons/" + imgString + "_red.png");
         }
 
-        return SpadesGUI.getImage("/res/images/playericons/" + imgString + ".png");
+        return SpadesGUI.getImage("/res/images/playericons/"
+        + imgString + ".png");
 
     }
 

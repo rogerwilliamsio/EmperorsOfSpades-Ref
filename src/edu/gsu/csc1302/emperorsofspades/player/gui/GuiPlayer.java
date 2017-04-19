@@ -63,17 +63,25 @@ public class GuiPlayer extends Player {
     public int placeBid(final Player player) {
         return 0;
     }
-
+    /**
+     * returns a card.
+     * @param hand the hand of the game.
+     */
     @Override
-    public Card playCard(CardDeck hand) {
+    public Card playCard(final CardDeck hand) {
         return null;
     }
-
-
+    /**
+     * returns a card.
+     * @param card the lead card of the game.
+     */
     public void playCard(final Card card) {
         this.getCards().remove(card);
     }
-
+    /**
+     * returns a name.
+     * @return the name.
+     */
     public String getName() {
         return "You";
     }

@@ -1,9 +1,7 @@
 package edu.gsu.csc1302.GUI;
 
-import edu.gsu.csc1302.GUI.frame.GamePlayFrame;
 import edu.gsu.csc1302.GUI.frame.TeamSetupFrame;
 import edu.gsu.csc1302.emperorsofspades.CardDeck;
-import edu.gsu.csc1302.emperorsofspades.SpadesEngine;
 import edu.gsu.csc1302.emperorsofspades.SpadesEngineGUI;
 import edu.gsu.csc1302.emperorsofspades.instructorsolutions.Card;
 import edu.gsu.csc1302.emperorsofspades.player.Player;
@@ -11,16 +9,16 @@ import edu.gsu.csc1302.emperorsofspades.player.ai.AggressivePlayer;
 import edu.gsu.csc1302.emperorsofspades.player.ai.CautiousPlayer;
 import edu.gsu.csc1302.emperorsofspades.player.ai.SophisticatedPlayer;
 import edu.gsu.csc1302.emperorsofspades.player.ai.WildcardPlayer;
-import edu.gsu.csc1302.emperorsofspades.player.console.ConsolePlayer;
 import edu.gsu.csc1302.emperorsofspades.player.gui.GuiPlayer;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 
 /**
  * Main event/action listener for the entire GUI.
@@ -72,7 +70,7 @@ public class SpadesGUIController implements ActionListener {
     }
 
     /**
-     * Triggered when action is performed (buttons)
+     * Triggered when action is performed (buttons).
      * @param e the event
      */
     @Override
@@ -137,7 +135,8 @@ public class SpadesGUIController implements ActionListener {
      */
     private void launchGame(final ActionEvent e) {
         JButton button =  (JButton) e.getSource();
-        JFrame parent = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, button);
+        JFrame parent = (JFrame)
+        		SwingUtilities.getAncestorOfClass(JFrame.class, button);
         parent.dispose();
 
         this.startFirstRound();
