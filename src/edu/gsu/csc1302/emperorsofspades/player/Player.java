@@ -124,7 +124,6 @@ public abstract class Player {
 
     /**
      * this generates a probability for setting a bid.
-     * @TODO Finish the implementation.
      * Given a deck of cards, a bid probability is generated
      * based on  the cards in the deck.
      * @param cards the card deck
@@ -158,8 +157,6 @@ public abstract class Player {
                 bidProbability += 0.10;
             }
         }
-//        System.out.println("Cards: " + cards);
-//        System.out.println("\nBid Probability: " + bidProbability + "\n\n");
         return (bidProbability / 13) * 10;
     }
 

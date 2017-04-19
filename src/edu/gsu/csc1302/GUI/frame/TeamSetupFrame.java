@@ -56,14 +56,6 @@ public class TeamSetupFrame extends SpadesHeaderFrame {
     }
 
     /**
-     * Main Method.
-     * TODO: Remove this.
-     * @param args used.
-     */
-//    public static void main(final String[] args) {
-//        new TeamSetupFrame();
-//    }
-    /**
      * this sets up the content panel.
      */
 
@@ -111,7 +103,6 @@ public class TeamSetupFrame extends SpadesHeaderFrame {
         teamInfoPanel.setOpaque(false);
 
         //      TEAM ONE
-//      @TODO: will be replaced with a loop
 //      when list of teams is passed in the game engine object
         JPanel teamOneInfo = new JPanel();
         teamOneInfo.setLayout(new BoxLayout(teamOneInfo, BoxLayout.Y_AXIS));
@@ -122,7 +113,6 @@ public class TeamSetupFrame extends SpadesHeaderFrame {
         teamTwoInfo.setLayout(new BoxLayout(teamTwoInfo, BoxLayout.Y_AXIS));
         teamTwoInfo.setOpaque(false);
 
-//      @todo: remove these dummy players
 
 //       Team 1 setup
         for (Player t1Player : this.theGameEngine.getTeam1().getTeammates()) {
@@ -149,14 +139,9 @@ public class TeamSetupFrame extends SpadesHeaderFrame {
         }
 
 
-//        @todo: consider removing this label?
-        SpadesHeading yourTeamLbl =
-        		new SpadesHeading("You are on this team.",
-        			15, Color.YELLOW, SwingConstants.CENTER);
         SpadesH2Heading teamOneLbl = new SpadesH2Heading("Team 1");
         SpadesH2Heading teamTwoLbl = new SpadesH2Heading("Team 2");
 
-        yourTeamLbl.setAlignmentX(Component.LEFT_ALIGNMENT);
         teamOneLbl.setAlignmentX(Component.LEFT_ALIGNMENT);
         teamTwoLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
 

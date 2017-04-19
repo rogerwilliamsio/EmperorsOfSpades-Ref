@@ -4,13 +4,11 @@ import edu.gsu.csc1302.GUI.dialog.SpadesConfirmDialog;
 import edu.gsu.csc1302.GUI.dialog.SpadesDialog;
 import edu.gsu.csc1302.GUI.frame.SplashScreenFrame;
 
-import java.awt.Color;
-import java.awt.Toolkit;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import java.awt.Color;
 
 /**
  * The entry point for the Emperors of Spades game engine.
@@ -44,15 +42,9 @@ public final class SpadesGUI {
 	private static JFrame currentFrame = null;
 
 	/**
-	 * OS window toolkit.
-	 */
-	private final Toolkit toolkit = Toolkit.getDefaultToolkit();
-
-	/**
 	 * class constructor.
-	 * @param partialTitle the partial title for the window
 	 */
-	private SpadesGUI(final String partialTitle) {
+	private SpadesGUI() {
 
 	}
 
@@ -81,13 +73,6 @@ public final class SpadesGUI {
 	}
 
 	/**
-	 * update the current frame.
-	 * @param frame frame
-	 */
-	public static void setCurrentFrame(final JFrame frame) {
-		currentFrame = frame;
-	}
-	/**
 	 * returns the image icon needed.
 	 * @param pathToImage variable to access the image.
 	 * @return image icon.
@@ -95,14 +80,7 @@ public final class SpadesGUI {
 	public static ImageIcon getImage(final String pathToImage) {
 		return new ImageIcon(SpadesGUI.class.getResource(pathToImage));
 	}
-	/**
-	 * returns the logo to be displayed.
-	 * @return the logo to be displayed
-	 */
-	public static ImageIcon getLargeLogo() {
-		return SpadesGUI.getImage(
-				"/edu/gsu/csc1302/GUI/resources/images/logo-large-1.png");
-	}
+
 	/**
 	 * returns the small logo to be displayed.
 	 * @return the smaller logo.

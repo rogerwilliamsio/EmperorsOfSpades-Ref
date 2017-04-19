@@ -80,7 +80,6 @@ public final class GUIHelper {
     }
     /**
      * gets the players image.
-     * @todo: change from string to player.
      * @param player the player the image is sought for.
      * @param getRedImg boolean telling wich image to chose form the choice.
      * @return  the image from memory.

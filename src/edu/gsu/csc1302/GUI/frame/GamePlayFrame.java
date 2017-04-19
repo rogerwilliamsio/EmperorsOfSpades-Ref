@@ -12,12 +12,23 @@ import edu.gsu.csc1302.emperorsofspades.player.ai.AIPlayer;
 import edu.gsu.csc1302.emperorsofspades.player.gui.GuiPlayer;
 import edu.gsu.csc1302.emperorsofspades.team.Team;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BoxLayout;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * A frame for game play windows.
@@ -66,7 +77,6 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      */
     private final JPanel notificationCenterPanel = new JPanel();
 
-//    @todo: ONLY add the deckImg and the game hand to this panel
     /**
      * The game table panel that displays the game hand
      * and deck of cards, when needed.
@@ -80,37 +90,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
     private boolean GUIUserPlayed = false;
 
-
-    /**
-     * Main Method.
-     * @todo: Remove this.
-     * @param args used.
-     */
-    public static void main(final String[] args) {
-//        AggressivePlayer bob = new AggressivePlayer("Bob");
-//        CautiousPlayer puff = new CautiousPlayer("Puff");
-//        WildcardPlayer patrick = new WildcardPlayer("Patrick");
-//
-////        Optional console player
-//        ConsolePlayer annon = new ConsolePlayer("Con");
-//
-//        ArrayList<Player> players = new ArrayList<>();
-//        players.add(bob);
-//        players.add(puff);
-//        players.add(patrick);
-//        players.add(annon);
-//
-////      the game deck
-//        CardDeck deck = new CardDeck();
-//        for (Card.Suit suit: Card.Suit.values()) {
-//            for (Card.Rank rank: Card.Rank.values()) {
-//                Card c = new Card(suit, rank);
-//                deck.add(c);
-//            }
-//        }
-//
-//        new GamePlayFrame("Round 1: Hand 1", new SpadesEngine(players, deck));
-    }
+    private JPanel historyPanel = new JPanel();
 
     /**
      * Class constructor.
@@ -153,12 +133,11 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         this.theContentPanel.setOpaque(false);
         this.theContentPanel.setLayout(new BorderLayout(0, 0));
 
-//        @todo: Optimize this center panel
 //        ADD: The center panel
         this.theContentPanel.add(
         		this.getDisplayOfCenterPanel(), BorderLayout.CENTER);
 
-//      ADD: List of playersi
+//      ADD: List of players
         this.getDisplayOfPlayersPanel();
         this.theContentPanel.add(this.playersPanel, BorderLayout.WEST);
 
@@ -264,7 +243,6 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         consolePlayerCardsPanel.setBorder(GUIHelper.uiPadding(5, 5));
 
 
-//        @Todo: and remove card from the user's deck too.
         for (Card theCard : this.theGuiPlayer.getHand()) {
             JLabel cardLabel = new JLabel(GUIHelper.getCardImg(theCard, true));
             consolePlayerHandMapping.put(cardLabel, theCard);
@@ -313,7 +291,6 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
     /**
      * Adds a given card to the current hand deck.
-     * @Todo: check to make sure it is actually the use's term to play
      * @param card the card to add to the game deck
      */
     private void addCardToHandDeck(final Card card) {
@@ -340,7 +317,6 @@ public class GamePlayFrame extends SpadesHeaderFrame {
 
     /**
      * Sets up the player's panel. Lists the players in a vertical boxlayout.
-     * @todo: change to list/set of players, not string and REMOVE personality
      * @return the panel
      */
     private void getDisplayOfPlayersPanel() {
@@ -442,7 +418,6 @@ public class GamePlayFrame extends SpadesHeaderFrame {
      * SHould be called eveytime a new hand is started.
      */
     private void beginGamePlay() {
-
         for (int j = 0; j < 13; j++) {
             this.GUIUserPlayed = false;
             this.theGamesEngine.playHandGUI();
@@ -478,7 +453,7 @@ public class GamePlayFrame extends SpadesHeaderFrame {
             Player winningPlayer = (Player) handHist.get("player");
             Card leadCard = (Card) handHist.get("leadCard");
 
-            JDialog endOfHandNotice = new JOptionPane("Click OK to see winner.").createDialog(null, "End of hand!");
+            JDialog endOfHandNotice = new JOptionPane("Hand #" + this.theGamesEngine.getHandNumber() + " has ended. Click OK to see winner.").createDialog(null, "End of hand!");
             endOfHandNotice.setLocationRelativeTo(this);
             endOfHandNotice.setLocation(600, 400);
             endOfHandNotice.setVisible(true);
@@ -516,7 +491,25 @@ public class GamePlayFrame extends SpadesHeaderFrame {
         endOfRound.setLocationRelativeTo(this);
         endOfRound.setLocation(600, 400);
         endOfRound.setVisible(true);
+
+        this.generateHandHistoryPanel();
         System.exit(0);
 
+    }
+
+    /**
+     * Generates the history panel.
+     * Will be implemented in later versions.
+     */
+    private void generateHandHistoryPanel() {
+        this.historyPanel.setLayout(new BoxLayout(null, BoxLayout.Y_AXIS));
+
+        JScrollPane historyContainerScroll = new JScrollPane();
+        Iterator itr = this.theGamesEngine.getHandHistory().iterator();
+        System.out.println("HISTORY++++++++++++++++++++++++++++++++++");
+        while (itr.hasNext()) {
+            HashMap<String, Object> history = (HashMap) itr.next();
+            System.out.println(history.get("player"));
+        }
     }
 }
