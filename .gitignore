@@ -1,0 +1,8 @@
+*.xml
+*.iml
+*.class
+/bin/
+
+*.project
+*.classpath
+*.xml___jb_old___
